@@ -77,6 +77,38 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
+      <h1 class="post-title"><a class="post-link" href="/2020/12/25/note-0001-elementary-set-theory/">公理化集合论与集合论宇宙</a>
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-12-25
+        </span><span class="post-category">
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E5%85%83%E6%95%B0%E5%AD%A6/">元数学</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-content"><p>参考文献：</p>
+<ul>
+<li>Enderton. (1977). <em>Elements of Set Theory</em>.</li>
+<li>Jech. (2003). <em>Set Theory</em>.</li>
+<li>维基百科.</li>
+</ul>
+<h2 id="引子"><a class="headerlink" href="#引子"></a>引子</h2>
+<p>我们相当熟悉集合（set）这一概念。集合大概是具有某类特性的所有对象组成的集体。集合内的元素确定、无序、互异。但是我们难以定义何为集合。我们定义某类事物，通常采用“属加种差”的方法，即称它是如何如何的某物。前文试图把集合描述成某种“集体”，但是我们蛮可以追问，“集体”又是什么。我们实在难以想象集合是何种概念的特化，所以本着实用至上的观点，我们干脆不去定义何为集合。我们把集合看做泛化的极致。每当我们要定义新的对象，我们就称它是怎样怎样的集合。而对于集合是什么，我们避而不谈。实际上，只要不涉及元数学，这种做法不会出任何问题。</p>
+<p>尽管我们避免去触碰它，但是问题就在那里。著名的罗素悖论（Russell’s paradox）指出，这种对于集合的不加考量的使用，会导致逻辑上的矛盾。我们通常期望对于任意性质\(P(x)\)，存在集合\(\{x:P(x)\}\)。但是对于性质\(P(x):x\notin x\)，这样的集合在逻辑上不可能存在。这意味着之前默认的对集合的使用可能存在纰漏。这样的思辨引发了所谓的第三次数学危机。虽然数学危机也不影响我们做微积分什么的，我们总归是想要处理好这一问题。</p>
+<p>那么问题出在哪呢？从结论上看，很简单。我们不加限定地使用集合，使得集合这一概念的外延太广，而过度的自由必然招致危险。所以，公理化集合论的提出就是为了限制集合概念的使用。最常见的公理化集合论承认ZFC公理体系。这一体系将所有可以使用的集合框定在集合论宇宙（set-theoretic universe，或称von Neumann宇宙）中。集合论宇宙足够大，以至于它可以满足我们所有常规数学讨论的需要，亦即任何常见的数学实体（如\(L^2([0,1])\)等）都可以嵌在这个宇宙中；但是它又并不过大，以致于包含罗素悖论中的这种逻辑谬误。下图是集合论宇宙的简单图示。</p>
+<img src="https://i.loli.net/2020/12/21/HTiGKonElCOvyu1.png" alt="von Neumann的集合论宇宙">
+<p>粗略地说，这是一个无限向上延伸的塔。所有的集合都位于这个塔的某一层中。最底层是\(V_0\)，它只包含空集\(\varnothing\)。后一层包括前一层乃至前面的所有层，且可以通过前面各层得到。塔的层号自0开始，沿着自然数一直标下去，而后是\(\omega\)，再是\(\omega+1\)，这样逐层向上，无穷无尽。要将这里的故事讲清楚，我们首先得规定合法的集合构造方法，然后定义层数（显然自然数是不够用的），还要克服无穷这一困难。</p>
+<p>本文的重点就是围绕ZFC公理体系，勾勒出集合论宇宙的基本面貌。</p>
+          <div class="read-more">
+            <a href="/2020/12/25/note-0001-elementary-set-theory/" class="read-more-link">阅读更多</a>
+          </div>
+        </div></article>
+      <article class="post">
+    <header class="post-header">
       <h1 class="post-title"><a class="post-link" href="/2020/12/19/notes-preface/">写在前面</a>
         </h1>
 
@@ -92,7 +124,30 @@
     <div class="post-content"><p>开始写这个博客，单纯是因为读了蛮多教材，当时似懂非懂的，到了却全忘了，只留下些不确实的印象，可要回头去翻那些教材，想要回忆些什么时，却十分困难。当然我的愚笨这一责任是推卸不了，可那些数学书也总归有些不讲人话的过错。书总当有个主线，才读起来顺畅。可数学书为了严谨，常常在进入正题之前铺垫漫长的预备知识，引入众多玄之又玄的定义和引理。又或是为了全面，主干之外又枝枝蔓蔓，而那些内容又往往喧宾夺主。再或是教材的编写目的是工程应用，故而忽视其背后的内在逻辑。受此所扰，我决定整理一些笔记，摘记教材中我认为确乎必要的内容，以更符合直觉的方式加以阐述。不得不承认，这样做是危险的。我并非数学专业，也没接受过几天正统数学训练，因而内容的选取和表达可能并不合理，甚至会限制进一步理解。我承认这一局限性，又无法否认其于我自身的必要性。纠结良久，决定还是落笔，聊胜于无。</p>
 <p>我对笔记涵盖的内容大概有些简单的规划。由前文所述，我将主要记录一些我似懂非懂的学科。像是自小学时便已熟稔的算术，我是不忍赘言的。最近读的最震撼的学科还是信息论，它也是刺激我想写些什么的最直接原因，因为我实在是不满意我看到的教材和课程大纲中对信息熵的引入方式。但是我还是想从元数学写起，再重新学习一下集合论与数理逻辑，毕竟这种玄学看起来更帅一些。而后可能是一些统计、随机数学或者泛函分析之类的学科。不想规划太远，毕竟可能写了几篇就弃坑了，笑。</p>
 <p>另外，由于博客的主体语言是中文，文章不免会涉及很多专有名词的翻译。对于此，我将充分发挥主观能动性。查不到或不喜欢通用翻译时，我将按照个人喜好随性翻译，望见谅。</p>
+          <div class="read-more">
+            <a href="/2020/12/19/notes-preface/" class="read-more-link">阅读更多</a>
+          </div>
+        </div></article>
+      <article class="post">
+    <header class="post-header">
+      <h1 class="post-title"><a class="post-link" href="/2020/12/19/root-site-change-log/">站点个性化配置日志</a>
+        </h1>
 
+      <div class="post-meta">
+        <span class="post-time">
+          2020-12-19
+        </span><span class="post-category">
+            <a href="/categories/%E7%AB%99%E7%82%B9%E7%9B%B8%E5%85%B3/">站点相关</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-content"><h2 id="新建站点"><a class="headerlink" href="#新建站点"></a>新建站点</h2>
+<p>参照官网安装主题<a target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>，修改相关配置文件。</p>
+<p>@2020-12-19</p>
+          <div class="read-more">
+            <a href="/2020/12/19/root-site-change-log/" class="read-more-link">阅读更多</a>
+          </div>
         </div></article>
       <nav class="pagination"></nav></section></div></div>
       </main>
