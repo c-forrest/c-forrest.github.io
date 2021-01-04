@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="基数与选择公理"/><meta name="keywords" content="集合论, 基数, 选择公理, 博客" /><link rel="alternate" href="/default" title="博客" ><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="http://c-forrest.github.io/2021/01/04/note-0002-elementary-set-theory-2/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
+
+    <title>基数与选择公理 - 博客</title>
+  <meta name="generator" content="Hexo 5.3.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">博客</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">基数与选择公理
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-01-04
+        </span><span class="post-category">
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E5%85%83%E6%95%B0%E5%AD%A6/">元数学</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%AD%90"><span class="toc-text">引子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%95%B0%E4%B8%8E%E9%9B%86%E5%90%88%E7%9A%84%E5%8A%BF%E5%85%B3%E7%B3%BB"><span class="toc-text">基数与集合的势关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E5%85%AC%E7%90%86"><span class="toc-text">选择公理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%95%B0%E7%9A%84%E8%BF%90%E7%AE%97"><span class="toc-text">基数的运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-text">结语</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><p>参考文献：</p>
+<ul>
+<li>Enderton. (1977). <em>Elements of Set Theory</em>.</li>
+<li>Jech. (2003). <em>Set Theory</em>.</li>
+<li>维基百科.</li>
+</ul>
+<h2 id="引子"><a class="headerlink" href="#引子"></a>引子</h2>
+<p>书接上文。基础集合论还剩下两个重要内容：基数和选择公理。基数描述了集合的大小，每个集合都有其对应的基数。选择公理是ZFC公理中的C，它保证了某些特定集合的存在。此两者之间本身并无实质联系，但是无论遗漏哪个，都是不小的缺憾。另一方面，基数理论中诸多优美的结论，必须要假定选择公理才能够得到，所以将其拆成两个独立的篇章也不妥。</p>
+<p>实际上，选择公理像是数学基础理论中的幽灵，经常以不同的形式出现在不同的证明之中。不仅是基数理论，许多理论的某些基础定理都依赖于选择公理。比如说，任意线性空间都有一组基，这一看似非常符合直觉的结论，实际上等价于选择公理。但选择公理又会带来很多反直觉的结论，比如著名的Banach-Tarski分球悖论，大概就是说一个球可以通过拆分重组变成两个等大的球。所以，自Zermelo将其引进为一条集合论公理以来，选择公理一直都面临着巨大的争论。直到现在，每每数学家使用选择公理时，都会显式地提到它，而且常常会寻求不依赖于选择公理的证明，或者反过来证明结论不能不依赖于选择公理。以其影响的深度和广度论，可能数学的公理界无出其右。</p>
+<p>本文将介绍基数理论，并在其中穿插选择公理的基本内容。</p>
+<a id="more"></a>
+<h2 id="基数与集合的势关系"><a class="headerlink" href="#基数与集合的势关系"></a>基数与集合的势关系</h2>
+<p>基数刻画的是集合中元素的多少。怎么比较两个集合中的元素孰多孰少？我们自然联想到比较两个良序集的方法。具体来说，把元素逐个从集合中摆出来，谁先摆完谁少。这种思想在有穷集上是没有问题的，得到的结论也相当符合直觉。但是，如果我们想比较两个无穷集，就可能得到一些反直觉的结论。比如说，全体自然数和全体偶数哪个多？由于两个都是天然的良序集，我们可以逐个摆出，由于两者的序型一致，显然两个集合是等大的。这可能与直觉相悖，因为偶数集是自然数集的真子集。但是我们很难否定其合理性，实际上无穷是天然反直觉的。再比如，\(\omega\)和\(\omega^+\)中哪个元素多？两者仍都是良序集，而\(\omega^+\)比\(\omega\)多了一张“王牌”，即排在队尾的\(\omega\)，但这能说明\(\omega^+\)元素就比\(\omega\)多么？经过冷静的思考，我们发现，集合本身的序结构并不应该影响元素多少。如果我们改变\(\omega^+\)上的序结构，比如说在摆出元素时，首先摆出\(\omega\)，而后才是\(0,1,2,\cdots\)，这样得到的序型其实和\(\omega\)是一致的。同一个集合可能存在多种良序结构。比如自然数集也可以先只列出奇数，再只列出偶数，这样得到的序型是\(\omega+\omega\)，但是集合中元素的多少并没有发生改变。</p>
+<p>所以，公平起见，集合的大小应当用其上所有可能的良序结构中最短的那个来刻画。集合的势（cardinality）就定义为集合上所有良序结构的最短序型对应序数<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。基数（cardinal number）则是那些能够成为某集合（当然就是它自身）的势的序数，亦即\(\alpha\)是序数，如果\(\text{card}\,\alpha=\alpha\)。比如说，直觉上我们可以相信\(\omega^+\)上最短的序型是\(\omega\)，那么\(\omega\)就是基数，而\(\omega^+\)不是基数。这一定义的最大问题是，并不是所有集合上都有良序结构，也就是说，将存在集合无法定义其势。事实上，所有集合都可良序这一命题等价于选择公理。</p>
+<p>通过集合的势来比较集合的大小这一方法并不能令人满意。一方面，在ZF公理体系内，存在集合无法定义势。另一方面，集合的势的计算需要遍历其上的序结构，尽管集合中所含元素多少这一概念看起来和它上面的序关系并无直接联系。这暗示着进一步抽象的可能。实际上，两集合具有相等的势，意味着赋予适当的良序结构后，两集合之间（通过其基数）可以建立序同构；而序同构是保持序关系的双射。可以证明，这里的序结构是完全不必要的。也就是说，两集合具有相同的势，则两集合之间存在双射。我们称两集合等势（equinumerous），若它们之间存在双射，记作\(A\approx B\)。注意，等势的两集合未必有相同的势，因为集合的势未必存在。所以，等势是具有相等的势的推广<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。类似地，一个集合比另一个集合有相同或更小的势，则存在第一个集合到第二个集合的单射。我们称集合\(A\)依势弱劣于\(B\)，如果存在单射\(f:A\rightarrow{}B\)，记作\(A\precapprox B\)。</p>
+<p>现在，我们将集合中元素多少的比较抽象成了全体集合（构成的类）上的序关系。我们期待这一序关系是足够好的，能够完全解决这一问题。首先，显然它是传递的，即若\(A\precapprox B\precapprox C\)，则\(A\precapprox C\)。而且，它所对应的等价关系恰巧就是等势关系，即若\(A\precapprox B\)且\(B\precapprox A\)，则\(A\approx B\)。这一结论并不平凡，它称为Cantor-Schröder-Bernstein定理<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>。尽管在良序集上，这一结论可由序数的三歧性证明；但是我们现在的定义容许我们讨论无法赋良序结构的集合，这就增加了很多困难；而且，虽然承认选择公理，所有集合都可以赋良序，这一结论自动成立，但是它成立并不依赖于选择公理。最后，我们还希望序\(\precapprox\)是完备的，即任何两个集合都可以（依该序）比较。很遗憾，这一命题仍然等价于选择公理。从这一角度看，通过单射比较集合大小，的确比通过集合的势来比较更具有一般性，但是仍然无法克服存在不可比较的集合的困难——这一困难是根本的，是ZF公理体系带来的。</p>
+<p>我们暂且搁置这一困难，转而考察基数的结构。首先，所有自然数都是基数<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>。这等价于说，任意两个不同的自然数都不等势，这也称为鸽笼原理<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>。我们称某集合为有穷的（finite），如果它和某个自然数等势；否则，就称为无穷的（infinite）。有穷集都不会同自己的真子集等势，所以\(\omega\)是无穷集。\(\omega\)是最小的无穷基数。同\(\omega\)等势的集合称为可数无穷的（countably infinite）。无穷基数都是极限序数。因为每个无穷基数上面可能的良序结构都是集合，不可能是全体序数，所以总可以定义恰比该无穷基数大的最小的无穷基数，这意味着无穷基数上也存在的类似“后继基数”的概念。无穷基数通常用\(\aleph_\alpha\)表示。应用超穷递归可以定义，\(\aleph_0=\omega\)，而\(\aleph_{\alpha^+}\)定义为\(\aleph_{\alpha}\)的所谓“后继基数”，而对于极限序数\(\beta\)，定义\(\aleph_\beta=\bigcup_{\beta\in\alpha}\aleph_\alpha\)<sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>。基数也分为三类：自然数、后继基数和极限基数（包括\(\aleph_0\)）。我们记无穷基数对应的序数为\(\omega_\alpha=\aleph_\alpha\)，它们也称为起始序数（initial ordinal）。</p>
+<p>当然，关于序\(\precapprox\)，也有一些一般的结论。最著名的是，任意集合都严格势劣于其幂集，即不存在集合到其幂集的双射<sup class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup>。这意味着没有势最大的集合，即使考虑那些无法定义势的集合也是如此。此外，Hartogs定理称，不可能全体序数都势劣于某个集合。这是因为集合上的子集拥有的良序结构也只有某个集合那么多，而不可能是全体序数。但是，虽然对于某个无法定义势的集合可以找到最小的依势不劣的序数，但是我们无法进一步比较该序数和该集合的势关系。</p>
+<h2 id="选择公理"><a class="headerlink" href="#选择公理"></a>选择公理</h2>
+<p>正如上文所述，不承认选择公理，就意味着存在无法比较势关系的集合。为了处理这一困难，我们简单介绍选择公理的常见形式。选择公理（axiom of choice）在ZF公理体系下有多个等价形式。</p>
+<p>最简单的形式包括：</p>
+<ul>
+<li>任意集合都存在选择函数，即对任意\(A\)，都存在\(c:\mathscr PA\setminus\{\varnothing\}\rightarrow A\)，使得\(c(A)\in A\)。</li>
+<li>（乘性公理）任意多非空集合的笛卡尔积都非空，即对任意\(\{X_\alpha\}_{\alpha\in A}\)，若\(X_\alpha\)和\(A\)都是非空集合，则\(\times_{\alpha\in A}X_\alpha\neq\varnothing\)。</li>
+<li>任意二元关系都有子关系，成为与其定义域相同的映射，即对任意\(R\subseteq A\times B\)，都存在映射\(F\subseteq R\)且\(\text{dom}\,F=\text{dom}\,R\)。</li>
+<li>对任一族两两不交的集合\(\mathscr A\)，都存在集合\(T\)恰含有族中每个集合的一个元素，即任给\(A\in\mathscr A\)，有\(T\cup A=\{x\}\)是单点集。</li>
+</ul>
+<p>这些形式都显然等价。它们都承认了某种若干步选择的可能性。立马我们能够写出另一等价形式<sup class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup>：</p>
+<ul>
+<li>对任意满射\(f:A\rightarrow B\)都存在右逆\(g:B\rightarrow A\)使得\(f\circ g=\text{id}_B\)，这里\(\text{id}_B\)是\(B\)上的恒等映射。</li>
+</ul>
+<p>虽然这一命题的证明是早已熟知的，我们不妨以此为例，思考为什么需要选择公理。这一命题的证明很简单，满射\(f\)下\(B\)中的每一元素\(y\in B\)都有非空原像集\(f^{-1}(y)\)，只要从每个中选出一个元素就可以构造满足要求的映射\(g:B\rightarrow A\)。选择公理就保证了这一选择是可行的。但是为什么需要选择公理呢？既然给定一个非空集合，选出它一个成员是可行的，那么为什么在这里有若干个非空集合，每个都选出一个成员就需要选择公理呢？这其实是逻辑学的问题，关键在于所有证明都应该是有限长的。只要是有限多步选择，都是不需要选择公理的；而包括无限步选择就不是可接受的证明。选择公理直接保证了无数次选择后的结果是存在的。选择公理和前面提到的归纳和递归的想法是一致，都是规避证明或构造中出现的无穷。</p>
+<p>并不是所有涉及到无穷次选择的场合都需要选择公理。比如说对于自然数集上的满射\(f:\omega\rightarrow{}B\)，其右逆\(g\)的存在并不需要承认选择公理。同样是考虑\(B\)中的每一元素\(y\in B\)都有非空原像集\(f^{-1}(y)\)，同样是考虑从每个原像集中都取出一个元素，但是我们不再需要选择公理。这是因为我们可以显式地构造出这样的选择函数，因为自然数是良序的，每个非空原像集都存在唯一确定的最小元，这就提供了一个选择函数。选择公理只是保证了当没有更多结构的时候，也存在至少一个选择函数；当选择函数本身可以构造时，并不需要假定选择公理。有个广泛流传的比喻可以形象地概括这一点：从无数双鞋子中取出所有左脚的鞋子，不需要选择公理；而从无数双袜子中各取一只，需要选择公理。</p>
+<p>当然，选择公理还有很多其他等价形式：</p>
+<ul>
+<li>（Zorn引理）任给一非空偏序集，如果所有线序子集都有上界，则必然有极大元。</li>
+<li>（Hausdorff最大性原理）任意偏序集中的线序子集都包含在一个极大线序子集中。</li>
+</ul>
+<p>我们仅讨论Zorn引理和选择公理的等价性。要证明Zorn引理，采用反证法。假设集合\(A\)在序\(&lt;\)下不存在极大元，即给定任一元素都可以取出更大的元素，则可以应用选择公理构造选择函数\(c:A\rightarrow A\)使得\(x&lt;c(x)\)。随意选取起点，可以应用超穷递归的方法构造序数到\(A\)上的保序变换，其中极限序数步的递归可行性由所有线序子集都有上界保证。这与Hartogs定理（或者说是全体序数不是集合）矛盾。其实这一引理就像说一个有限的有向图中总有只进不出的顶点一样自然，只是应用了超穷递归而已。反之，要从Zorn引理证明选择公理，只要注意到所有定义域不完整的选择函数（看做二元关系时）在子集关系\(\subset\)下构成了偏序集。其极大性就是指定义域完整，如果定义域不完整，则总可以补充函数在定义域外某点上的定义从而变得更大。而所有线序子集都有上界也是自然可证的，只要取并之后验证定义即可。由此，Zorn引理和选择公理等价。Zorn引理有着广泛的应用，举个最简单的例子：</p>
+<ul>
+<li>任何向量空间都有一组基。</li>
+</ul>
+<p>这一结论从Zorn引理上看很自然。向量空间上的所有线性无关组在子集关系\(\subset\)下构成了偏序集，然后验证定义就得到了这一结论。它自然也等价于选择公理。</p>
+<p>到目前为止，选择公理看起来都非常自然，甚至我们很乐意接受它给我们带来的一些结论。直到我们发现它也等价于：</p>
+<ul>
+<li>（良序定理）任何集合都可以良序化，即任何集合上都存在良序结构。</li>
+<li>势关系\(\precapprox\)是完备的序关系，即任给两集合\(A\)和\(B\)，\(A\precapprox B\)或\(B\precapprox A\)成立至少一个。</li>
+</ul>
+<p>良序定理实在是反直觉。比如说，很难想象实数集\(\mathbb R\)上的良序。但是，显然良序定理也等价于选择公理。要证明良序定理，其实还是超穷递归。每一步都从集合剩下的元素中取出元素来扩充良序，由于全体序数是类，集合必有用尽之时，就得到集合的良序<sup class="footnote-ref"><a href="#fn9" id="fnref9">[9]</a></sup>。反过来，要构造选择函数，只要取集合中依某个事先选好的良序最小的元素即可。至于势关系\(\precapprox\)，既然所有集合都可以良序，则集合的势必然可定义，立马得知势关系完备；反之，若势关系完备，定义集合的势为最小的势不劣于该集合的序数，立马得到原集合上的良序。</p>
+<p>虽然选择公理、Zorn引理和良序定理在ZF公理体系下等价，人们对三者的接受度明显不同。Jerry Bona讲：</p>
+<blockquote>
+<p>The axiom of choice is obviously true, the well-ordering principle obviously false, and who can tell about Zorn’s lemma?</p>
+</blockquote>
+<p>所以，很多用到选择公理的地方，我们会看到大家宁肯采取Zorn引理的形式参与论证，也不愿意假定该集合上存在良序。比如说，大多数线代教材如果要证明所有向量空间都有一组基，都会用Zorn引理绕来绕去，去构造一个极大线性无关组；而如果肯爽快地使用良序公理，只要做超限递归，逐个检查向量并且将线性无关的添加到当前基底中即可。</p>
+<h2 id="基数的运算"><a class="headerlink" href="#基数的运算"></a>基数的运算</h2>
+<p>我们已经介绍了选择公理的基本形式，现在回到基数的讨论上来。假定选择公理，所有集合都可以定义势。这就保证我们即将要定义的基数运算不会出现运算在基数类内不封闭的情形。</p>
+<p>类似序数运算，为了定义基数的加法、乘法和幂，分别考察\(A\amalg B\)、\(A\times B\)和\(A^B\)的基数。容易证明<sup class="footnote-ref"><a href="#fn10" id="fnref10">[10]</a></sup>，这些运算所得集合的基数只与参与运算的集合的基数有关，而与具体的集合无关。所以可以利用它们分别定义\(\kappa+\lambda\)、\(\kappa\cdot\lambda\)和\(\kappa^\lambda\)，这里\(\kappa\)和\(\lambda\)都是基数。容易验证，加法和乘法都满足交换律、结合律和分配律，幂也满足通常的运算律。特别地，\(0^\kappa=0\)若\(\kappa>0\)，而\(\kappa^0=1\)<sup class="footnote-ref"><a href="#fn11" id="fnref11">[11]</a></sup>。这些运算也都保有通常的序关系。</p>
+<p>基数的运算比想象中的更加简单。为此，我们需要选择公理的又一等价形式<sup class="footnote-ref"><a href="#fn12" id="fnref12">[12]</a></sup>：</p>
+<ul>
+<li>对任意无穷集合\(A\)，成立\(A\times{}A\approx{}A\)；或者写作\(\kappa\cdot\kappa=\kappa\)。</li>
+</ul>
+<p>一旦这个成立，我们立马知道\(\kappa+\lambda=\kappa\cdot\lambda=\max\{\kappa,\lambda\}\)，这里\(\kappa,\lambda\)是无穷基数。因为比如假定\(\kappa\ge\lambda\)，立马有</p>
+<p>\[\kappa\le\kappa+\lambda\le\kappa\cdot2\le\kappa\cdot\lambda\le\kappa\cdot\kappa=\kappa.\]</p>
+<p>这大大地简化了无穷基数的运算。比如说，对任意无穷基数\(\kappa\)，都成立\(\kappa^\kappa=2^\kappa\)，因为</p>
+<p>\[2^\kappa\le\kappa^\kappa\le(2^\kappa)^\kappa=2^{\kappa\cdot\kappa}=2^\kappa.\]</p>
+<p>这里用到了Cantor的结论\(\kappa&lt;2^\kappa\)。这是因为在幂集\(\mathscr{P}A\)和映射集\(2^A\)之间存在自然双射，则\(2^A\approx\mathscr{P}A\)。</p>
+<p>另一种构造基数序列的方式正是通过幂集。记\(\beth_0=\aleph_0\)。由Cantor的结论，可以递归地定义\(\beth_{\alpha^+}=2^{\beth_\alpha}\)，对极限序数仍然采取之前所有值的并。这样同样可以定义出以序数标号的基数列。很自然的问题是，这样得到的\(\beth\)列和之前的\(\aleph\)列究竟有何关系。比如说，显然有\(\beth_1\ge\aleph_1\)，但是否能够取等号呢？事实上，\(\beth_1=\aleph_1\)是同ZFC公理体系相独立的，这称为连续统假设（continuum hypothesis）。更一般地，\(\beth_\alpha=\aleph_\alpha\)对任意\(\alpha\)都成立，或称作广义连续统假设（generalized continuum hypothesis），是又一独立的公理。</p>
+<h2 id="结语"><a class="headerlink" href="#结语"></a>结语</h2>
+<p>基数理论在测度论、拓扑学等理论中都有颇多应用，尤其是可数与不可数集合的区分。但基数理论的应用远不止于此。基数作为特殊的序数，能够提炼出序数中更为严格的大小关系。故而对大基数的研究，其实就对集合论宇宙纵向这一维度的长度的研究，这也是集合论理论中的重要内容。很有趣的是，某些大基数的存在实际上质疑了选择公理的合理性，尽管我们已经看到，选择公理成立能够给基数理论带来很多优美的结论。</p>
+<p>至此，基础集合论的内容就暂且告一段落。集合论作为数理逻辑四大理论之一，实际上也给其他理论的研究提供了重要场景。我们如果接着讨论数理逻辑的其他内容<sup class="footnote-ref"><a href="#fn13" id="fnref13">[13]</a></sup>，可以预期，将无数次地回到集合论，并介绍其中更为艰深的内容。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>该定义合法。因为集合上全体二元关系是集合；由子集公理，这之中的全体良序也是集合；由替换公理，相应的全体序数也是集合；由序数类的良序性可知，有唯一的最小元。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>当然更通行的做法是，先引入等势的概念，然后再建立基数。（若不假定选择公理，）这样定义的基数未必可以取作序数。为了严格定义这样得到的基数，一种可行的做法是利用良基公理，取所有等势的集合中层数最小的那些作为该等价类的代表元，这样的定义只需要替换公理。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>依定义，即要证明若存在单射\(f:A\rightarrow{}B\)和单射\(g:B\rightarrow{}A\)，则存在双射\(h:A\rightarrow{}B\)。想法是构造分划\(A=A_1\amalg{}A_2\)和\(B=B_1\amalg{}B_2\)，使得\(f(A_1)=B_1\)和\(g(B_2)=A_2\)，则\(h\)显然。为此，考察变换\(T:\mathscr{P}A\rightarrow\mathscr{P}A\)，它由\(TX:=A\setminus{}g(B\setminus{}f(X))\)定义，则要找的\(A_1\)就是\(T\)的不动点。将\(\mathscr{P}A\)看作序\(\subseteq\)下的完备格，则\(T\)是其上的保序变换，由Tarski不动点定理立知不动点存在。 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>归纳可证。当\(n=0\)时显然。假设对某个\(n\in\omega\)成立，下证对\(n^+\)也成立。否则，必然有\(\text{card}\,n^+=m\in{}n^+\)。由势的定义，存在序同构\(f:m\rightarrow{}n^+\)，这里\(n^+\)上不是\(\in\)的序。易知\(m\neq\varnothing\)，所以可取\(k\in\omega\)使得\(m=k^+\)。若\(f(k)=n\)，则\(f\upharpoonright{}k:k\rightarrow{}n\)也是序同构，这与归纳假设\(\text{card}\,n=n\ni{}k\)矛盾。若\(f(k)\in{}n\)，同样可以构造序同构造成类似的矛盾。 <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>鸽笼原理的严格表述是若自然数\(n>m\)，则不存在\(n\)到\(m\)的单射。亦即将\(n\)个鸽子放入\(m\)个笼子中，必然存在某个笼子中有不止一个鸽子。 <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>可以验证任意基数的集合的并（上确界）都是基数。否则该并集的势是某个更小的基数，由上确界的定义知，存在某个集合中的基数严格大于该更小的基数，矛盾。 <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>假设存在双射\(g:A\rightarrow{}\mathscr{P}A\)，则定义\(B=\{x\in{}A:x\notin{}g(x)\}\)，且\(B\)在双射\(g\)下的原像为\(y\)，则\(y\in{}B\)当且仅当\(y\notin{}B\)，这矛盾。另，\(A\precapprox\mathscr{P}A\)显然。 <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn8" class="footnote-item"><p>注意，这一命题的对偶，即单射都存在左逆，并不需要选择公理。 <a href="#fnref8" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn9" class="footnote-item"><p>严格来说，需要用Hartogs定理取势不劣的基数\(\aleph_\alpha\)，然后递归构造映射\(f:\aleph_\alpha\rightarrow{}A\)。每步递归时，如果集合没用尽，就从剩余元素中依照事先取好的选择函数选取元素；否则，如果集合用尽，就映射到事先取好的集合外的某元素\(e\)。如果\(e\notin\text{ran}\,f\)，则\(f\)是\(\aleph_\alpha\)到\(A\)的单射，矛盾；否则，就证明集合\(A\)已经用尽，集合\(A\)已经良序化。 <a href="#fnref9" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn10" class="footnote-item"><p>逐个构造双射即可。 <a href="#fnref10" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn11" class="footnote-item"><p>注意，不存在非空集合到空集的映射，但是唯一存在空集到任意集合的映射。这是因为映射的定义中是全称命题。 <a href="#fnref11" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn12" class="footnote-item"><p>“\(\Rightarrow\)”：假定选择公理，则所有无穷基数都可写作\(\aleph_\alpha\)的形式。首先考虑\(Ord\times{}Ord\)上的标准良序。要注意一般的字典序无法保证小于\((\alpha,\beta)\)的序数构成集合。标准良序可以理解为\((\max\{\alpha,\beta\},\alpha,\beta)\)上的字典序，这也是严格良序，且小于\((\alpha,\beta)\)的序数构成集合。我们试图证明赋标准良序的集合\(\omega_\alpha\times\omega_\alpha\)的序型就是\(\omega_\alpha\)。序型诱导的双射将保证\(\aleph_\alpha\cdot\aleph_\alpha\le\aleph_\alpha\)，另一方向不等式是显然的，故得到结论。为证明该命题，对\(\alpha\)归纳。首先，\(\omega\times\omega=\omega\)显然。对首个使之不成立的\(\omega_\alpha\)，必有集合\(\omega_\alpha\times\omega_\alpha\)的序型小于\(\omega_\alpha\)，因为反过来\(\omega_\alpha\)很容易嵌回去。所以可以取\((\gamma,\delta)&lt;(\omega_\alpha,\omega_\alpha)\)使得\((\gamma,\delta)\)的序型恰为\(\omega_\alpha\)。因为\(\omega_\alpha\)是极限序数，可以取\(\beta\)严格介于\(\max\{\gamma,\delta\}\)与\(\omega_\alpha\)之间，则\((\beta,\beta)\)的序型必然比\(\omega_\alpha\)严格大，由此诱导的双射说明\(\beta\times\beta\)的基数不小于\(\aleph_\alpha\)。另一方面，由归纳假设，\(\text{card}\,\beta\times\beta=\text{card}\,\beta\)，而又知\(\text{card}\,\beta&lt;\aleph_\alpha\)，就得到矛盾。由此可以超穷归纳证得结论。</p>
+<p>“\(\Leftarrow\)”：试图证明任意无穷集\(A\)可以良序。为此，首先由Hartogs定理，可以取最小的势不弱劣于\(A\)的序数，记作\(\aleph(A)\)。于是，\[A\amalg\aleph(A)\precapprox{}A\times\aleph(A)\precapprox(A\amalg\aleph(A))\times(A\amalg\aleph(A))\approx{}A\amalg\aleph(A).\] 这里每一步的映射都容易构造。由Cantor-Schröder-Bernstein定理可知，\(A\amalg\aleph(A)\approx{}A\times\aleph(A)\)。将这里的双射记作\(g\)，可以有分划\(A\times\aleph(A)=g(A)\amalg{}g(\aleph(A))\)。如果存在\(a\in{}A\)使得任给\(p\in\aleph(A)\)，都有\((a,p)\in{}g(A)\)，则有单射\(p\mapsto{}(a,p)\)将\(\aleph(A)\)嵌入\(g(A)\)，即有\(\aleph(A)\precapprox{}g(A)\approx{}A\)，这与\(\aleph(A)\)的定义相矛盾。因而，任给\(a\in{}A\)都存在\(p\in\aleph(A)\)使得\((a,p)\in{}g(\aleph(A))\)，由于\(g(\aleph(A))\)上有良序集\(\aleph(A)\)通过双射\(g\)诱导的良序，可以不经选择公理构造嵌入\(A\rightarrow{}g(\aleph(A))\approx{}\aleph(A)\)，立马有\(A\lessapprox{}\aleph(A)\)。这就得到了\(A\)上的良序。 <a href="#fnref12" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn13" class="footnote-item"><p>很可能不了，数理逻辑太恶心了。 <a href="#fnref13" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+      </div>
+      
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/%E9%9B%86%E5%90%88%E8%AE%BA/">集合论</a>
+            <a href="/tags/%E5%9F%BA%E6%95%B0/">基数</a>
+            <a href="/tags/%E9%80%89%E6%8B%A9%E5%85%AC%E7%90%86/">选择公理</a>
+            </div>
+        
+        <nav class="post-nav"><a class="next" href="/2020/12/25/note-0001-elementary-set-theory/">
+        <span class="next-text nav-default">公理化集合论与集合论宇宙</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:claudy.forrest@email.com" class="iconfont icon-email" title="email"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">云·弗利斯特</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>
