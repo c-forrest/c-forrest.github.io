@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="一阶逻辑"/><meta name="keywords" content="命题逻辑, 一阶逻辑, 形式推演, 可靠性, 完备性, 博客" /><link rel="alternate" href="/default" title="博客" ><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="http://c-forrest.github.io/2021/01/18/note-0003-first-order-logic/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
+
+    <title>一阶逻辑 - 博客</title>
+  <meta name="generator" content="Hexo 5.3.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">博客</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">一阶逻辑
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-01-18
+        </span><span class="post-category">
+            <a href="/categories/%E5%85%83%E6%95%B0%E5%AD%A6/">元数学</a>
+            <a href="/categories/%E5%85%83%E6%95%B0%E5%AD%A6/%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91/">数理逻辑</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%AD%90"><span class="toc-text">引子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E9%A2%98%E9%80%BB%E8%BE%91"><span class="toc-text">命题逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E9%98%B6%E9%80%BB%E8%BE%91"><span class="toc-text">一阶逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E8%95%B4%E6%B6%B5%E4%B8%8E%E5%BD%A2%E5%BC%8F%E6%8E%A8%E6%BC%94"><span class="toc-text">逻辑蕴涵与形式推演</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E9%98%B6%E9%80%BB%E8%BE%91%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7%E5%92%8C%E5%AE%8C%E5%A4%87%E6%80%A7"><span class="toc-text">一阶逻辑的可靠性和完备性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-text">结语</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><p>参考文献：</p>
+<ul>
+<li>Enderton. (2001). <em>A Mathematical Introduction to Logic</em>.</li>
+</ul>
+<h2 id="引子"><a class="headerlink" href="#引子"></a>引子</h2>
+<p>我没接受过正统哲学教育，并不懂得逻辑学。依我看，形式逻辑就是要抽象出推演的概念。不管是日常讨论，还是学术研究，通常都会进行大量的逻辑推演。比如窗外刚下了一场大雪，我依此推测可能会大幅降温。这里隐含了一个简单的三段论（syllogism）。大前提是“下雪之后，天气会更寒冷”，小前提是“现在下雪了”，结论是“现在可能会开始大幅降温”。实际论起来，这里还有“可能”等字眼，还可以讨论模态逻辑等。关于三段论也有很系统的研究，这里并不赘言。单论此处，如果我们忽略模态逻辑的内容，这里的推演和“所有人都会脱单，我是人，所以我会脱单”<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>是完全一致的。这种共性意味着某种抽象的可能，比如说这里两者都是三段论的第一格AAA式。</p>
+<p>我们想要表达的推演过程比三段式更为广泛。比如说，我们希望能够严谨地表达费马大定理的证明<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>中的推演过程，这显然比三段论要复杂得多。为此，我们首先要剥离自然语言的影响，而用符号表达每一句论述。比如说，自然语言中为了上下文连贯加入的连接词，比如“首先”“然后”“最后”这种，就是没必要的。但是，另一些连接词“如果”“那么”“并且”，却又能够表达逻辑，需要纳入我们的形式体系中。同时，陈述句并不是逻辑推演的最小单位。比如说上文中“我会脱单”的论证，就是“我”“人”“会脱单”这些句子单元作为更细致的逻辑推演的单位。最简单的陈述句应该是类似“我会脱单”和“我是人”这样的。根据我们对各种语言语法的学习，自然语言中用以陈述的核心结构是主谓结构。其中，主语是陈述的对象，谓语则是陈述的内容。由此，这样简单的陈述句总是可以理解为“某物具有某性质”；更形式地，把“某物”记为\(x\)，把“具有某性质”记为\(P\)，则该句可以写作\(Px\)。比如这里，把“我”记作\(x\)，“会脱单”记作\(Q\)，“是人”记作\(P\)，那么，“我会脱单”和“我是人”就分别记作\(Qx\)和\(Px\)。但是，“所有人都会脱单”这一句子就无法简单改写。因为这里的主语“人”并不是“某物”，而是“某类物”，或者说是具有某种性质的“某物”组成的集体，如果视作集合，应写作\(\{x:Px\}\)。也就是说，这里的“所有”也参与逻辑推演，与之相对的是“存在”，都是陈述“某类物”的性质。该句需要先改写为“如果某物是人，那么该物会脱单”，或者写作\(\forall x(Px\rightarrow Qx)\)，这里\(\rightarrow\)表达了“如果……那么……”的复合结构。该三段论的推演可以写成\(\forall x(Px\rightarrow Qx)\rightarrow Px\rightarrow Qx\)。这也反映了三段论的第一格AAA式的一般结构。通过发展类似的思想，确实可以把费马大定理的证明严谨写出。</p>
+<p>刚刚介绍的符号系统对学习过高中数学的理科学生来说并不陌生，这正是一阶逻辑系统。所谓形式逻辑系统，就是用于表达逻辑推演的一种通用语言。一阶逻辑系统是其中应用最普遍的。这里的“一阶”是指允许量化变量，即允许使用“所有”和“存在”“某类物”。相对应地，“零阶”就是指不允许量化变量；“二阶”是指除了量化变量之外还可以量化谓词，比如说表达“对所有可能的性质”<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>。特别地，在零阶逻辑中，由于没有量词，句内的结构实际上并不重要，重要的只有句间的连接，故又称作命题逻辑或语句逻辑；相对应的，一阶逻辑称作谓词逻辑。我们主要探讨一阶逻辑，而作为其基础，还需要讨论命题逻辑。</p>
+<p>当分析逻辑系统时，我们往往会区分其语法（syntactic）层次和语义（semantical）层次。语法层次，我们将给出合法的逻辑表达式的构造，探讨其形式推演；语义层次，我们将讨论该系统的逻辑内涵。同样是某语句推出另一语句，语法层次上将讨论该推出过程的形式合法性，而语义层次上则讨论逻辑内涵上前一语句真是否必然成立后一语句真。受本人表达能力所限，这两种层次的区别还是在文本中理解更为容易。</p>
+<p>本文将介绍一阶逻辑形式系统、其推演系统及其可靠性和完备性。</p>
+<a id="more"></a>
+<h2 id="命题逻辑"><a class="headerlink" href="#命题逻辑"></a>命题逻辑</h2>
+<p>作为一阶逻辑的基础，我们首先讨论命题逻辑（propositional logic）。命题逻辑研究由逻辑连接符连接原子命题构成的命题及其推演。命题逻辑中的命题都以合规表达式的形式表达。命题逻辑允许的字符包括：括号（\(()\)）、逻辑连接符（合取\(\land\)、析取\(\lor\)、否定\(\neg\)、蕴涵\(\rightarrow\)、等价\(\leftrightarrow\)）和原子命题（\(A_1,A_2,\cdots\)）。原则上允许原子命题不可数。合规表达式是满足特定要求的由这些字符组成的字符串。我们归纳定义合规表达式（well-formed formula）：(i) 原子命题都是合规表达式；(ii) 如果\(\alpha\)和\(\beta\)是合规表达式，那么\((\neg\alpha)\)、\((\alpha\land\beta)\)、\((\alpha\lor\beta)\)、\((\alpha\rightarrow\beta)\)、\((\alpha\leftrightarrow\beta)\)都是。由此，全体合规表达式依包含关系是良基的。这里的括号的主要作用是用于句法分析（parsing），保证表达式的结构分析不存在歧义。当然为了避免歧义还有很多别的方式，比如逆波兰表达式。实际使用时，我们将在不引起歧义的情况下适当省略括号，以保证简洁性。这是命题逻辑的语法层次。</p>
+<p>我们现在讨论命题逻辑的语义层次。命题的语义从逻辑层面看只有真（\(T\)）和假（\(F\)）两种，即所谓布尔值（Boolean value），合规表达式在这种意义下就成为布尔值运算。给定原子命题的真值，可以递归地定义合规表达式的真值，这称为真值赋予（truth assignment）。具体来说，原子命题作为合规表达式，真值已经给定；递归地，有\((\neg\alpha)\)的真值同\(\alpha\)相反，\((\alpha\land\beta)\)仅在两者都为真的时候为真，\((\alpha\lor\beta)\)仅在两者都为假的时候为假，\((\alpha\rightarrow\beta)\)仅在前件为假或后件为真时为真，\((\alpha\leftrightarrow\beta)\)仅在两者同真或同假时为真。比如说，\((A\land\neg B)\rightarrow C\)在\(A,B,C\)分别赋\(T,T,F\)时将具有值\(T\)。这里特别要注意的是蕴涵连接符，它指的是“实质蕴涵”（material implication），允许假命题推出一切命题，允许一切命题推出真命题。也就是说，“如果\(2>5\)，那么特朗普连任”是真命题，但是这个命题的条件和结论之间并无直接关系。</p>
+<p>当原子命题赋以不同的真值时，合规表达式的真值自然不同。我们称合规表达式集\(\Sigma\)重言蕴涵（tautologically implies）合规表达式\(\tau\)，若任意能够使\(\Sigma\)中每个句子都为真的真值赋予，都能够使得\(\tau\)也为真，这记作\(\Sigma\models\tau\)。不同的真值赋予，对应着不同的应用场景；如果在所有场景下，只要\(\Sigma\)真都有\(\tau\)真，那么就意味着语义层次上前者能够推出后者。那些恒成立的式子，即满足\(\varnothing\models\tau\)或记作\(\models\tau\)的合规表达式，称为重言式（tautology）。这些式子从语义上讲是恒成立的。比如说，合取和析取的交换律、结合律和相互的分配律，不同连接符的否定（包括双重否定律和de Morgan律等）。还有比较特殊的几个，包括排中律（excluded middle law）\(A\lor\neg A\)、矛盾律（contradiction law）\(\neg(A\land\neg A)\)、逆反律（contraposition law）\((A\rightarrow B)\leftrightarrow(\neg B\rightarrow\neg A)\)和输出律（exportation law）\(((A\land B)\rightarrow C)\leftrightarrow(A\rightarrow B\rightarrow C)\)。这里多个蕴涵连接符相连，总是从右侧开始结合，即理解为\(A\rightarrow(B\rightarrow C)\)。另外，由结合律，多个合取或多个析取相连，逻辑语义与加括号的方式无关，我们也略去括号，并理解为自左侧开始结合；当然，如果要区分它们的句法结构，自然是需要加括号的。</p>
+<p>我们自然会问当前的命题逻辑定义是否是语义上完备的。也就是说，目前的五个逻辑运算符是否能够表达所有可能的逻辑关系。所有可能的（语义）逻辑关系就是指，所有可能的真值赋予的结果；换而言之，就是针对不同的原子命题的真值，所有可能的到命题真值的对应关系；也就是所有可能的\(n\)元布尔函数\(f:\{F,T\}^n\rightarrow\{F,T\}\)。每个合规表达式都唯一确定一个\(n\)元布尔函数。现在我们需要对每个\(n\)元布尔函数都确定一个合规表达式；当然这样的表达式并不唯一，因为与之重言等价（即互相重言蕴涵）的合规表达式也满足条件。一种可能的方式称为析取规范形式，即将每个布尔函数都拆成若干个只在某一个特定的\(n\)元布尔值向量上取真的布尔函数的析取，然后再将这些拆分后的布尔函数拆成若干个原子命题或原子命题之否定的合取，这样所有\(n\)元布尔函数都可以用一个只含有合取、析取和否定的合规表达式表达。这一方法也说明，五个逻辑连接符是赘余的。实际上，最少只需要两个连接符就可以达到语义上完备的效果。一个这样的例子是\(\{\neg,\rightarrow\}\)。</p>
+<p>最后，我们讨论如何通过算法判定重言蕴涵。首先，对于合规表达式，有很直接的句法分析算法；它必然在有限时间内结束。对于有限的合规表达式集\(\Sigma\)，\(\Sigma\models\tau\)的判定只要遍历所有可能的真值赋予，然后看是否前者为真必然有后者为真。这是可以在有穷时间内完成的；因为给定真值赋予，判定某一合规表达式是否为真是可以有穷时间内达到的；而且，有限集合中的真值赋予也是有限多的。这等价于判定集合\(\Sigma;\neg\tau\)是否可满足，即是否存在真值赋予使集合\(\Sigma;\neg\tau\)均为真。对于无穷的合规表达式集\(\Sigma\)，则需要它有效可枚举（effectively enumerable），即能够保证每个元素都能在有穷时间内枚举出。这样，只需要逐个枚举出，并对之前已经枚举出的合规表达式子集进行检验是否能够重言蕴涵\(\tau\)。这种算法能够保证当\(\Sigma\models\tau\)时能够在有限时间内终止，但是如果\(\Sigma\not\models\tau\)，则可能永远不会终止。注意，这里我们实际上用到了命题逻辑的紧致性（compactness）<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>，即如果\(\Sigma\models\tau\)，则必然存在有限子集\(\Sigma_0\subseteq\Sigma\)成立\(\Sigma_0\models\tau\)。通过类似的方式，实际上能够给出有效枚举所有\(\Sigma\)重言蕴涵的合规表达式的算法。</p>
+<h2 id="一阶逻辑"><a class="headerlink" href="#一阶逻辑"></a>一阶逻辑</h2>
+<p>一阶逻辑（first-order logic）又称谓词逻辑（predicate logic）。主要特点就是量化陈述。一阶逻辑允许的字符有八类：括号（\(()\)）、变量（\(v_1,v_2,\cdots\)）、逻辑连接符（否定\(\neg\)、蕴涵\(\rightarrow\)）、等号（\(=\)）（可选）、量词（\(\forall\)）、常量（\(c_1,c_2,\cdots\)）、函数（\(f_1,f_2,\cdots\)）和谓词（\(P_1,P_2,\cdots\)）。这里，常量、函数和谓词的选取可能不同，等号的保留与否也可能不同，这区分了不同的一阶逻辑系统。一阶逻辑中的合规表达式同样是归纳定义的。首先定义项（term）。归纳定义；变量或者常量都是项；\(n\)元函数后接\(n\)个项也是项。项的例子比如\(v_1\)、\(f_2v_1v_3f_1v_2\)（这里\(f_1\)是一元函数，\(f_2\)是三元函数）。然后定义原子公式（atomic formula）为\(Pt_1\cdots t_n\)，这里，\(P\)是\(n\)元谓词，\(t_1,\cdots,t_n\)是项。最后，归纳定义合规表达式。原子公式是合规表达式；如果\(\alpha\)是合规表达式，那么\((\neg\alpha)\)、\((\alpha\rightarrow\beta)\)和\(\forall v_i\alpha\)都是。同样，这里的括号是用来辅助句法分析的。很容易设计能够分析其句法结构的算法。这里的形式定义是最小的，实际上完全可以将其他逻辑连接符和其他量词纳入定义中；但是采取尽可能简单的定义，会为后文的讨论提供更多便利。我们下文在表述时，将根据需求使用适合的形式；比如说将\(\exists v_i\alpha\)看做\(\neg\forall v_i(\neg\alpha)\)的略写。</p>
+<p>与命题逻辑相仿，从语法层次定义一阶逻辑的合规表达式后，我们讨论其语义层次。与命题逻辑不同，这里的语义不是简单的真值；相反地，我们需要考虑表达式中每个符号的具体含义。为此，定义对应于某一阶逻辑系统的结构（structure）\(\mathfrak A\)，首先需要考虑变量相应的全集（universe）\(|\mathfrak A|\)，用于解释量词的含义；然后，将常量\(c\)解释为全集中的元素\(c^{\mathfrak A}\in|\mathfrak A|\)，将\(n\)元函数\(f\)解释为全集上的映射\(f^{\mathfrak A}:|\mathfrak A|^n\rightarrow|\mathfrak A|\)，将\(n\)元谓词\(P\)解释为全集上的\(n\)元关系\(P^{\mathfrak A}\subseteq|\mathfrak A|^n\)。这里的全集未必是集合。容易想到如何将一阶逻辑语句翻译为相应结构上的命题。比如说，命题\(\exists x\forall y(\neg Pxy)\)，当结构的全集是全体集合构成的类，且\(Pxy\)解释为\(y\in x\)时，这就是空集公理，即“存在集合，任何集合都不是它的成员”；而当结构的全集是自然数集，且\(Pxy\)解释为\(y&lt;x\)时，这就应该解释成\(0\)是最小的自然数，即“存在自然数，任何自然数都不小于它”。</p>
+<p>但是我们并没有完全解决合规表达式的语义分析问题。比如说，很简单的合规表达式\(Px\)我们也无法解释其语义，因为\(x\)是变量，并无具体所指；相对应地，合规表达式\(\forall xPx\)却可以得到解释。这两个式子的根本性区别是\(x\)是否是自由变量。严格定义需要采取递归的方式，我们针对合规表达式递归地定义其内自由变量的集合。项的自由变量集定义为其中出现的所有变量；原子公式定义为其中每个项的自由变量集的并；否定和蕴涵是同样不会缩小自由变量集，添加量词则从自由变量集中删除量词后变量。自然称合规表达式的自由变量集中的变量为自由变量（free variable）。比如说，\(Px\)中的自由变量是\(x\)，\(\forall xPx\)中没有自由变量。没有自由变量的合规表达式称为语句（sentence）。</p>
+<p>解释清楚自由变量的概念后，可以严格地定义语句\(\sigma\)在结构\(\mathfrak A\)中为真的概念。更一般地，考虑合规表达式\(\varphi\)在结构\(\mathfrak A\)和对应\(s:V\rightarrow|\mathfrak A|\)下的翻译\(\varphi[s]\)。递归地定义结构\(\mathfrak A\)在对应\(s\)满足\(\varphi\)这一概念，记作\(\models_{\mathfrak A}\varphi[s]\)。项的翻译就是将变量替换为对应的像，将函数替换为结构上的映射；原子公式的翻译就是对应的项是否满足结构上相应的关系，若满足则记作\(\models_{\mathfrak A}\varphi[s]\)；否定和蕴涵的翻译容易想到；量化公式的翻译则是，\(\models_{\mathfrak A}\forall x\varphi[s]\)当且仅当对任意\(a\in\mathfrak A\)都成立\(\models_{\mathfrak A}\varphi[s(x|a)]\)，这里\(s(x|a)\)是指将\(s\)中\(x\)对应的像替换成\(a\)对应的像得到的新对应。容易验证，\(\models_{\mathfrak A}\varphi[s]\)成立与否只取决于\(s\)在\(\varphi\)的自由变量集上的取值。这说明，对于没有自由变量的语句\(\sigma\)，\(\models_{\mathfrak A}\sigma\)是否成立与对应\(s\)无关，可以一般地定义。如果\(\models_{\mathfrak A}\sigma\)成立，我们称语句\(\sigma\)在结构\(\mathfrak A\)中为真，或者称\(\mathfrak A\)是\(\sigma\)的模型（model）；类似地，也可以定义\(\models_{\mathfrak A}\Sigma\)，这里\(\Sigma\)是某一阶逻辑系统内的语句集。</p>
+<h2 id="逻辑蕴涵与形式推演"><a class="headerlink" href="#逻辑蕴涵与形式推演"></a>逻辑蕴涵与形式推演</h2>
+<p>再次类似于命题逻辑，我们在语义层次定义逻辑蕴涵的概念。假设\(\Gamma\)是合规表达式集，\(\varphi\)是合规表达式，那么前者逻辑蕴涵（logically implies）后者当且仅当对任意的结构\(\mathfrak A\)和对应\(s\)，每当它们能够满足\(\Gamma\)中的每个表达式就一定能够满足\(\varphi\)，这记作\(\Gamma\models\varphi\)。再次地，如果不含自由变量，即语句集\(\Sigma\)逻辑蕴涵合规表达式\(\tau\)的情形，则定义中不需要提及对应\(s\)，记作\(\Sigma\models\tau\)。同时，我们称合规表达式\(\varphi\)有效（valid），如果\(\varnothing\models\varphi\)；这记作\(\models\varphi\)。</p>
+<p>与命题逻辑中的重言蕴涵截然不同的是，我们缺乏有效地直接验证一阶逻辑的逻辑蕴涵的手段。虽然两者都是语义层面的蕴涵，但是重言蕴涵的定义中需要检验的真值赋予的情形是有限的，而逻辑蕴涵的定义需要检查所有可能的结构，这显然是不显示的。因而，为了判定逻辑蕴涵，需要寻求其他思路。基本思路就是形式推演。简单来说，选取几组显然有效的语句作为公理\(\Lambda\)，并结合已知的\(\Gamma\)，用形式推演的方法推出结论\(\varphi\)。所谓由\(\Gamma\)到\(\varphi\)的演绎，是指一列合规表达式\(\{\alpha_k\}_{k=0}^n\)，其中表达式\(\alpha_k\)要么选自\(\Gamma\cup\Lambda\)，要么是根据之前的合规表达式通过肯定前件式假言推理<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>（modus ponens）得到的，即存在\(i,j&lt;k\)满足\(\alpha_j\)恰巧是\(\alpha_i\rightarrow\alpha_k\)，且最后的\(\alpha_n\)就是\(\varphi\)。如果由\(\Gamma\)到\(\varphi\)的演绎存在，则称\(\varphi\)是可以由\(\Gamma\)推演出来的（dedutible），或称\(\varphi\)是\(\Gamma\)中的一个定理（theorem），记作\(\Gamma\vdash\varphi\)。因为这其中的每一步都令人信服，所以这样的形式推演本身也可以用于证明逻辑蕴涵关系。但是这样的证明完全是语法层次的。我们接下来要严格给出形式推演的表述，并说明形式推演能够忠实且充分地反映逻辑蕴涵关系。</p>
+<p>形式推演的基本形式已经给出，现在只需要给出所有需要的公理。公理包括如下六组及其泛化：</p>
+<ul>
+<li>重言式。它们就是命题逻辑中的重言式。只要其中的原子命题换成一阶逻辑中的原子公式或量化公式。</li>
+<li>去除全称量词。\(\forall x\alpha\rightarrow\alpha_x^t\)，如果项\(t\)可以替换\(\alpha\)中自由出现的变量\(x\)，此时，\(\alpha_x^t\)是替换的结果<sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>。</li>
+<li>全称下的肯定前件式假言推理。\(\forall x(\alpha\rightarrow\beta)\rightarrow\forall x\alpha\rightarrow\forall x\beta\)。</li>
+<li>添加全称量词。\(\alpha\rightarrow\forall x\alpha\)，如果\(x\)不是\(\alpha\)中的自由变量。</li>
+<li>等号的自反性。\(x=x\)。</li>
+<li>等号的性质。\(x=y\rightarrow\alpha\rightarrow\alpha'\)，这里\(\alpha\)是原子公式，\(\alpha'\)是将\(\alpha\)中出现的\(x\)（可以是部分）替换成\(y\)。</li>
+</ul>
+<p>其中，后两组是可选的，取决于一阶逻辑系统有没有等号。合规表达式的泛化（generalization）是指合规表达式添加若干组量词\(\forall x_i\)得到的式子。每个公理的泛化都是公理；因为公理本来就是逻辑上自然对的，总是允许泛化。</p>
+<p>重言式提供了基本的形式推演手法。因为如果将原子公式和量化公式（\(\forall x\alpha\)）都看作原子命题，一阶逻辑公式形式上就是只有\(\neg\)和\(\rightarrow\)连接符的命题逻辑公式。我们自然能够获得命题逻辑系统内容许的所有推演结果，即全体重言式。当然，如果从形式推演的角度，全体重言式其实有大量赘余；但是为了讨论简便，以及得益于命题逻辑重言式判定的容易，我们不讨论重言式的形式推演。但是重言式并不足够，\(\Gamma\)重言蕴涵\(\varphi\)必然有\(\Gamma\)逻辑蕴涵\(\varphi\)，但是反之则不然。这正是因为量词（和等号）的加入，剩下的五条公理就处理这些情形。但是加上这些公理后，形式推演基本就是重言式的应用。严格来说，\(\Gamma\vdash\varphi\)当且仅当\(\Gamma\cup\Lambda\)重言蕴涵\(\varphi\)<sup class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup>。</p>
+<p>接下来的三组公理是关于量词的。首先是全称量词的移除。这其实就是从一般到特殊的逻辑。直觉上，如果变量\(x\)在合规表达式\(\alpha\)中是自由的，就可以替换成任意项\(t\)；如果不是自由的，自然也没必要替换。但是这样存在问题。考虑语句\(\forall x\neg\forall yx=y\)中，不能代自由变量\(x\)以项\(y\)得到\(\neg\forall yy=y\)；这样必然不是逻辑蕴涵，因为含有两个不同的元素的结构满足原来的语句，但是不满足替代后的语句。问题在于这里替换进去的变量\(y\)经由量词捕捉；原来我们期待\(y\)是某种特殊情况，而在量词下反而成为另一种一般情况。所以，我们需要严格定义所谓的项\(t\)可以替代\(\alpha\)中的自由变量\(x\)这一概念。同样递归定义。在项中，进而在原子公式中，项\(t\)总是可以替代任何变量\(x\)；否定和蕴涵的情形自然地继承自其各自的组成部分；对于量化公式，则并非总是可以替代，我们要么需要\(x\)在公式\(\forall y\alpha\)中并不自由（即实际上并不需要替代），要么需要变量\(x\)在\(\alpha\)中可以替代为项\(t\)而且变量\(y\)不出现在项\(t\)中（即替代后的结果不会受量词约束）。这就规避了上面说过的问题。接下来，全称下的肯定前件式假言推理和添加全称量词都很容易理解。</p>
+<p>等号是一阶逻辑系统的可选组件。它提炼出自然语言中两对象相同的概念。所谓相同，就是指两对象应该具有相同的性质。故而，在原子公式中，可以将变量替换为与之相同的其他变量。这里替换的次数并不限制，比如说\(x=y\)既可以推出\(Pxx\rightarrow Pxy\)，也可以推出\(Pxx\rightarrow Pyy\)。注意，公理中只允许变量的替换。这并不是说，某变量等于某常量或某项并不能应用等号的性质；事实上，应用于它们的类似性质应该由应用于变量的性质，加上去除全称量词的公理推出。相等，作为二元关系，具有自反性、对称性和传递性；对称性和传递性都可以视为等号的性质的应用，自反性需要单独列为一组公理，即公理五。</p>
+<p>这些只是形式推演的基本内容。当然，除了公理和肯定前件式假言推理外，我们还可以归纳出一些常见的推演元定理。所谓元定理，是区别于一阶逻辑系统内的定理而言的；元定理是指形式推演中的一般规律。首先，如果\(\Gamma\vdash\varphi\)，且变量\(x\)在\(\Gamma\)中并不自由，那么就有\(\Gamma\vdash\forall x\varphi\)<sup class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup>；这称为泛化原理（generalization principle）。这就相当于说“由于变量\(x\)的选取是任意的，则可以得出结论”。然后，演绎定理（deduction theorem），指如果\(\Gamma;\varphi\vdash\psi\)，则\(\Gamma\vdash\varphi\rightarrow\psi\)<sup class="footnote-ref"><a href="#fn9" id="fnref9">[9]</a></sup>。这相当于要证明某命题“如果条件，那么结论”时，可以先将条件当作已知，然后证得结论。逆反法（contraposition），指如果\(\Gamma;\neg\psi\vdash\neg\varphi\)，则\(\Gamma;\varphi\vdash\psi\)。这就是要证明某命题，先证明它的逆反命题。归谬法（reductio ad absurdum），指如果\(\Gamma;\neg\varphi\)能够推出矛盾，即能够同时推出某个命题\(\beta\)及其否定\(\neg\beta\)，则有\(\Gamma\vdash\varphi\)。这就是反证法的逻辑基础。</p>
+<p>还有，常数的泛化（generalization on constants），指如果\(\Gamma\vdash\varphi_x^c\)，且\(\Gamma\)和\(\varphi\)中不出现常数\(c\)，则可以泛化为\(\Gamma\vdash\forall x\varphi\)<sup class="footnote-ref"><a href="#fn10" id="fnref10">[10]</a></sup>。这里泛化常数得到的变量\(x\)是可以指定的，\(\varphi_x^c\)中是不含有\(x\)的。常数的泛化的一个推论是，如果\(\Gamma;\varphi_x^c\vdash\psi\)，且常数\(c\)并不出现在\(\Gamma\)、\(\varphi\)或\(\psi\)的任何一个中，则有\(\Gamma;\exists x\varphi\vdash\psi\)<sup class="footnote-ref"><a href="#fn11" id="fnref11">[11]</a></sup>；这称作存在实例化（existential instantiation）[^10]。存在实例化保证了，类似“我们知道\(\exists{}x\varphi\)，那么记这样的\(x\)为\(c\)，然后可以证出\(\psi\)”这样的论证是合理的。注意，\(\exists{}x\varphi\vdash\varphi_x^c\)一般并不成立，因为这里的\(c\)可能并不是使得该条件成立的那个常数。比如说，要证明\(\exists{}x\forall{}y\varphi\vdash\forall{}y\exists{}x\varphi\)，那么根据存在实例化，只要论证\(\forall{}y\varphi_x^c\vdash\forall{}y\exists{}x\varphi\)就可以，这里\(c\)是新加入这个一阶逻辑系统的常数；这就取代了逆反改写成全称量词的过程。</p>
+<p>最后，我们讨论量化变量任意选取的可行性。比如说，我们要证明\(\forall x\forall yPxy\vdash\forall yPyy\)，并不能够直接应用第二组公理去除全称量词，因为\(y\)不可以在\(\forall yPxy\)中取代\(x\)；如果我们能够自由选取量化变量，可以有\(\forall x\forall yPxy\vdash\forall x\forall zPxz\)，然后应用两次第二组公理将变量\(x\)和\(z\)都替代为变量\(y\)，再泛化自由变量\(y\)即可。可以证明，任给合规表达式\(\varphi\)和项\(t\)，总存在只有量化变量选取不同于\(\varphi\)的合规表达式\(\varphi'\)，使得\(\varphi\vdash\dashv\varphi'\)，且项\(t\)在\(\varphi'\)中可以替代\(x\)。要证明这个，只要对所有合规表达式归纳证明就好了。只有在量化时，需要选取合适的变量。这里量化变量选取的任意性实际上是对第二组公理的补充，提供了合理规避某些情形下的量词冲突的手段。</p>
+<p>在实际进行形式推演时，我们往往会更习惯于应用这些元定理，因为它们更符合我们的逻辑思维习惯。我们会把它们总结成各种各样的证明技巧。这里的讨论就说明了，所有这些证明技巧，都是可以从最原始的六组公理推出的。接下来，我们就将证明以这六组公理为基础的形式推演能够忠实且充分地反映逻辑蕴涵关系。它们分别对应一阶逻辑系统的可靠性和完备性。</p>
+<h2 id="一阶逻辑的可靠性和完备性"><a class="headerlink" href="#一阶逻辑的可靠性和完备性"></a>一阶逻辑的可靠性和完备性</h2>
+<p>一阶逻辑的可靠性（soundness）和完备性（completeness），通俗地讲就分别是，能证的都是对的，对的都是能证的。形式上来说，可靠性就是\(\Gamma\vdash\varphi\)能够推出\(\Gamma\models\varphi\)，完备性就是\(\Gamma\models\varphi\)能够推出\(\Gamma\vdash\varphi\)。也就是形式推演能够忠实且充分地反映逻辑蕴涵。这说明了一阶逻辑在语义层次和语法层次的统一。我们还可以从别的角度叙述这一等价性。我们称合规表达式集\(\Gamma\)是可满足的（satisfiable），如果存在结构\(\mathfrak A\)和对应\(s\)可以满足\(\Gamma\)；这是语义层次的概念。我们称合规表达式集\(\Gamma\)是一致的（consistent），如果它推不出矛盾，即不存在任何合规表达式\(\varphi\)使得\(\Gamma\vdash\varphi\)和\(\Gamma\vdash\neg\varphi\)同时成立；这是语法层次的。因而一阶逻辑在语义层次和语法层次的统一，也可以表达成合规表达式集\(\Gamma\)是可满足的，其充分必要条件是它是一致的。这里的充分性就是一阶逻辑的完备性，这里的必要性就是一阶逻辑的可靠性<sup class="footnote-ref"><a href="#fn12" id="fnref12">[12]</a></sup>。可靠性和完备性的这两种表述是等价的。</p>
+<p>我们首先论证可靠性。也就是说，形式推演得到的一定是逻辑蕴涵的结果。我们归纳证明。形式推演过程中的结论有三种来源：条件集\(\Gamma\)、公理集\(\Lambda\)和根据前文的肯定前件式假言推理。容易想到，条件集\(\Gamma\)对自身必然是逻辑蕴涵的，肯定前件式假言推理过程也是保逻辑蕴涵的，唯一需要证明的只有公理集。事实上，我们要证明所有公理都是逻辑有效式，即对所有结构和对应永真。我们只考虑没有经过泛化的公理，因为有效式经过泛化显然有效。比如说关于等号的两条公理，它们成立显然是因为变量相等意味着对应\(s\)的像都是相同的。关于重言式的公理有效，也是很自然的。剩下来的是关于量词的三条公理。添加全称量词的公理有效，因为当变量\(x\)在\(\alpha\)中不自由时，翻译的结果\(\alpha[s(x|d)]\)实际上同\(d\)无关，故而\(\alpha\models\forall x\alpha\)。全称下的肯定前件式假言推理能够成立也可以类似论述。略显复杂的就是去除全称量词的公理。任意给定结构\(\mathfrak A\)和对应\(s\)，那么\(\forall x\alpha\)就可以翻译成对任何\(d\in|\mathfrak A|\)都成立\(\models_{\mathfrak A}\alpha[s(x|d)]\)。我们要代入项\(t\)，而项\(t\)将译作\(\bar s(t)\)，于是取\(d=\bar s(t)\)，即有\(\models_{\mathfrak A}\alpha[s(x|\bar s(t))]\)。我们希望能够证明\(\models_{\mathfrak A}\alpha_x^t[s]\)。这两个在项\(t\)可以替换\(\alpha\)中的变量\(x\)时是等价的，这称为替换引理（substitution lemma）<sup class="footnote-ref"><a href="#fn13" id="fnref13">[13]</a></sup>。由此，我们就完成了对一阶逻辑的可靠性的论证。</p>
+<p>完备性的证明略复杂。我们将论证，任何一致的合规表达式集\(\Gamma\)都是可满足的。具体来说，我们将直接构造这样一个结构\(\mathfrak A\)和对应\(s\)满足\(\Gamma\)。从逻辑意义上看，给定对应的结构将由其上成立的所有合规表达式唯一确定；将这样的集合记作\(\Delta\)。集合\(\Delta\)必然是一致的，也是极大的；所谓极大的，就是指任给合规表达式\(\varphi\)，\(\varphi\in\Delta\)和\(\neg\varphi\in\Delta\)两者必恰成立一个。换句话说，从逻辑意义上看，确定了\(\Delta\)，就相当于确定了结构\(\mathfrak A\)和对应\(s\)。形式上，我们首先构造自由结构，再利用等式关系取其商结构。这里的自由结构，是指以\(\Delta\)中出现的所有可能的项的集合作为全集\(|\mathfrak A|\)，函数取自然映射，关系则根据原子公式定义；对应\(s\)则形式地将项映射为全集中的元素<sup class="footnote-ref"><a href="#fn14" id="fnref14">[14]</a></sup>。对于存在等号的一阶逻辑系统，首先应当将等号视为自由结构上的等价关系，然后考虑其商结构。第六组公理保证了该商结构和其上诱导的映射和关系都是良定义的。这一商结构就成为了带等号的一阶逻辑系统的模型。</p>
+<p>我们重点考虑这样的自由结构确实能够保证结构\(\mathfrak A\)在自然对应\(s\)下满足不带等号的一阶逻辑系统中的极大一致的合规表达式集\(\Delta\)。为此，我们需要证明\(\models_{\mathfrak{A}}\varphi[s]\)当且仅当\(\varphi\in\Delta\)；或者说，\(\not\models_{\mathfrak{A}}\varphi[s]\)当且仅当\(\varphi\not\in\Delta\)当且仅当\(\neg\varphi\in\Delta\)，由\(\Delta\)的极大一致性。同样归纳证明。对于原子公式，这从结构\(|\mathfrak A|\)的定义上看是显然的。对于否定或蕴涵连接的合规表达式，这也是容易验证的。量化公式较为麻烦。我们考察全称量词的否定，具体的反例可以方便论证。首先考察\(\not\models_{\mathfrak{A}}\forall x\varphi[s]\)，这意味着存在项\(t\in|\mathfrak A|\)使得\(\not\models_{\mathfrak{A}}\varphi[s(x|t)]\)，这里\(t=\bar s(t)\)，这又可以写作\(\not\models_{\mathfrak{A}}\varphi_x^t[s]\)，于是\(\neg\varphi_x^t\in\Delta\)，立马就有\(\neg\forall x\varphi\in\Delta\)；这样的做法可能会遇到\(t\)并无法在\(\varphi\)中替代\(x\)的情形，所以需要选取适当的量化变量。另一方面，考察\(\neg\forall x\varphi\in\Delta\)，但是我们无法类似前文得到反例，因为形式推演与语义层次的逻辑蕴含不同，这里反例的存在无法得到保证。为此，我们强行写入反例<sup class="footnote-ref"><a href="#fn15" id="fnref15">[15]</a></sup>，我们要求对每个量化合规表达式\(\forall x\varphi\)，都存在常数\(c\)，使得\((\neg\forall x\varphi\rightarrow\neg\varphi_x^c)\in\Delta\)。如果\(\Delta\)包括这些反例，那么从\(\neg\forall x\varphi\in\Delta\)可以得知\(\neg\varphi_x^c\in\Delta\)，这也就意味着\(\not\models_{\mathfrak{A}}\varphi_x^c[s]\)，或者写作\(\not\models_{\mathfrak{A}}\varphi[s(x|c)]\)，于是有\(\not\models_{\mathfrak{A}}\forall x\varphi[s]\)。由此，我们证明了结构\(\mathfrak A\)能够满足该极大一致的合规表达式集\(\Delta\)，只要\(\Delta\)包括所有反例表达式\((\neg\forall x\varphi\rightarrow\neg\varphi_x^c)\)。对于含等号的，等号将成为自由结构上的二元关系\(E\subseteq|\mathfrak A|\times|\mathfrak A|\)，公式\(\varphi\)也应当翻译成\(\varphi^*\)，其中的相等关系替换成\(E\)；除此之外，所有论述类似上文。</p>
+<p>最后，我们处理\(\Delta\)的构造问题。它应当是极大的，是一致的，且包括所有反例表达式\((\neg\forall x\varphi\rightarrow\neg\varphi_x^c)\)。首先，我们需要加入足够多的常数用于形成反例。我们记一阶逻辑系统中出现的字符的基数为\(\lambda\)；对所有可数系统，取\(\lambda=\omega\)。于是，我们加入\(\lambda\)个新的常数<sup class="footnote-ref"><a href="#fn16" id="fnref16">[16]</a></sup>，这足够为所有可能的量化公式提供反例。然后，我们赋以全体\((\varphi,x)\)二元组以良序，并匹配上相应的小于\(\lambda\)的序数的标号，这里\(\varphi\)遍历新语言中所有可能的合规表达式，而\(x\)遍历语言中所有的变量。依据这一标号，将反例表达式\((\neg\forall x_\alpha\varphi_\alpha\rightarrow\neg(\varphi_\alpha)_{x_\alpha}^{c_\alpha})\)顺次添加到\(\Gamma\)中<sup class="footnote-ref"><a href="#fn17" id="fnref17">[17]</a></sup>。最后，为新语言中全体合规表达式赋以良序，顺次检查，必然能够将该表达式或该表达式之否定加入目前的集合，并保持一致性，最后就得到极大一致的合规表达式集\(\Delta\)，而\(\Gamma\subseteq\Delta\)。我们就可以到符合条件的扩展\(\Delta\)。</p>
+<p>至此，我们证明了一阶逻辑系统的完备性的证明。但是，我们目前并没有提出形式推演的判定算法。首先，一阶逻辑系统也具有紧致性（compactness），即如果\(\Gamma\models\varphi\)，则存在有限子集\(\Gamma_0\subseteq\Gamma\)使得\(\Gamma_0\models\varphi\)<sup class="footnote-ref"><a href="#fn18" id="fnref18">[18]</a></sup>；这等价于，有限可满足的\(\Gamma\)必然可满足。同样类似于命题逻辑，我们要说明对于合理的一阶逻辑系统，给定一致的合规表达式集\(\Gamma\)，其中所有的定理都是有效可枚举的。这里的合理，是指一阶逻辑系统中的字符至多可数，且任给谓词和函数都可以确定其含有的变元数；合理的一阶逻辑系统中，所有合规表达式是可以有效可枚举的。在枚举的过程中，可以检验它是否属于六组公理之一；这样得到，全体公理也是有效可枚举的。全体公理重言蕴涵的结果是全体有效式；由于全体公理有效可枚举，全体有效式也是有效可枚举的。当枚举全体有效式时，如果它是\(\alpha_0\rightarrow\alpha_1\rightarrow\cdots\rightarrow\alpha_n\)的形式，直接检查前面的所有条件是否都是在\(\Gamma\)中即可。所以如果判定某表达式是否在集合\(\Gamma\)中的算法总能够在有限时间内完成（即集合\(\Gamma\)及其补集都是有效可枚举的），那么枚举全体有效式，然后检查条件，如果所有条件都在集合\(\Gamma\)中，就可以将结论\(\alpha_n\)当作\(\Gamma\)中的一条定理输出。于是，\(\Gamma\)中的所有定理也是有效可枚举的；只要\(\Gamma\)符合前文的条件。这实际上意味着，对于符合某些条件的\(\Gamma\)，某合规表达式如果成为定理，则必然能够在有限时间内给出证明。我们并不能得到更多结论，因为确实存在某些假的结论，使得算法无法在有限时间内终止。</p>
+<h2 id="结语"><a class="headerlink" href="#结语"></a>结语</h2>
+<p>本文简单地介绍了一阶逻辑系统的定义，其上形式推演的基本形式，并证明了一阶逻辑系统的可靠性和完备性。这些知识将为我们系统地理解逻辑证明提供理论基础。我们可以看到，以往很多的证明方法其实都有严格建立的逻辑基础。当然，还有很多其他的逻辑系统，用于处理那些无法通过一阶逻辑系统表达的逻辑形式。但是，对于理解绝大多数数学证明，一阶逻辑是足够的。一阶逻辑系统性质相当良好，语义层次的内容能够通过语法层次完美地刻画。这里提到的一阶逻辑的完备性就是著名的哥德尔完备性定理<sup class="footnote-ref"><a href="#fn19" id="fnref19">[19]</a></sup>。</p>
+<p>从我本人的角度，其实最开始学习数理逻辑和集合论时，会很困惑一个问题：应当先建立集合论还是先建立数理逻辑？甚至，在阅读上文的证明时，我们甚至会发现，很多证明似乎只是重写了一遍逻辑而已。比如说双重否定律\(\neg\neg\sigma\models\sigma\)。我们要证明它，无非就是说对于任意结构，如果\(\neg\neg\sigma\)为真，那么\(\neg\sigma\)为假，进而\(\sigma\)为真。可是等会，我们这里的“如果……那么……进而”难道用的不正是刚刚要证明的逻辑吗？一种合理的解释是，我们在建立元数学时，首先需要先用自然语言建立朴素集合论和朴素逻辑，然后在此基础上建立形式的集合论和数理逻辑。换句话说，形式的数理逻辑并不会添加朴素逻辑中不存在的内容，只是在形式上对朴素逻辑的推演进行了重述。当然，这样的思考是哲学性的，不求甚解也是可接受的。</p>
+<p>数理逻辑学有四大支柱：公理化集合论、模型论、证明论和可计算性理论。我们现在已经窥得其中一角。本文些微涉及了模型论和不严格的可计算性理论。如果有机会，会在后文中介绍它们的详细内容。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>结论是错误的，但是推理过程是正确的；显然，问题出在大前提上。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>证明的梗概见<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Wiles%27s_proof_of_Fermat%27s_Last_Theorem#Summary_of_Wiles.27s_proof">维基百科</a>。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>ZFC公理体系中，替换公理和子集公理如果采用二阶逻辑，就可以各写成一个命题，而在一阶逻辑中，则只能写成无数多个命题。 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>首先注意，\(\Sigma\models\tau\)等价于\(\Sigma;\neg\tau\)是可满足的。所以紧致性的另一表述是，如果某合规表达式集的任意有限子集都可满足（简称有限可满足），则该合规表达式集必然可满足。我们证明这一表述。首先注意，合规表达式集\(\Sigma\)中出现的原子命题必然是集合。假定选择公理。考虑所有可能由这些原子命题构造的合规表达式组成的集合，并选取其良序。进行超穷归纳。首先，\(\Delta_0=\Sigma\)是有限可满足的；若已到达\(\Delta_\alpha\)，检查下一个合规表达式\(\tau_\alpha\)，要么\(\Delta_\alpha;\neg\tau_\alpha\)有限可满足，要么\(\Delta_\alpha;\tau_\alpha\)有限可满足，要么两者都成立（假定\(\Delta;\neg\tau\)并非有限可满足，则存在有限子集\(\Delta_0\)可满足但是\(\Delta_0;\neg\tau\)不可满足，即\(\Delta_0\)真必然蕴涵\(\tau\)真，那么任给有限子集\(\Delta_1\)，由于\(\Delta_0\cup\Delta_1\)可满足，则\(\Delta_1;\tau\)亦可满足，故而\(\Delta;\tau\)有限可满足）；所以当\(\Delta_\alpha;\tau_\alpha\)有限可满足时，将\(\tau_\alpha\)加入，否则将\(\neg\tau_\alpha\)加入；对于极限序数步，归纳显然。由此，所有合规表达式或其否定都会出现在归纳构造的集合\(\Delta\)中，集合\(\Delta\)是有限可满足的。据此，赋予原子命题真，若它在集合\(\Delta\)中，否则为假；在这样定义的真值赋予下，可以归纳证明，如果某一合规表达式在集合\(\Delta\)中，则为真，否则为假。故而，该真值赋予能够满足\(\Delta\)，也当然能满足\(\Sigma\subseteq\Delta\)。证毕。 <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>这个拗口的推理方式是指通过\(\alpha\)和\(\alpha\rightarrow\beta\)推出\(\beta\)。 <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>这里的记号似乎和原书是反的。原书记作\(\alpha_t^x\)。但是已经写得差不多了，而且不影响理解，就不改了。 <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>肯定前件式假言推理中，由\(\{\alpha,\alpha\rightarrow\beta\}\)推出\(\beta\)本来就是重言蕴涵，而演绎中的公式要么来自\(\Gamma\cup\Lambda\)，要么由肯定前件式假言推理推出，故而\(\varphi\)是由\(\Gamma\cup\Lambda\)重言蕴涵的。反过来，如果\(\Gamma\cup\Lambda\)重言蕴涵\(\varphi\)，则必然存在有限子集\(\{\gamma_k\}_{k=1}^m\cup\{\lambda_j\}_{j=1}^n\)重言蕴涵\(\varphi\)，于是\(\gamma_1\rightarrow\cdots\gamma_m\rightarrow\lambda_1\rightarrow\cdots\rightarrow\lambda_n\rightarrow\varphi\)成为重言式，反复应用肯定前件式假言推理就可以完成推演。 <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn8" class="footnote-item"><p>对\(\Gamma\vdash\varphi\)的演绎过程进行归纳，证明其中的每一步得到的结论都可以添加量词\(\forall{}x\)。演绎过程中每一步的结论可能来自\(\Gamma\)、\(\Lambda\)或者肯定前件式假言推理。对于\(\Gamma\)中的，由于变量\(x\)在\(\Gamma\)中并不自由，根据公理四\(\varphi\rightarrow\forall{}x\varphi\)，故可以推得\(\forall{}x\varphi\)；对于公理\(\Lambda\)中的\(\varphi\)，添加量词得到的\(\forall{}x\varphi\)还是公理；而对于肯定前件式假言推理，只要应用公理三就可以实现其泛化。由此就可以完成归纳。 <a href="#fnref8" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn9" class="footnote-item"><p>同样是对\(\Gamma;\varphi\vdash\psi\)的演绎过程进行归纳，证明对其中的每一步得到的结论\(\alpha\)都可以得到\(\Gamma\vdash\varphi\rightarrow\alpha\)，最后可以归纳至\(\alpha=\psi\)。演绎过程中的结论可能来自\(\Gamma\)、\(\varphi\)、\(\Lambda\)或者肯定前件式假言推理。对于前三种情况，都是可以直接验证的；对于最后一种情况，我们意识到\((\varphi\rightarrow\alpha)\rightarrow(\varphi\rightarrow\alpha\rightarrow\beta)\rightarrow(\varphi\rightarrow\beta)\)就是重言式。归纳得以成立。 <a href="#fnref9" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn10" class="footnote-item"><p>考虑从\(\Gamma\)到\(\varphi_x^c\)的推演过程，选取\(y\)为某个不出现在推演过程中的变量。可以归纳地证明\(\Gamma\vdash(\varphi_x^c)_c^y\)，只要证明推演过程中的\(\alpha\)替换成\(\alpha^y_c\)依然成立，思路同前两个脚注。剩下的就是利用泛化原理添加量词。但是我们不能保证\(\Gamma\)中不出现变量\(y\)。为了解决这一困难，考察推演过程中出现的\(\Gamma\)中的合规表达式集\(\Phi\)，那么按照\(y\)的选取，\(\Phi\)是不含\(y\)的。这就允许我们应用泛化原理，有\(\Phi\vdash\forall{}y(\varphi_x^c)_c^y\)。这也提供了自\(\Gamma\)到\(\Phi\vdash\forall{}y(\varphi_x^c)_c^y\)的推演。但是到目前，这里的\(y\)并非可以选取的。注意到，\((\varphi_x^c)_c^y=\varphi_x^y\)，我们接下来只要证明\(\forall{}y\varphi_x^y\vdash\forall{}x\varphi\)就可以了。为此，首先去除全称量词，做替代\((\varphi_x^y)_y^x=\varphi\)，然后泛化即可。 <a href="#fnref10" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn11" class="footnote-item"><p>根据\(\Gamma;\varphi_x^c\vdash\psi\)有其逆反\(\Gamma;\neg\psi\vdash\neg\varphi_x^c\)，故而泛化其常数\(c\)为变量\(x\)，有\(\Gamma;\neg\psi\vdash\forall{}x\neg\varphi\)，再次逆反即可证明。 <a href="#fnref11" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn12" class="footnote-item"><p>由定义可知\(\Gamma\models\varphi\)等价于\(\Gamma;\neg\varphi\)不可满足。由归谬法可知\(\Gamma\vdash\varphi\)等价于\(\Gamma;\neg\varphi\)不一致。 <a href="#fnref12" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn13" class="footnote-item"><p>对\(\alpha\)进行归纳证明。首先可以验证对原子公式成立\(\alpha[s(x|\bar{s}(t))]=\alpha_x^t[s]\)。否定和蕴涵也容易归纳。困难仍在于量化公式\(\forall{}y\varphi\)。所谓项\(t\)可以替代\(\forall{}y\varphi\)中的变量\(x\)，按定义有两种可能。第一种可能是，\(x\)在\(\alpha=\forall{}y\varphi\)中并不自由，此时\(\alpha_x^t\)就等于\(\alpha\)，显然成立。第二种可能是，\(x\)在\(\forall{}y\varphi\)中自由，但是\(y\)并不出现在项\(t\)中，且\(t\)在\(\varphi\)中可以替代\(x\)。此时，\((\forall{}y\varphi)_x^t=\forall{}y\varphi_x^t\)，则\(\models_{\mathfrak{A}}\forall{}y\varphi_x^t[s]\)就等价于对于任意\(d\in|\mathfrak{A}|\)都成立\(\models_{\mathfrak{A}}\varphi_x^t[s(y|d)]\)，由归纳假设，这等价于\(\models_{\mathfrak{A}}\varphi[s(y|d)(x|\overline{s(y|d)}(t))]\)，因为\(t\)中不含有\(y\)，故而\(\overline{s(y|d)}(t)=\bar{s}(t)\)，亦即前式等价于\(\models_{\mathfrak{A}}\varphi[s(x|\bar{s}(t))(y|d)]\)，这对所有\(d\in|\mathfrak{A}|\)都成立，故又等价于\(\models_{\mathfrak{A}}\forall{}y\varphi[s(x|\bar{s}(t))]\)。这就证明了替换引理。 <a href="#fnref13" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn14" class="footnote-item"><p>形式上，集合\(\Delta\)中出现的所有项构成集合\(|\mathfrak{A}|\)。这个集合中的元素包括\(c_3\)、\(v_2\)、\(f_4c_2f_3v_2\)等。函数是自然映射，比如\(f_3^{\mathfrak{A}}\)会将\(v_5\)映成\(f_3v_5\)，即\(f_3^{\mathfrak{A}}(v_5)=f_3v_5\)。关系也是自然定义的，比如\((c_3,f_2v_7)\in{}P^{\mathfrak{A}}_1\)当且仅当\(P_1c_3f_2v_7\)成立。对应也是自然的，即\(s\)将项\(f_4c_2f_3v_2\)就映成\(f_4c_2f_3v_2\in|\mathfrak{A}|\)。 <a href="#fnref14" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn15" class="footnote-item"><p>这里的思路相当于存在实例化。 <a href="#fnref15" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn16" class="footnote-item"><p>我们当然要验证这样不会招致矛盾。如果在新的语言中存在合规表达式\(\beta\)，使得\(\Gamma\vdash\beta\land\neg\beta\)，那么由于\(\beta\)中存在新加入的常数在\(\Gamma\)中并不存在，可以首先泛化该常数，并替代以某个变量，这就得到了在旧语言中可以推出的矛盾\(\beta'\land\neg\beta'\)。 <a href="#fnref16" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn17" class="footnote-item"><p>再次，我们需要验证这样做不会招致矛盾。假定第\(\alpha\)个表达式是首个添加之后会招致矛盾的表达式，根据归谬法知，之前加入的所有的表达式同\(\Gamma\)一起可以形式推演出\(\neg(\neg\forall{}x_\alpha\varphi_\alpha\rightarrow\neg(\varphi_\alpha)_{x_\alpha}^{c_\alpha})\)，这同时形式演绎出\(\neg\forall{}x_\alpha\varphi_\alpha\)和\((\varphi_\alpha)_{x_\alpha}^{c_\alpha}\)。由于推出\((\varphi_\alpha)_{x_\alpha}^{c_\alpha}\)的表达式集并不含常数\(c_\alpha\)，可以将这一常数泛化，这就意味着之前加入的所有的表达式同\(\Gamma\)一起又可以推出\(\forall{}x_\alpha\varphi_\alpha\)。这就说明，之前加入的所有的表达式同\(\Gamma\)一起也会招致矛盾，这与\(\alpha\)的最小性不符。 <a href="#fnref17" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn18" class="footnote-item"><p>利用可靠性和完备性，直接考虑对应的形式推演，必然是有限集合可推出的。当然也存在不依托于可靠性和完备性的紧致性证明。 <a href="#fnref18" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn19" class="footnote-item"><p>虽然远没有哥德尔不完备性定理有名。 <a href="#fnref19" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+      </div>
+      
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/%E5%91%BD%E9%A2%98%E9%80%BB%E8%BE%91/">命题逻辑</a>
+            <a href="/tags/%E4%B8%80%E9%98%B6%E9%80%BB%E8%BE%91/">一阶逻辑</a>
+            <a href="/tags/%E5%BD%A2%E5%BC%8F%E6%8E%A8%E6%BC%94/">形式推演</a>
+            <a href="/tags/%E5%8F%AF%E9%9D%A0%E6%80%A7/">可靠性</a>
+            <a href="/tags/%E5%AE%8C%E5%A4%87%E6%80%A7/">完备性</a>
+            </div>
+        
+        <nav class="post-nav"><a class="next" href="/2021/01/04/note-0002-elementary-set-theory-2/">
+        <span class="next-text nav-default">基数与选择公理</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:claudy.forrest@email.com" class="iconfont icon-email" title="email"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">云·弗利斯特</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>
