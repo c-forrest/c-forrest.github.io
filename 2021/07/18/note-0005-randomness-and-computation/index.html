@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="UCB CS271 随机计算（一）"/><meta name="keywords" content="随机算法, 指纹算法, 素数测试, 概率方法, 随机图论, 博客" /><link rel="alternate" href="/default" title="博客" ><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="http://c-forrest.github.io/2021/07/18/note-0005-randomness-and-computation/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
+
+    <title>UCB CS271 随机计算（一） - 博客</title>
+  <meta name="generator" content="Hexo 5.3.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">博客</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">UCB CS271 随机计算（一）
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-07-18
+        </span><span class="post-category">
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E9%9A%8F%E6%9C%BA%E6%95%B0%E5%AD%A6/">随机数学</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E7%AE%97%E6%B3%95%E8%83%BD%E5%81%9A%E5%88%B0%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">随机算法能做到什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E7%AE%97%E6%B3%95%E7%9A%84%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90"><span class="toc-text">随机算法的典型例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E9%AA%8C%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="toc-text">检验矩阵乘法的结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E9%AA%8C%E6%9F%90%E6%93%8D%E4%BD%9C%E7%AC%A6%E6%98%AF%E5%90%A6%E7%AC%A6%E5%90%88%E7%BB%93%E5%90%88%E5%BE%8B"><span class="toc-text">检验某操作符是否符合结合律</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%9F%9F%E4%B8%8A%E7%9A%84%E5%A4%9A%E9%A1%B9%E5%BC%8F%E6%98%AF%E5%90%A6%E4%B8%BA%E9%9B%B6%E5%A4%9A%E9%A1%B9%E5%BC%8F%EF%BC%9ASchwartz-Zippel%E7%AE%97%E6%B3%95"><span class="toc-text">验证域上的多项式是否为零多项式：Schwartz-Zippel算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E5%9B%BE%E5%8C%B9%E9%85%8D%E7%AE%97%E6%B3%95"><span class="toc-text">二分图匹配算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E6%95%B0%E6%AF%94%E8%BE%83%E7%AE%97%E6%B3%95%EF%BC%9A%E6%8C%87%E7%BA%B9%E7%AE%97%E6%B3%95"><span class="toc-text">大数比较算法：指纹算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0%E6%B5%8B%E8%AF%95%E7%AE%97%E6%B3%95"><span class="toc-text">素数测试算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%A6%82%E7%8E%87%E6%96%B9%E6%B3%95%E8%AF%81%E6%98%8E%E6%88%96%E8%AE%A1%E7%AE%97%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-text">用概率方法证明或计算的例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ramsey%E9%97%AE%E9%A2%98"><span class="toc-text">Ramsey问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%A4%A7%E5%89%B2%E9%97%AE%E9%A2%98"><span class="toc-text">最大割问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E9%97%AE%E9%A2%98"><span class="toc-text">图的最大独立集问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E4%BA%A4%E5%8F%89%E6%95%B0%E9%97%AE%E9%A2%98"><span class="toc-text">图的交叉数问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%81%AF%E6%B3%A1%E9%97%AE%E9%A2%98"><span class="toc-text">灯泡问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%97%B6%E5%85%B7%E6%9C%89%E4%BB%BB%E6%84%8F%E5%A4%A7%E6%9C%80%E7%9F%AD%E7%8E%AF%E9%95%BF%E5%92%8C%E4%BB%BB%E6%84%8F%E5%A4%A7%E6%9F%93%E8%89%B2%E6%95%B0%E7%9A%84%E5%9B%BE%E7%9A%84%E5%AD%98%E5%9C%A8%E6%80%A7"><span class="toc-text">同时具有任意大最短环长和任意大染色数的图的存在性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%95%B0%E4%BA%BA%E6%B3%95%E5%88%99%E7%9A%84%E5%8D%95%E8%B0%83%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%AE%9E%E7%8E%B0"><span class="toc-text">多数人法则的单调逻辑电路实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E7%8E%87%E6%96%B9%E6%B3%95%E5%BA%94%E7%94%A8%E4%BA%8E%E6%9E%84%E9%80%A0%E7%9A%84%E4%BE%8B%E5%AD%90%EF%BC%9AMAX3SAT%E9%97%AE%E9%A2%98"><span class="toc-text">概率方法应用于构造的例子：MAX3SAT问题</span></a></li></ol></li></ol>
+    </div>
+  </div><div class="post-content"><p>暑假学点新东西，随手记一下。</p>
+<p>这一部分主要介绍了随机算法的优点和典型例子，并通过举例说明如何通过概率方法做证明或计算，以及如何将它改造成构造性的算法。</p>
+<a id="more"></a>
+<h2 id="随机算法能做到什么？"><a class="headerlink" href="#随机算法能做到什么？"></a>随机算法能做到什么？</h2>
+<p>随机决策算法大致分为两类：</p>
+<ul>
+<li>Monte Carlo算法：有限时间可以停止，但是输出的结果不一定是正确的。再细分有：
+<ul>
+<li>单边错误：只存在伪真或伪假错误。</li>
+<li>双边错误：同时存在伪真和伪假错误，犯错概率均小于1/2。</li>
+</ul>
+</li>
+<li>Las Vegas算法：输出结果一定正确，有限时间未必能停止，但是总时间期望是有限的。</li>
+</ul>
+<p>这里，Las Vegas算法总可以转化为Monte Carlo算法，而反之则不成立。所有可计算的问题都可以通过图灵机计算，所以在可计算的问题范围上，引入随机性并不会带来新的什么。引入随机性，主要是为了降低算法的时间复杂度。因而，我们关注多项式时间内算法可以解决的问题。</p>
+<p>首先补充一下算法复杂度理论的基础知识。确定性图灵机能够在多项式时间内解决的问题类记作<strong>P</strong>，不确定性图灵机能够在多项式时间内解决的问题记作<strong>NP</strong>（nondeterministic polynomial time)<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。确定性图灵机就是寻常的图灵机。不确定性图灵机则是指，每一步状态更新都尝试多种可能，在所有可能的世界线里只要有一条世界线完成计算，就结束计算输出结果。另一种解释则是，不确定性图灵机每一步都足够幸运，会自动选择能够得到结果的那条世界线进行计算。显然，<strong>P</strong>类问题都是<strong>NP</strong>类问题。反过来，是否存在<strong>NP</strong>类问题，并非<strong>P</strong>类问题？这一著名的“<strong>P</strong>=<strong>NP</strong>”问题至今没有解决，是千禧年七大数学难题之一。</p>
+<p>多项式时间内能够通过犯单边错误的Monte Carlo算法解决的问题类记作<strong>RP</strong>（randomized polynomial time），多项式时间内能够通过犯双边错误的Monte Carlo算法解决的问题类记作<strong>BPP</strong>（bounded-error probabilistic polynomial time），多项式时间内能够通过Las Vegas算法解决的问题类记作<strong>ZPP</strong>（zero-error probabilistic polynomial time）。对于这些问题类，我们有包含关系<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup></p>
+<p>\[P\subseteq ZPP=RP\cap\text{co-}RP\subseteq RP\subseteq BPP\cap NP\]</p>
+<p>其中，<strong>co-RP</strong>是指其补问题（颠倒输出的真值）属于<strong>RP</strong>类的问题。该式子中，<strong>BPP</strong>同<strong>NP</strong>的关系尚不明晰。</p>
+<p>对于Monte Carlo算法，我们可以通过多次执行该算法的方法减小误差。误差的缩小随着执行次数的增多是指数级的。对于指定误差，可以提前确定执行次数，并不会破坏多项式时间。</p>
+<h2 id="随机算法的典型例子"><a class="headerlink" href="#随机算法的典型例子"></a>随机算法的典型例子</h2>
+<h3 id="检验矩阵乘法的结果"><a class="headerlink" href="#检验矩阵乘法的结果"></a>检验矩阵乘法的结果</h3>
+<p>给定矩阵\(A\)，\(B\)和\(C\)，判定是否有\(AB=C\)。确定性方法要计算\(AB\)的值，而目前最好的矩阵乘法复杂度也有\(O(n^{2.37\cdots})\)。通过随机算法，可以将这一复杂度控制到\(O(n^2)\)。方法是随机选取向量\(r\)，然后返回\(A(Br)=Cr\)的结果。矩阵和向量乘法复杂度只有\(O(n^2)\)。如果向量\(r\)的每一个元素都依均匀分布随机选自某个集合\(S\)，则随机选取的向量恰好处于\(D=AB-C\)的零空间的概率不大于\(1/|S|\)。这是由于如果\(D\neq0\)，比如说\(d_{11}\neq0\)，则可以根据\(r_2,\cdots,r_n\)反解出\(r_1\)，在全部\(|S|\)个值中只有至多一个符合要求。这里，当\(AB\neq C\)时能够验证出来这点的\(r\)称作命题为假的见证（witness）。要控制误差，通常需要能够随机选取到见证的概率有严格正的下界。</p>
+<h3 id="检验某操作符是否符合结合律"><a class="headerlink" href="#检验某操作符是否符合结合律"></a>检验某操作符是否符合结合律</h3>
+<p>考虑某\(n\)元集\(X\)上的二元操作符\(\circ\)，判定它是否满足结合律。遍历全部三元对需要\(O(n^3)\)的时间。可以随机选取这样的三元对\((a,b,c)\)进行检查，但是如果我们假设命题为假时，只有\(O(1)\)多个见证，那么能够随机选取到见证的概率极低；为得到常数概率的反例，需要反复随机\(O(n^3)\)次，所以实际复杂度还是\(O(n^3)\)。实际上，存在更为精巧的随机算法，能够在\(O(n^2)\)时间复杂度内达到常数误差。</p>
+<p>将\(R\in 2^X\)表示为</p>
+<p>\[R=\sum_{i=1}^nr_ix_i,\ r_i\in\mathbb Z_2,\ x_i\in X\]</p>
+<p>定义\(2^X\)上的加法和数乘为对应\(\mathbb Z_2\)上向量空间的加法和数乘操作，而该二元操作符定义为</p>
+<p>\[R\circ S=\sum_{i,j=1}^n(r_is_j)x_i\circ x_j\]</p>
+<p>我们可以随机选取一组\((R,S,T)\)，检验它是否符合结合律。这一算法也只存在伪真概率。当命题为假时，见证的密度不低于1/8。比如说，选取原问题的一个见证\((x^\ast,y^\ast,z^\ast)\)，则可以对任意\(R_0\not\ni x^\ast\)，\(S_0\not\ni y^\ast\)和\(T_0\not\ni z^\ast\)，都可以定义\(R_1=R_0\cup\{x^\ast\}\)，\(S_1=R_0\cup\{y^\ast\}\)和\(T_1=T_0\cup\{z^\ast\}\)，并考虑函数\(f(R,S,T)=(R\circ S)\circ T-R\circ (S\circ T)\)，以及恒等式</p>
+<p>\[f(x^*,y^*,z^*)=\sum_{i,j,k=0}^1(-1)^{i+j+k+1}f(R_i,S_i,T_i)\]</p>
+<p>由于\((x^\ast,y^\ast,z^\ast)\)不满足结合律，该式必不为零。于是，右侧八个项中至少有一个不为零。因为所有子集的三元组的集合可以如此分划，每个大小为八的子集都有至少一个见证，则可以确信见证密度不低于1/8。因为进行\(2^X\)上的结合律验证的算法复杂度是\(O(n^2)\)，该随机算法的时间复杂度也是这个量级。</p>
+<h3 id="验证域上的多项式是否为零多项式：Schwartz-Zippel算法"><a class="headerlink" href="#验证域上的多项式是否为零多项式：Schwartz-Zippel算法"></a>验证域上的多项式是否为零多项式：Schwartz-Zippel算法</h3>
+<p>给定数域上的\(n\)元\(d\)次多项式\(f(x_1,\cdots,x_n)\)，判定它是否为零多项式。最原始的方法是逐项展开，检查是否为零，其复杂度为\(O(n^d)\)，比如多项式\[f(x,y,z)=(x+2y+3z)(2x+y+4z)(5z+8x+7y)\]展开足足有27项，尽管原来的多项式只涉及8次算术运算。我们可以用多项式对于在具体的点处求值复杂度低这一特点来设计随机算法。方法非常简单，就是利用多项式的根集为零测集这一点来控制见证的密度。</p>
+<p>我们想说明如果这个变元都从\(S\)中随机选择数字\(r_1,\cdots,r_n\)来作为点验证某多项式非零，那么选的点恰好是原多项式的零点的概率不大于\(d/|S|\)。对\(n\)进行归纳。假设\(x_1\)的最高次数为\(k\)。将多项式写成</p>
+<p>\[f(x_1,\cdots,x_n)=x^k_1g(x_2,\cdots,x_n)+h(x_1,\cdots,x_n)\]</p>
+<p>的形式。那么，可以分为两种情形：（1）\(g(r_2,\cdots,r_n)\neq0\)时，\(f(x_1,r_2,\cdots,r_n)\)实则是\(x_1\)的\(k\)次多项式，所以至多有\(k\)个根，选择\(r_1\)恰为根的概率不大于\(k/|S|\)；（2）\(g(r_2,\cdots,r_n)=0\)，这件事情的概率，根据归纳假设，本就不大于\((d-k)/|S|\)。这就说明了总的选到零点的概率不大于\(d/|S|\)。这一算法的时间复杂度根据多项式的形式不同而不同。</p>
+<h3 id="二分图匹配算法"><a class="headerlink" href="#二分图匹配算法"></a>二分图匹配算法</h3>
+<p>考虑二分图（bipartite graph）\(G\)。所谓二分图，是指其顶点集可以分为两个大小为\(n\)的子集\(V_1\)和\(V_2\)，且每个边的两个顶点都位于不同的子集。给定二分图，要判定它是否存在子图，其内只有\(n\)条边，且这\(n\)条边两两不共享顶点；这样的子图称作完美匹配（perfect matching）。这样的问题可以通过最大流算法在多项式时间内确定地解决。但是随机算法可以为它提供更有效的并行算法。</p>
+<p>首先，完美匹配的存在性可以转化为某个多项式是否为零的问题。定义二分图的Tutte矩阵为矩阵\((a_{ij})\)，其中，如果\((i,j)\in E\)<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>，则项\(a_{ij}=x_{ij}\)，否则\(a_{ij}=0\)；它的行列式是个至多\(n\)次、至多\(n^2\)元的多项式。这一多项式非零，当且仅当存在完美匹配。要验证该多项式是否为零，依据Schwartz-Zippel算法，只要代入随机值并计算行列式即可。利用高斯消元法，行列式计算的复杂度为\(O(n^3)\)；如果允许并行计算，行列式计算的复杂度可以利用\(O(n^{3.5})\)个处理器降低到\(O(\log^2n)\)。</p>
+<p>关键是要设计出能够找到这样的完美匹配的算法。注意到，Tutte的行列式包含了所需要的完美匹配的全部信息，展开成多项式后，每一项都对应着一个完美匹配。难点在于要从代值计算的结果中识别出完美匹配。这里的技巧是给图的每个边赋权，这里每条边的权重\(w_{ij}\)都是自然数。在Tutte矩阵中，将\(x_{ij}\)代以\(2^{w_{ij}}\)。这个行列式于是可以表达为</p>
+<p>\[\det B=\sum_{M\in\mathcal M(G)}\pm 2^{w(M)}\]</p>
+<p>这里，\(w(M)\)为子图\(M\)的权，即其中所有权重的和，而\(\mathcal M(G)\)为全体完美匹配的集合。如果存在唯一的最小权的完美匹配\(M^\ast\)，那么它的权重\(w(M^\ast)\)恰好是\(\det B\)的最小幂次。注意到，如果\((i,j)\in M^\ast\)，那么\(M^\ast\setminus\{(i,j)\}\)正是\(G\setminus\{(i,j)\}\)的唯一的最小权的完美匹配。利用这一特性，要检验\((i,j)\in M^\ast\)，只要检验\(2^{w_{ij}}\det B_{ij}\)和\(\det B\)是否具有同样的\(2\)的幂次就行，这里\(\det B_{ij}\)是余子式。这一算法是完全可以并行的。</p>
+<p>最后的问题，能够使得最小权的完美匹配唯一的随机赋权方式是否是大概率的。假定每个权重都是从\(\{1,\cdots,l\}\)中均匀随机选取的。对于任何从\(\{2,\cdots,l\}\)中赋权的函数\(w\)，都存在一个能够保证最小权的完美匹配唯一的赋权函数\(w'\)；所以能够使得最小权的完美匹配唯一的赋权函数的数量不小于\((l-1)^{|E|}\)，因而概率也不小于\((1-1/l)^{|E|}\ge 1-|E|/l\)。这一结论也成为分离引理（isolation lemma）。我们可以取\(l=2|E|\)，就可以保证至少\(1/2\)的概率获得这个唯一性。</p>
+<h3 id="大数比较算法：指纹算法"><a class="headerlink" href="#大数比较算法：指纹算法"></a>大数比较算法：指纹算法</h3>
+<p>假设甲和乙各有一个大数\(a\)和\(b\)，（二进制）位数为\(n\)，但是他们想避免传输\(a\)和\(b\)这两个过大的数字，所以他们可以选取所谓的指纹算法（fingerprinting）。具体做法就是选取小素数\(p\)，然后甲传输\(a\mod p\)和\(p\)以供乙比较。假定\(p\)是从不大于\(T\)的素数中均匀随机选取，那么\(p\)无法见证\(a\neq b\)的概率就等于\(p|(a-b)\)的概率。假定\(a\)和\(b\)都是\(n\)位（二进制）数，那么它的互异的素因子的个数不超过\(\pi(n)\)<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>，这里\(\pi(\cdot)\)是不超过\(n\)的素因子个数。于是，所求的概率不大于\(\pi(n)/\pi(T)\sim (n\ln T)/(T\ln n)\)。如果我们取\(T=cn\)，对于不算太大的\(c\)，也能控制住这一概率。所以，所选取的素数的阶数为\(p=O(n)\)，这本身只需要传输\(\log p=O(\log n)\)级别的数据，这对于原来是指数级的提升。</p>
+<p>这一算法广泛地应用在大数比较和大数算术中。比如Schwartz-Zippel算法中如果要计算大数的四则运算，就可以选取合适的素数\(p\)，进行模\(p\)的运算。新引入的误差很容易吸收到算法原有的误差中得以控制。</p>
+<p>它也可以用于字符串匹配。比如说要在较长的\(m\)位字符串中判断是否包含较短的\(n\)位片段。这种算法可以用于DNA检测。如果只是遍历字符串然后逐位比较，需要\(O(mn)\)复杂度。但是，如果每次比较都利用指纹算法进行，当比较完从某位开始的\(n\)位是否同给定片段相同后，要后移一位继续比较，只要对头尾的字符进行计算，就可以得到新的指纹。指纹更新有更高的复用性，故只需要\(O(m+n)\)复杂度。要注意，这里要选取的素数应当要求不能够整除\(O(m)\)个\(O(n)\)位数字，故而这等价于不能够整除它们的乘积——这是一个\(O(mn)\)位数，故而不是见证的概率为\(\pi(mn)/\pi(T)\)。所以，所选取\(T\)大致为\(mn\)位数。</p>
+<h3 id="素数测试算法"><a class="headerlink" href="#素数测试算法"></a>素数测试算法</h3>
+<p>所谓素数测试，就是给定一个大整数\(n\)，判断它是否为素数。标准算法需要\(O(\sqrt n)\)次除法。我们期望能够找到\(O(\log^k n)\)级别的算法。这需要利用数论中各种素数特性，比如各种伪素数检验方法。</p>
+<p>我们首先诉诸于费马小定理：任给素数\(p\)和小于\(p\)的整数\(a\)，必然有\(a^{p-1}\equiv1\mod p\)。所以，可以均匀随机选取小于给定整数\(n\)并与\(n\)互素的正整数\(a\)，在模\(n\)下计算\(a^{n-1}\)，看是否为一。这存在伪真的概率。我们需要确认能见证非素的整数的密度。首先存在561<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>这样的Carmichael数，对他们来说不存在见证，它们对与\(n\)互素的整数\(a\)同样成立费马小定理，但并不是素数。任取\(a\lt n\)能够与之互素这一步也无法提供足够多的见证，因为\(\lim\inf (n-\phi(n))=1\)。所以，这种算法并不能够有效地检验出Carmichael数非素。但是，除此之外，我们要说明见证的密度不低于\(1/2\)。这是因为与\(n\)互素的整数构成单位群\(\mathbb Z_n^\ast\)，而\(\{a\in\mathbb Z_n^\ast:a^{n-1}\equiv1\mod n\}\)构成它的子群。根据Lagrange定理可知，子群的大小不会大于群的大小的一半。实际上，Carmichael数非常少，所以这个算法本身已经相当有效。</p>
+<p>为了能够有效测试所有的情形，我们需要使用更复杂的算法，这需要依靠更多的数论结论。假定\(p\)为素数。首先，\(\mathbb Z_p^\ast\)是循环群，假定生成元是\(g\)，则成员可以写作\(\{g,g^2,\cdots,g^{p-1}=1\}\)。称\(a=g^j\)为二次剩余，若存在\(x\)满足\(x^2\equiv a\mod p\)，这当且仅当\(j\)是偶数；且此时只有两个不同的根，\(g^{j/2}\)和\(g^{(j+p-1)/2}\)。这说明，对于素数\(p\)，在\(Z_p^\ast\)内\(1\)只有一个非平凡的平方根，就是\(-1\)。记\(p-1=2^rR\)，其中\(2\nmid R\)，则\(a\)的\(n-1=2^rR,2^{r-1}R,\cdots,2R,R\)幂次，要么全是\(1\)，要么首个不为1的是\(-1\)，要么首个不为\(1\)的是除了\(-1\)之外的非平凡平方根。只要是第三种情况可以断言\(n\)不是素数。据此，我们可以构造如下算法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">如果n是偶数或完全的幂次，则返回“合数”；</span><br><span class="line">计算分解n-1&#x3D;2^r*R，这里R是奇数；</span><br><span class="line">从&#123;1,...,n-1&#125;均匀随机选取a；</span><br><span class="line">如果a和n并不互素，则返回“合数”；</span><br><span class="line">计算b[j]&#x3D;a^(2^j*R)%n，这里j&#x3D;0,...,r；</span><br><span class="line">如果b[r]!&#x3D;1，则</span><br><span class="line">    返回“合数”；</span><br><span class="line">否则如果b[0]&#x3D;&#x3D;1，则</span><br><span class="line">    返回“素数”；</span><br><span class="line">否则</span><br><span class="line">    计算最大的j，使得b[j]!&#x3D;1；</span><br><span class="line">    如果b[j]&#x3D;&#x3D;-1，则</span><br><span class="line">        返回“素数”；</span><br><span class="line">    否则</span><br><span class="line">        返回“合数”；</span><br></pre></td></tr></table></figure>
+<p>该算法可能犯伪真错误。照例，需要计算\(n\)不是素数时见证的密度。我们需要证明，当\(n\)是奇数、合数但不是完全幂次时，见证的密度不低于1/2。不是见证的情形只有前面两种，即全是\(1\)，或最大的不为\(1\)的幂次是\(-1\)。证明的思路同样是证明这样的整数必然包括某个\(Z^\ast_n\)的真子群里。具体的构造忽略，可参照原讲义。</p>
+<h2 id="用概率方法证明或计算的例子"><a class="headerlink" href="#用概率方法证明或计算的例子"></a>用概率方法证明或计算的例子</h2>
+<h3 id="Ramsey问题"><a class="headerlink" href="#Ramsey问题"></a>Ramsey问题</h3>
+<p>Ramsey问题是要求最小的\(n\)，使得在\(n\)阶完全图的任意2-染色中都存在至少一个单色的\(k\)阶完全子图；这样的\(n\)记作\(R_k\)，称为第\(k\)个Ramsey数。这一问题有个很通俗的表述，就是最少要多少人，才能保证要么存在\(k\)个人两两认识，要么存在\(k\)个人两两不认识；这也成为友谊问题。已知\(R_3=6\)。容易归纳地证明\(R_k\le 2^{2k-3}\)<sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>。通过概率方法可以获得其下界。考虑大小为\(n\)的完全图的随机2-染色，任取大小为\(k\)的完全子图，染成单色的概率为\(1/2^{C(k,2)-1}\)；而统共有\(C(n,k)\)个大小为\(k\)的完全子图，于是，含有至少一个大小为\(k\)的单色完全子图的概率为\(C(n,k)/2^{C(k,2)-1}\)。当\(n=2^{k/2}\)时，这一概率可以放缩如下</p>
+<p>\[P=C(n,k)/2^{C(k,2)-1}\le\frac{n^k}{k!}2^{1-(k^2-k)/2}=2^{1+k/2}/k!\rightarrow0，\]</p>
+<p>这就说明，大小为\(n=2^{k/2}\)的完全图并不一定包含大小为\(k\)的单色完全子图，所以\(R_k>2^{k/2}\)。</p>
+<h3 id="最大割问题"><a class="headerlink" href="#最大割问题"></a>最大割问题</h3>
+<p>给定图\(G\)，要找到二分的分划，使得割边（即两端点分别位于两个子图）的数目最多。这是著名的<strong>NP</strong>难问题。利用概率方法可以为最大割的大小提供下界。考虑随机的二分分划，即将每个顶点均匀随机地分配到两个子图，记边\(e\)成为割边的指示函数为\(X_e\)，则\(\mathbb P[X_e=1]=1/2\)。于是，割的大小为\(X=\sum_{e\in E}X_e\)。由于\(\mathbb E[X]=|E|/2\)，最大的割不会小于期望值，于是\(|E|/2\)就是最大割的下界。</p>
+<h3 id="图的最大独立集问题"><a class="headerlink" href="#图的最大独立集问题"></a>图的最大独立集问题</h3>
+<p>独立集（independent set）是指图的顶点集的某个子集，其中，任意一对顶点都不互相邻接。给定图\(G\)，求其最大独立集，同样是<strong>NP</strong>难问题。考虑给每个顶点从\([0,1]\)中均匀随机地赋值，则所有（严格）极小值点构成的集合就是图的一个独立集。给定顶点\(v\)，它在某取值下成为严格极小值点的概率为\(1/(1+\deg v)\)。于是，极小值点的大小的期望是\(\sum_{v\in V}1/(1+\deg v)\)。这一期望就成为最大独立集大小的一个下界。</p>
+<h3 id="图的交叉数问题"><a class="headerlink" href="#图的交叉数问题"></a>图的交叉数问题</h3>
+<p>图的交叉数（crossing number）是指图的所有平面的画法中边的交叉数目的最小值。已知，对于任意有\(n\)个顶点\(m\)条边的图\(G\)，交叉数具有下界\(c(G)\ge m-3n+6\)。利用概率方法能够把这个下界收紧。以概率\(p\in[0,1]\)将图\(G\)的顶点保留，并删去那些缺少顶点的边，对剩余的子图同样成立该交叉数公式。每个顶点有概率\(p\)保留，每条边有概率\(p^2\)保留，每个交叉点有概率\(p^4\)保留，于是该公式成为\(p^4c(G)\ge p^2m-3pn+6\)。所以，\(c(G)\ge mp^{-2}-3np^{-3}+6p^{-4}\ge mp^{-2}-3np^{-3}\)。可以通过选取\(p\)的取值最大化右侧表达式，从而得到\(c(G)\)的下界。比如说，要求\(m\ge 4n\)时，可以取\(p=4n/m\)，从而\(c(G)\ge m^3/(64n^2)\)。</p>
+<h3 id="灯泡问题"><a class="headerlink" href="#灯泡问题"></a>灯泡问题</h3>
+<p>假定有大小为\(n\)的灯泡方阵，每行每列都配备一个开关，可以同时改变相应行或相应列的所有灯泡亮灭的状态。灯泡的初始状态未知。试求在所有可能的开关状态中，最大的灯泡亮着的数量。同样应用概率方法。均匀随机开闭每行每列的开关，可以证明任意两个灯泡的亮灭都是独立的，虽然全部\(n^2\)个灯泡并不独立。于是，亮着的灯泡的数目\(X=\sum_{i,j=1}^nX_{ij}\)满足期望为\(\mathbb E[X]=n^2/2\)且\(\text{Var}(X)=n^2/4\)。这意味着，最大的亮着的灯泡数目应当满足\(n^2/2+\Omega(n)\)。</p>
+<p>我们可以得到更强的结果。比如说，我们可以首先只均匀随机选取各列的开关状态。这样每行的亮着的灯泡数目都服从某期望为\(n/2\)，方差为\(n/4\)的分布，因而最大的亮着的数目应当是\(n/2+(2\pi)^{-1/2}\sqrt n\)级别的。只需要适当地选取各行的开关的状态，就可以保证亮着的数目大于灭着的数目。所以，这样全部亮着的灯泡数目就满足\(n/2+(2\pi)^{-1/2}n^{3/2}\)。</p>
+<h3 id="同时具有任意大最短环长和任意大染色数的图的存在性"><a class="headerlink" href="#同时具有任意大最短环长和任意大染色数的图的存在性"></a>同时具有任意大最短环长和任意大染色数的图的存在性</h3>
+<p>通常会认为，如果图中最短环长（girth）较大的话，染色会更容易，所以染色数（chromatic number）会更少。但是，通过概率方法可以证明，只要图的顶点数足够多，最短环长和染色数可以同时取到任意大的值。</p>
+<p>考察随机图模型。它具有\(n\)个顶点，其中，\(C(n,2)\)条可能的边以\(p\)的概率生成。长度为\(l\ge3\)的环的期望个数为\(C(n,l)l!p^l/(2l)\le (np)^l/(2l)\le(np)^l\)。所以，如果取\(p=n^{1/l-1}\)，那么长度小于\(l\)的环的期望个数为\(o(n)\)。由Markov不等式，可知长度小于\(l\)的环的数目不少于\(n/2\)的概率是\(o(1)\)。这一点说明，只要足够大，就存在其中长度小于\(l\)的环的数目不大于\(n/2\)的图；也就是说，存在短环的数目不大的图。另一方面，要探究图的染色数，需要利用图的独立集的大小；注意到，图的顶点个数一定不会超过最大独立集的大小同染色数的乘积。要得到尽可能大的染色数，就需要控制最大独立集的大小。存在大小为\(k\)的独立集的概率不超过\(C(n,k)(1-p)^{C(k,2)}\le(n\exp(-p(k-1)/2))^k\)。可以取\(k=(3/p)\ln n\)，于是，随着\(n\)增大，这一概率同样是\(o(1)\)；这也就是说明，存在染色数至少\((p/3)(n/\ln n)\)的图。将这两点结合，就证明存在长度小于\(l\)的环的数目不大于\(n/2\)而最大独立集的大小又不超过\((3/p)\ln n\)的图。我们可以将这些长度小于\(l\)的环，每个都删除一个顶点，这样总的顶点数就会变成至少\(n/2\)，最短环长不小于\(l\)，而由于最大独立集的大小并不会比之前更大，染色数至少为\((p/6)(n/\ln n)\)，可以取得任意大，所以，所求的图是存在的。</p>
+<h3 id="多数人法则的单调逻辑电路实现"><a class="headerlink" href="#多数人法则的单调逻辑电路实现"></a>多数人法则的单调逻辑电路实现</h3>
+<p>这个算法理论趣味比较浓厚。考虑只由二元逻辑门组成的逻辑电路。定义电路的大小为其中逻辑门的个数。那么，对于足够大的\(n\)，几乎所有的\(n\)元布尔函数都需要至少\(2^n/(2n)\)大小的电路。简单来说，这是因为大小为\(S\)的电路中，每个逻辑门有16种可能，两个输入分别都大约有\(S\)种可能，则这样大小的电路的数量为\((16S^2)^S\)，但是\(n\)元布尔函数一共有\(2^{2^n}\)种可能，前者在\(S=2^n/(2n)\)时远小于后者。但是，对于特别的函数，比如说多数人法则（\(n\)个输入里，假多就输出假，真多就输出真），可以设计出多项式大小的电路。比如，可以实现\(n\)个输入的加法电路，然后同\(n/2\)做比较；这个电路大小为\(O(n^k)\)，深度为\(O(log(n))\)。</p>
+<p>我们这里试图只使用单调逻辑门来实现多数人法则。我们转而使用三元的多数人法则电路（可以通过四个与门及或门实现）作为最基本的设计单元。电路设计成\(k\log n\)层的三叉树，每个叶节点都（有放回地）均匀随机选择三个输入单元作为输入。假定输入中出现真的比例为\(p\)，则输入层随机选取输入得到真的概率为\(p_0=p\)；其后，每层的概率都是前一层的函数\(p_n=f(p_{n-1})\)，这里，\(f(p)=3p^2(1-p)+p^3\)。我们要证明，对某个足够大的常数\(k\)，经过\(k\log n\)次后，只要输入\(p_0\ge1/2+1/n\)就会得到\(p_{k\log n}\ge 1-2^{-(n+1)}\)，而输入\(p_0\le 1/2-1/n\)就会得到\(p_{k\log n}\le 2^{-(n+1)}\)；也就是说，初始的\(1/n\)大小的偏差经过\(k\log n\)级放大后，几乎达到了\(1/2\)。因而，这样的\(O(\log n)\)层大小为\(O(n)\)的逻辑电路，可以几乎无差错地实现多数人法则。</p>
+<h3 id="概率方法应用于构造的例子：MAX3SAT问题"><a class="headerlink" href="#概率方法应用于构造的例子：MAX3SAT问题"></a>概率方法应用于构造的例子：MAX3SAT问题</h3>
+<p>上文使用的概率方法都是非构造的。这里我们提供一个例子，说明怎么将概率方法得到的非概率证明转化为构造性的算法。本例是所谓MAX3SAT问题。MAX3SAT问题是3SAT问题的优化版本；3SAT问题是说判断3CNF形式的逻辑表达式是否可满足；3CNF形式是指逻辑表达式是\(m\)个从句之与，而每个从句都是\(3\)个变量或其否定之或；亦即，\(\varphi=C_1\land\cdots\land C_m\)，这里，\(C_j\)的形式诸如\(x_2\lor(\neg x_3)\lor x_5\)这样；变量的总个数为\(n\)。3SAT问题是首个得证的<strong>NP</strong>完全问题。MAX3SAT问题是指求这\(m\)个从句能够满足的最大数目；所以MAX3SAT问题也是<strong>NP</strong>难的。</p>
+<p>均匀随机地给\(n\)个变量赋真或赋假，那么每个从句都有\(7/8\)概率满足，所以满足的从句的数量期望是\(7m/8\)；因此，MAX3SAT问题的解必然不小于\(7m/8\)。记\(X\)为满足的从句个数。应用Markov不等式，可知\(\mathbb P[X>(1-\alpha/8)m]\ge1-1/\alpha\)对\(1&lt;\alpha&lt;8\)都成立。利用\(X\)只能取整值这一点，可以得到\(\mathbb P[X\ge 7m/8]\ge1/(m+1)\)，所以只要重复\(O(1)\)次随机选取，就可以得到能够满足至少\(7m/8\)个从句的赋值方法。</p>
+<p>事实上，包括本例的许多例子中，都允许移除算法中的随机性，可以通过所谓计算条件概率的方法找到某个不低于期望水平的构造。比如本例中，所有3SAT的赋值方法都可以通过一个深度为\(n\)的完全二叉树生成。在选择某个变量的赋值时，可以先假定赋给它真或假，然后计算这两种情况下，随机赋值剩余若干个变量得到的能够满足的从句的期望数量，由于两个分支的期望的均值就是未分支之前的期望，所以必然可以选择条件期望较大的那个分支。如此逐级筛选，就可以选出一条满足的从句数量不低于\(7m/8\)的赋值方法。注意，每次给定部分赋值，计算剩余随机赋值的可满足的从句的期望数量，都可以在\(O(m)\)时间内完成。所以整个算法的算法复杂度为\(O(mn)\)。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>NP类决策问题还有另一种等价的不依赖于不确定性图灵机的定义。首先定义搜寻问题和决策问题。程序理解成由字符串得到字符串的计算过程。决策问题是指，输入字符串，输出布尔值的问题；它由全体字符串的某一子集定义。搜寻问题是指，给定输入字符串\(x\)，能够给出符合条件的输出字符串\(y\)；它由某一二元关系定义。所谓NP类搜寻问题，是指存在程序，能够在多项式时间内判定给定的字符串二元组\((x,y)\)是否满足该二元关系，且任给字符串\(x\)，这样的字符串\(y\)长度仅随问题规模\(n\)多项式级增长；简而言之，能够有效检验，且答案长度不长，这样就可以在多项式时间内遍历这些字符串，然后逐个检验它们。而NP类决策问题是指，存在某一NP类搜寻问题，使得字符串\(x\)属于该子集，等价于存在另一字符串\(y\)是该NP类搜寻问题的解。可以证明，这样的定义和使用不确定性图灵机的定义是一致的。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>对于\(ZPP=RP\cap\text{co-}RP\)，只要注意到如果某问题及其补问题都是<strong>RP</strong>，则只要同时（或者说是交替）执行两个判定算法，如果原问题的算法输出接受或者补问题的算法输出拒绝，则终止该算法，这就得到一个<strong>BPP</strong>算法。对于\(RP\subseteq{}NP\)，只要注意到我们可以令一不确定性自动机穷举所有可能性，如果所有世界线均返回拒绝，则拒绝，否则至少半数的世界线应当返回接受，则接受。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>严格地，这里应当写作\((v^{(1)}_i,v^{(2)}_j)\)，但是为了简便，这里只使用下标。 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>讲义直接引用了这样一个未加证明的数论结论，没有提供任何出处。讲义也提供了一个宽松的估计，因为素数至少是2，所以\(n\)位（二进制）数至多\(n\)个素因子。 <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>因\(561=3\times{}11\times17\)，如果\(3,11,17\nmid{}a\)，那么\(a^2\equiv1\mod3\)，\(a^{10}\equiv1\mod11\)以及\(a^{16}\equiv1\mod17\)，又因为\(2,10,16|560\)，可知\(a^{560}\equiv1\mod3,11,17\)，于是根据中国剩余定理，有\(a^{560}\equiv1\mod561\)，若\(a\)同561互素。 <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>更一般地，考虑\(R(m,n)\)定义成最小的完全图使得其任意红蓝2-染色要么有大小为\(m\)的红色完全子图，要么有大小为\(n\)的蓝色完全子图；由此，\(R_k=R(k,k)\)。可以证明，\(R(m,n){\le}R(m,n-1)+R(m-1,n):=C_1+C_2:=C\)。这是因为，在大小为\(C\)的图中任取一点，要么有不少于\(C_1\)个邻接边染蓝色，要么有不少于\(C_2\)个邻接边染红色。对于第一种情况，则要么有大小为\(m\)的红色完全子图，要么有大小为\((n-1)\)的蓝色完全子图，加上这\(C_1\)个邻接边中的一部分，将构成大小为\(n\)的蓝色完全子图；另一种情况同理。由此，可以归纳地证明，\(R(m,n)\le{}C(m+n-2,m-1)\)。所以，\(R_k\le{}C(2k-2,k-1)\le{}2^{2k-3}\)。这里，\(C(m,n)\)表示组合数。 <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+      </div>
+      
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/%E9%9A%8F%E6%9C%BA%E7%AE%97%E6%B3%95/">随机算法</a>
+            <a href="/tags/%E6%8C%87%E7%BA%B9%E7%AE%97%E6%B3%95/">指纹算法</a>
+            <a href="/tags/%E7%B4%A0%E6%95%B0%E6%B5%8B%E8%AF%95/">素数测试</a>
+            <a href="/tags/%E6%A6%82%E7%8E%87%E6%96%B9%E6%B3%95/">概率方法</a>
+            <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%9B%BE%E8%AE%BA/">随机图论</a>
+            </div>
+        
+        <nav class="post-nav"><a class="next" href="/2021/07/17/note-0004-introduction-to-computability/">
+        <span class="next-text nav-default">可计算性理论初窥</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:claudy.forrest@email.com" class="iconfont icon-email" title="email"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">云·弗利斯特</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

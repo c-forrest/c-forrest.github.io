@@ -84,8 +84,8 @@
         <span class="post-time">
           2021-01-18
         </span><span class="post-category">
-            <a href="/categories/%E5%85%83%E6%95%B0%E5%AD%A6/">元数学</a>
-            <a href="/categories/%E5%85%83%E6%95%B0%E5%AD%A6/%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91/">数理逻辑</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E5%85%83%E6%95%B0%E5%AD%A6/">元数学</a>
             </span>
         </div>
     </header>
@@ -134,7 +134,7 @@
 <p>接下来的三组公理是关于量词的。首先是全称量词的移除。这其实就是从一般到特殊的逻辑。直觉上，如果变量\(x\)在合规表达式\(\alpha\)中是自由的，就可以替换成任意项\(t\)；如果不是自由的，自然也没必要替换。但是这样存在问题。考虑语句\(\forall x\neg\forall yx=y\)中，不能代自由变量\(x\)以项\(y\)得到\(\neg\forall yy=y\)；这样必然不是逻辑蕴涵，因为含有两个不同的元素的结构满足原来的语句，但是不满足替代后的语句。问题在于这里替换进去的变量\(y\)经由量词捕捉；原来我们期待\(y\)是某种特殊情况，而在量词下反而成为另一种一般情况。所以，我们需要严格定义所谓的项\(t\)可以替代\(\alpha\)中的自由变量\(x\)这一概念。同样递归定义。在项中，进而在原子公式中，项\(t\)总是可以替代任何变量\(x\)；否定和蕴涵的情形自然地继承自其各自的组成部分；对于量化公式，则并非总是可以替代，我们要么需要\(x\)在公式\(\forall y\alpha\)中并不自由（即实际上并不需要替代），要么需要变量\(x\)在\(\alpha\)中可以替代为项\(t\)而且变量\(y\)不出现在项\(t\)中（即替代后的结果不会受量词约束）。这就规避了上面说过的问题。接下来，全称下的肯定前件式假言推理和添加全称量词都很容易理解。</p>
 <p>等号是一阶逻辑系统的可选组件。它提炼出自然语言中两对象相同的概念。所谓相同，就是指两对象应该具有相同的性质。故而，在原子公式中，可以将变量替换为与之相同的其他变量。这里替换的次数并不限制，比如说\(x=y\)既可以推出\(Pxx\rightarrow Pxy\)，也可以推出\(Pxx\rightarrow Pyy\)。注意，公理中只允许变量的替换。这并不是说，某变量等于某常量或某项并不能应用等号的性质；事实上，应用于它们的类似性质应该由应用于变量的性质，加上去除全称量词的公理推出。相等，作为二元关系，具有自反性、对称性和传递性；对称性和传递性都可以视为等号的性质的应用，自反性需要单独列为一组公理，即公理五。</p>
 <p>这些只是形式推演的基本内容。当然，除了公理和肯定前件式假言推理外，我们还可以归纳出一些常见的推演元定理。所谓元定理，是区别于一阶逻辑系统内的定理而言的；元定理是指形式推演中的一般规律。首先，如果\(\Gamma\vdash\varphi\)，且变量\(x\)在\(\Gamma\)中并不自由，那么就有\(\Gamma\vdash\forall x\varphi\)<sup class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup>；这称为泛化原理（generalization principle）。这就相当于说“由于变量\(x\)的选取是任意的，则可以得出结论”。然后，演绎定理（deduction theorem），指如果\(\Gamma;\varphi\vdash\psi\)，则\(\Gamma\vdash\varphi\rightarrow\psi\)<sup class="footnote-ref"><a href="#fn9" id="fnref9">[9]</a></sup>。这相当于要证明某命题“如果条件，那么结论”时，可以先将条件当作已知，然后证得结论。逆反法（contraposition），指如果\(\Gamma;\neg\psi\vdash\neg\varphi\)，则\(\Gamma;\varphi\vdash\psi\)。这就是要证明某命题，先证明它的逆反命题。归谬法（reductio ad absurdum），指如果\(\Gamma;\neg\varphi\)能够推出矛盾，即能够同时推出某个命题\(\beta\)及其否定\(\neg\beta\)，则有\(\Gamma\vdash\varphi\)。这就是反证法的逻辑基础。</p>
-<p>还有，常数的泛化（generalization on constants），指如果\(\Gamma\vdash\varphi_x^c\)，且\(\Gamma\)和\(\varphi\)中不出现常数\(c\)，则可以泛化为\(\Gamma\vdash\forall x\varphi\)<sup class="footnote-ref"><a href="#fn10" id="fnref10">[10]</a></sup>。这里泛化常数得到的变量\(x\)是可以指定的，\(\varphi_x^c\)中是不含有\(x\)的。常数的泛化的一个推论是，如果\(\Gamma;\varphi_x^c\vdash\psi\)，且常数\(c\)并不出现在\(\Gamma\)、\(\varphi\)或\(\psi\)的任何一个中，则有\(\Gamma;\exists x\varphi\vdash\psi\)<sup class="footnote-ref"><a href="#fn11" id="fnref11">[11]</a></sup>；这称作存在实例化（existential instantiation）[^10]。存在实例化保证了，类似“我们知道\(\exists{}x\varphi\)，那么记这样的\(x\)为\(c\)，然后可以证出\(\psi\)”这样的论证是合理的。注意，\(\exists{}x\varphi\vdash\varphi_x^c\)一般并不成立，因为这里的\(c\)可能并不是使得该条件成立的那个常数。比如说，要证明\(\exists{}x\forall{}y\varphi\vdash\forall{}y\exists{}x\varphi\)，那么根据存在实例化，只要论证\(\forall{}y\varphi_x^c\vdash\forall{}y\exists{}x\varphi\)就可以，这里\(c\)是新加入这个一阶逻辑系统的常数；这就取代了逆反改写成全称量词的过程。</p>
+<p>还有，常数的泛化（generalization on constants），指如果\(\Gamma\vdash\varphi_x^c\)，且\(\Gamma\)和\(\varphi\)中不出现常数\(c\)，则可以泛化为\(\Gamma\vdash\forall x\varphi\)<sup class="footnote-ref"><a href="#fn10" id="fnref10">[10]</a></sup>。这里泛化常数得到的变量\(x\)是可以指定的，\(\varphi_x^c\)中是不含有\(x\)的。常数的泛化的一个推论是，如果\(\Gamma;\varphi_x^c\vdash\psi\)，且常数\(c\)并不出现在\(\Gamma\)、\(\varphi\)或\(\psi\)的任何一个中，则有\(\Gamma;\exists x\varphi\vdash\psi\)<sup class="footnote-ref"><a href="#fn11" id="fnref11">[11]</a></sup>；这称作存在实例化（existential instantiation）。存在实例化保证了，类似“我们知道\(\exists{}x\varphi\)，那么记这样的\(x\)为\(c\)，然后可以证出\(\psi\)”这样的论证是合理的。注意，\(\exists{}x\varphi\vdash\varphi_x^c\)一般并不成立，因为这里的\(c\)可能并不是使得该条件成立的那个常数。比如说，要证明\(\exists{}x\forall{}y\varphi\vdash\forall{}y\exists{}x\varphi\)，那么根据存在实例化，只要论证\(\forall{}y\varphi_x^c\vdash\forall{}y\exists{}x\varphi\)就可以，这里\(c\)是新加入这个一阶逻辑系统的常数；这就取代了逆反改写成全称量词的过程。</p>
 <p>最后，我们讨论量化变量任意选取的可行性。比如说，我们要证明\(\forall x\forall yPxy\vdash\forall yPyy\)，并不能够直接应用第二组公理去除全称量词，因为\(y\)不可以在\(\forall yPxy\)中取代\(x\)；如果我们能够自由选取量化变量，可以有\(\forall x\forall yPxy\vdash\forall x\forall zPxz\)，然后应用两次第二组公理将变量\(x\)和\(z\)都替代为变量\(y\)，再泛化自由变量\(y\)即可。可以证明，任给合规表达式\(\varphi\)和项\(t\)，总存在只有量化变量选取不同于\(\varphi\)的合规表达式\(\varphi'\)，使得\(\varphi\vdash\dashv\varphi'\)，且项\(t\)在\(\varphi'\)中可以替代\(x\)。要证明这个，只要对所有合规表达式归纳证明就好了。只有在量化时，需要选取合适的变量。这里量化变量选取的任意性实际上是对第二组公理的补充，提供了合理规避某些情形下的量词冲突的手段。</p>
 <p>在实际进行形式推演时，我们往往会更习惯于应用这些元定理，因为它们更符合我们的逻辑思维习惯。我们会把它们总结成各种各样的证明技巧。这里的讨论就说明了，所有这些证明技巧，都是可以从最原始的六组公理推出的。接下来，我们就将证明以这六组公理为基础的形式推演能够忠实且充分地反映逻辑蕴涵关系。它们分别对应一阶逻辑系统的可靠性和完备性。</p>
 <h2 id="一阶逻辑的可靠性和完备性"><a class="headerlink" href="#一阶逻辑的可靠性和完备性"></a>一阶逻辑的可靠性和完备性</h2>
@@ -203,7 +203,12 @@
             <a href="/tags/%E5%AE%8C%E5%A4%87%E6%80%A7/">完备性</a>
             </div>
         
-        <nav class="post-nav"><a class="next" href="/2021/01/04/note-0002-elementary-set-theory-2/">
+        <nav class="post-nav"><a class="prev" href="/2021/07/17/note-0004-introduction-to-computability/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">可计算性理论初窥</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    <a class="next" href="/2021/01/04/note-0002-elementary-set-theory-2/">
         <span class="next-text nav-default">基数与选择公理</span>
         <span class="prev-text nav-mobile">下一篇</span>
         <i class="iconfont icon-right"></i>

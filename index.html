@@ -77,6 +77,55 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
+      <h1 class="post-title"><a class="post-link" href="/2021/07/18/note-0005-randomness-and-computation/">UCB CS271 随机计算（一）</a>
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-07-18
+        </span><span class="post-category">
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E9%9A%8F%E6%9C%BA%E6%95%B0%E5%AD%A6/">随机数学</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-content"><p>暑假学点新东西，随手记一下。</p>
+<p>这一部分主要介绍了随机算法的优点和典型例子，并通过举例说明如何通过概率方法做证明或计算，以及如何将它改造成构造性的算法。</p>
+          <div class="read-more">
+            <a href="/2021/07/18/note-0005-randomness-and-computation/" class="read-more-link">阅读更多</a>
+          </div>
+        </div></article>
+      <article class="post">
+    <header class="post-header">
+      <h1 class="post-title"><a class="post-link" href="/2021/07/17/note-0004-introduction-to-computability/">可计算性理论初窥</a>
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-07-17
+        </span><span class="post-category">
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E5%85%83%E6%95%B0%E5%AD%A6/">元数学</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-content"><p>参考资料：</p>
+<ul>
+<li>Keith Schwarz. (2016). Slides for Stanford CS103. （<a target="_blank" rel="noopener" href="https://web.stanford.edu/class/archive/cs/cs103/cs103.1164/">链接</a>）</li>
+</ul>
+<h2 id="引子"><a class="headerlink" href="#引子"></a>引子</h2>
+<p>在查资料时偶然看到Stanford CS103的讲义，读了几篇，发现甚为有趣。讲义开始先补充了集合论、证明、数理逻辑与图论的预备知识，然后开始切入可计算性理论和计算复杂度理论的正题。讲义写得十分详尽，配有丰富的例子和生动的图示。不同于以往读过的类似内容的书籍，它没有引入大量晦涩的形式化语言，而是在严谨的前提下，尽可能粗浅地展示这一理论的基本内容，读起来十分顺畅。很多之前不甚了了的内容，这次读过之后都觉得明白不少。于是，决定在这篇笔记里快速地记下其大概内容，作为自己的梳理。</p>
+<p>另外，Keith是位非常平易近人的老师。他的每篇讲义中间处，都会有对学生的匿名提问的回答，内容从对课程内容的补充，到对学生大学生活的建议，到对受挫的学生的鼓励，无所不包，甚至有一次他的回答是拒绝某学生晚上同他出去约会的邀约<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。</p>
+<p>本文主要讨论可计算性理论的初步内容。所谓可计算性理论，主要讨论什么样的问题能够通过程序解决。要讨论这个话题，首先要分别对“问题”“程序”“解决”这些字眼做严格的探讨。所谓“问题”，这里主要指决策问题，即给定输入，输出布尔值的问题形式；所谓“程序”，其严格处理则需要介绍不同的计算模型，这包括有限自动机、图灵机等；所谓“解决”，则需要在给定前两者的具体形式后，再具体考量。</p>
+<p>本文将顺照该讲义的思路，从有限自动机讲起，逐步引入正则表达式、上下文无关文法、图灵机等计算模型，并讨论正则、可判定、可识别、不可计算等不同层级的可计算性。</p>
+          <div class="read-more">
+            <a href="/2021/07/17/note-0004-introduction-to-computability/" class="read-more-link">阅读更多</a>
+          </div>
+        </div></article>
+      <article class="post">
+    <header class="post-header">
       <h1 class="post-title"><a class="post-link" href="/2021/01/18/note-0003-first-order-logic/">一阶逻辑</a>
         </h1>
 
@@ -84,8 +133,8 @@
         <span class="post-time">
           2021-01-18
         </span><span class="post-category">
-            <a href="/categories/%E5%85%83%E6%95%B0%E5%AD%A6/">元数学</a>
-            <a href="/categories/%E5%85%83%E6%95%B0%E5%AD%A6/%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91/">数理逻辑</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E5%85%83%E6%95%B0%E5%AD%A6/">元数学</a>
             </span>
         </div>
     </header>
