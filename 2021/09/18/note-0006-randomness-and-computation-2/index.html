@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="UCB CS271 随机计算（二）"/><meta name="keywords" content="随机算法, 完全子图, $k$-SAT, $k$-独立性, 普适哈希, 博客" /><link rel="alternate" href="/default" title="博客" ><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="http://c-forrest.github.io/2021/09/18/note-0006-randomness-and-computation-2/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
+
+    <title>UCB CS271 随机计算（二） - 博客</title>
+  <meta name="generator" content="Hexo 5.3.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">博客</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">UCB CS271 随机计算（二）
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-09-18
+        </span><span class="post-category">
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E9%9A%8F%E6%9C%BA%E6%95%B0%E5%AD%A6/">随机数学</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%88%E5%80%BC%E5%BD%A2%E5%BC%8F%E7%BB%93%E8%AE%BA"><span class="toc-text">阈值形式结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E5%85%A8%E5%AD%90%E5%9B%BE%E9%97%AE%E9%A2%98"><span class="toc-text">完全子图问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%88%E5%80%BC%E7%BB%93%E6%9E%9C"><span class="toc-text">阈值结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%88%E5%80%BC%E5%A4%84%E7%9A%84%E6%83%85%E5%BD%A2"><span class="toc-text">阈值处的情形</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%A4%A7%E5%AE%8C%E5%85%A8%E5%AD%90%E5%9B%BE%E7%9A%84%E4%BC%B0%E9%98%B6"><span class="toc-text">最大完全子图的估阶</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k-SAT%E9%97%AE%E9%A2%98"><span class="toc-text">\(k\)-SAT问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2SAT%E9%97%AE%E9%A2%98%E7%9A%84%E7%B2%BE%E7%A1%AE%E9%98%88%E5%80%BC"><span class="toc-text">2SAT问题的精确阈值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#k-SAT%E9%97%AE%E9%A2%98%E7%9A%84%E9%98%88%E5%80%BC%E4%B8%8A%E7%95%8C"><span class="toc-text">\(k\)-SAT问题的阈值上界</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#k-SAT%E9%97%AE%E9%A2%98%E7%9A%84%E9%98%88%E5%80%BC%E4%B8%8B%E7%95%8C"><span class="toc-text">\(k\)-SAT问题的阈值下界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E4%B8%A4%E7%8B%AC%E7%AB%8B%E3%80%81k-%E7%8B%AC%E7%AB%8B"><span class="toc-text">两两独立、\(k\)-独立</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%B9%85%E9%9A%8F%E6%9C%BA%E6%80%A7"><span class="toc-text">增幅随机性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8k-%E7%8B%AC%E7%AB%8B%E5%AE%9E%E7%8E%B0%E5%B9%B6%E8%A1%8C%E7%9A%84%E5%8E%BB%E9%9A%8F%E6%9C%BA%E7%9A%84%E7%AE%97%E6%B3%95"><span class="toc-text">利用\(k\)-独立实现并行的去随机的算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%AE%E9%80%82%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95"><span class="toc-text">普适哈希算法</span></a></li></ol></li></ol>
+    </div>
+  </div><div class="post-content"><p>书接上文。</p>
+<p>这一部分主要包括两方面内容：阈值形式结论和\(k\)-独立的应用。前者讨论了完全子图问题和\(k\)-SAT问题两个例子，后者则讨论了增幅随机性、设计去随机化算法和普适哈希算法等应用。</p>
+<a id="more"></a>
+<h2 id="阈值形式结论"><a class="headerlink" href="#阈值形式结论"></a>阈值形式结论</h2>
+<p>考虑随机图模型\(\mathcal G_{n,p}\)，其中顶点数是\(n\)，\(C(n,2)\)条边以概率\(p\)独立显现。我们会关心这样的随机图是否满足性质\(P\)。常见的性质\(P\)比如，图是否具有大小为\(k\)的完全子图，图是否有哈密顿回路（Hamiltonian cycle），图是否是连通的，等等。对这样的问题，常具有如下形式的结果：存在列\(p(n)\)，如果\(p\ll p(n)\)，则\(G\in\mathcal G_{n,p}\)满足性质\(P\)的概率趋近\(0\)；如果\(p\gg p(n)\)，则\(G\in\mathcal G_{n,p}\)满足性质\(P\)的概率趋近\(1\)。这里的\(p(n)\)就是阈值。</p>
+<p>阈值形式结果具有一般性。它对于一般的单调增的、单调减的性质都满足。我们称图的性质\(P\)是单调增的，如果图具备性质\(P\)，那么添加一边后图仍然具有性质\(P\)；单调减的定义类似。可以证明，对于单调增的或是单调减的性质，都存在上文所述的阈值结果。见Bollobas and Thomason (1986)。</p>
+<p>从另一角度，还可以考虑显现概率\(p\)固定而大小\(n\rightarrow\infty\)的图模型。阈值\(p(n)\)常常在\(n\rightarrow\infty\)有良好的极限性质。因而，常常可以得出结论，当\(n\rightarrow\infty\)时，固定显现概率\(p\)的图模型\(\mathcal G_{n,p}\)要么其中几乎每个图\(G\)都具有性质\(P\)，要么其中几乎每个图\(G\)都不具有性质\(P\)。这一结论对于所谓一阶性质都成立；所谓一阶性质，是指可以通过以顶点为变量、含有表示通过某边连接的二元谓词“链接”的一阶形式逻辑语言表达的性质。见Fagin (1976)。</p>
+<h2 id="完全子图问题"><a class="headerlink" href="#完全子图问题"></a>完全子图问题</h2>
+<p>完全子图又称团（clique）。</p>
+<h3 id="阈值结果"><a class="headerlink" href="#阈值结果"></a>阈值结果</h3>
+<p>我们关心大小为\(n\)、边显现概率为\(p\)的随机图\(\mathcal G_{n,p}\)中出现大小为\(k\)的完全子图的概率。以大小为\(4\)的完全子图为例。这样的完全子图有\(4\)个顶点和\(6\)条边。过往的概率方法都会考虑这样的完全子图的期望个数，因为计算期望可以充分利用其可加性。以\(X\)记随机图\(G\in\mathcal G_{n,p}\)中含有的大小为\(4\)的完全子图的个数，则\(X=\sum_{C}X_C\)。于是，\(\mathbb E[X]=C(n,4)p^6=\Theta(n^4p^6)\)。因而，如果\(p\ll n^{-2/3}\)，那么\(\mathbb E[X]\rightarrow0\)；如果\(p\gg n^{-2/3}\)，那么\(\mathbb E[X]\rightarrow+\infty\)。这里很显然地存在阈值\(p(n)=n^{-2/3}\)。要证明阈值形式的结论，需要将期望的结果转化成概率形式的结果。</p>
+<p>存在大小为\(4\)的完全子图这一性质可以写作\(X>0\)。对于\(p\ll n^{-2/3}\)的情形，直接由Markov不等式可知，</p>
+<p>\[\mathbb P[X>0]=\mathbb P[X\ge1]\le\mathbb E[X]\rightarrow0。\]</p>
+<p>而对于\(p\gg n^{-2/3}\)的情形，仅凭\(\mathbb E[X]\rightarrow+\infty\)并不能得到\(\mathbb P[X>0]\rightarrow1\)；极端的反例，比如以几乎概率一成立\(X=0\)但是剩下的值都非常大，以致于期望爆炸。因而，对于第二种情况的探索，需要借助更复杂的方法，这里采用二阶矩方法（second moment method）；与之区分，前文采用Markov不等式的方法称为一阶矩方法。二阶矩方法主要借助Chebyshev不等式；放在本例，即</p>
+<p>\[\mathbb P[X=0]\le\mathbb P\big[|X-\mathbb E[X]|\ge\mathbb E[X]\big]\le\frac{\text{Var}(X)}{\mathbb E[X]^2}。\]</p>
+<p>要将最后的式子控制住，需要进行具体的计算。我们暴力展开\(\text{Var}(X)\)，可以得到如下项：</p>
+<ul>
+<li>方差项\(\text{Var}(X_C)=p^6(1-p^6)\)，总计\(C(n,4)\)项，因而这部分和式正是\(\Theta(n^4p^6)\)；</li>
+<li>交叉项\(\text{Cov}(X_C,X_D)\)，如果\(|C\cap D|\le1\)，那么两者边的显现实际上是独立的，这部分和式为零；</li>
+<li>交叉项\(\text{Cov}(X_C,X_D)\)，如果\(|C\cap D|=2\)，那么\(\text{Cov}(X_C,X_D)\le\mathbb E[X_CX_D]\)，注意这里\(X_CX_D\)实际对应某个子图的显现，该子图是两个大小为\(4\)的完全子图共享两顶点得到的，顶点数为\(6\)，边数为\(11\)，这部分和式则为\(\Theta(n^6p^{11})\)<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>；</li>
+<li>交叉项\(\text{Cov}(X_C,X_D)\)，如果\(|C\cap D|=3\)，同理，这部分和式为\(\Theta(n^5p^9)\)。</li>
+</ul>
+<p>最后的式子因而当\(p\gg n^{-2/3}\)时可以控制为</p>
+<p>\[O\big((n^4p^6)^{-1}+(n^2p)^{-1}+(n^3p^3)^{-1}\big)\rightarrow0。\]</p>
+<p>这就证明了该阈值结果。</p>
+<p>这一结果可以扩展到任意形式的子图\(H\)，而不仅仅是大小为\(4\)的完全子图，也不限于完全子图；但阈值并不是简单的\(p(n)=n^{-v/e}\)。难点在于\(p\gg p(n)\)时的讨论。复刻前文的讨论，这其中的交叉项的阶数实则\(O\big((n^{v(C\cap D)}p^{e(C\cap D)})^{-1}\big)\)，这里\(|C\cap D|\ge2\)。这一项要趋近于零，需要\(p\gg n^{-v(C\cap D)/e(C\cap D)}\)；所以如果\(v(C\cap D)/e(C\cap D)&lt; v/e\)，那么这里并不能一般地成立。所以，要控制住这一项，我们需要\(p\gg n^{-\min v/e}\)，这里最小值遍历\(H\)所有的子图。对于完全图，\(v/e\)的最小值就取在整个子图\(H\)上；满足这一点的就是所谓平衡图（balanced graph）；当然也存在不平衡的图，这时候指数就应替换成真正的最小值。对于\(p\ll p(n)\)时的讨论很简单，就是说存在\(H\)的某个子图在此时几乎必然不显现，于是整个子图就无法显现<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
+<h3 id="阈值处的情形"><a class="headerlink" href="#阈值处的情形"></a>阈值处的情形</h3>
+<p>阈值处指满足\(p=cp(n)\)的情形。以大小为\(4\)的完全子图为例。阈值处\(p=cn^{-2/3}\)，此时单个完全子图显现的概率为\(c^6n^{-4}\)；共有\(C(n,4)\)个这样的完全子图。如果这些完全子图的显现是独立的，根据二项分布的泊松逼近，此时完全子图的数目应当服从期望为\(C(n,4)c^6n^{-4}\sim c^6/24\)的泊松分布。由于完全子图可能重叠，它们的显现并不完全独立；但是这样的相关性可以控制住，因为当随机图的顶点数足够多时，重叠的概率极低<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>。由于阈值处的分布关于\(c\)是连续变化的，这种阈值称为粗阈值（coarse threshold）。随后，我们还能看到锐阈值的情形。</p>
+<h3 id="最大完全子图的估阶"><a class="headerlink" href="#最大完全子图的估阶"></a>最大完全子图的估阶</h3>
+<p>我们感兴趣随机图\(\mathcal G_{n,p}\)中的最大完全子图的大小\(k(n)\)。对于大小为\(k\)的完全子图，顶点数与边数之比\(v/e=2/(k-1)\)；故而，完全子图的大小\(k\)愈是大，相应的阈值\(p(n)=n^{-v/e}\)就愈是高，存在这样的完全子图的概率就愈是小；随着完全子图大小\(k\)的改变，概率\(p\)同阈值会出现数量级上的差距，要么几乎必然有，要么几乎必然没有；所以，最大完全子图的大小必然介于这个模糊的上下界之间。所以，最大完全子图的大小应当满足\(p\sim n^{-2/(k(n)-1)}\)，所以应该有\(k(n)\sim2\log_{1/p}n\)。本节就为此提供一个证明的梗概。我们采用的证明方法同固定\(k\)时的讨论相仿：首先，根据期望水平获得\(k(n)\)的估阶；然后，分别通过一阶矩方法和二阶矩方法将期望的估计转化为概率的估计。</p>
+<p>大小为\(k\)的完全子图的期望数目为\(g(k):=C(n,k)p^{C(k,2)}\)。作商，得\(g(k+1)/g(k)=(n-k)/(k+1)\cdot p^k\)；该商值从很大的正值严格递降到远小于一的值；故而\(g(k)\)先增后减，只自上而下穿过\(y=1\)一次。大概率，最大完全子图的大小\(k(n)\)处期望数目\(g(k)\)应当是常数级；如果\(g(k)\)过大，这样大小的完全子图几乎必然存在，因而以正概率存在更大的完全子图；如果\(g(k)\)过小，这样大小的完全子图几乎必然不存在，它也成为最大完全子图的概率也不大。因而，首先定义\(k_0(n)\)为使\(g(k)\ge1\)成立的最大整数\(k\)；随后会证明几乎以概率一成立\(k(n)\sim k_0(n)\)。随即问题转化为估阶\(k_0(n)\sim2\log_{1/p}n\)<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>，这已经是确定性的问题。</p>
+<p>下一步要说明，对于足够大的正整数\(c\)，要说明当\(k=k_0(n)+c\)时，\(g(k)\rightarrow0\)，因而几乎必然成立\(k(n)\le k_0(n)+c\)；反之，当\(k=k_0(n)-c\)时，\(g(k)\rightarrow+\infty\)，因而几乎必然成立\(k(n)\ge k_0(n)-c\)。对于两个期望的估计，只需要注意到\(k\sim2\log_{1/p}n\)时，\(g(k+1)/g(k)\sim(2n\log_{1/p}n)^{-1}\)，因而只需要取足够大的\(c\)，就可以保证两个期望的极限如我们所愿。对于\(k=k_0(n)+c\)处的情形，只需要应用Markov不等式，就可以保证这样大小的图几乎必然不存在，故而\(k(n)\ge k_0(n)-c\)几乎必然成立。而对于\(k=k_0(n)-c\)处的情形，需要二阶矩方法，对\(\text{Var}(X)/\mathbb{E}[X]^2\)做估计；这里，\(X\)是随机图中大小为\(k=k_0(n)-c\)的完全子图的数量。</p>
+<p>类似前文，对\(\text{Var}(X)\)直接展开并消去独立的协方差项，得到的方差项的和式不大于\(\mathbb E[X]\)，交叉项则需要仔细计算，我们有：</p>
+<p>\[\sum_{S\sim T}\mathbb E[X_SX_T]=\sum_{S\sim T}\mathbb P[X_T=1|X_S=1]\mathbb P[X_S=1]=\sum_{S}\Big(\sum_{T:T\sim S}\mathbb P[X_T=1|X_S=1]\Big)\mathbb P[X_S=1]。\]</p>
+<p>利用对称性，括号里的式子实则与\(S\)无关，故而，交叉项可以写作</p>
+<p>\[\sum_{S\sim T}\mathbb E[X_SX_T]=\mathbb E[X] \Big(\sum_{T:T\sim S}\mathbb P[X_T=1|X_S=1]\Big)。\]</p>
+<p>大括号内的和式可以进一步计算为</p>
+<p>\[\sum_{T:T\sim S}\mathbb P[X_T=1|X_S=1]=\sum_{i=2}^{k-1}C(k,i)C(n-k,k-i)p^{C(k,2)-C(i,2)}。\]</p>
+<p>我们要说明这一项的阶为\(o(\mathbb E[X])\)，故而直接除以期望的表达式，得到</p>
+<p>\[\sum_{i=2}^{k-1}\frac{C(k,i)C(n-k,k-i)}{C(n,k)}p^{-C(i,2)}=:\sum_{i=2}^{k-1}f(i)。\]</p>
+<p>考虑有\(f(i)/f(i+1)=p^i(i+1)(n-2k+i+1)/(k-i)^2\)。当\(n\)充分大时，\(n-2k+i+1\sim n\)可视为常量；剩下部分取对数，成为\(i\ln p+\ln(i+1)-2\ln(k-i)\)；将\(i\)视为连续变量，可以证明\(\ln(i+1)-2\ln(k-i)\)在\(i\in(0,k)\)上单调递增，且通过比较其零点和拐点的位置发现它单调递增，且正的部分是严格凸的；因而这一函数加上\(i\ln p\)之后，整个函数\(i\ln p+\ln(i+1)-2\ln(k-i)\)将只上穿零一次，虽然单调性可能比较复杂；故而，\(f(i)\)必然先递降后递增，其最大值必然取在两端点取得。两端点取值分别为\(f(2)\sim k^4/n^2\)和\(f(k-1)\sim nkp^k/g(k)\)，这里，\(k=k_0(n)-c\)；所以，只要将\(c\)取得足够大，就可以保证\(f(k-1)\ll f(2)\)，故而最大值为\(f(2)\)。因而，该比式为\(O(kf(2))=O(k^5/n^2)\rightarrow0\)。由此，就可以完成\(k=k_0(n)-c\)处的概率形式命题的论证。最大完全子图大小的估阶也就全部完成。</p>
+<h2 id="k-SAT问题"><a class="headerlink" href="#k-SAT问题"></a>\(k\)-SAT问题</h2>
+<p>计算性理论领域中常见的\(k\)-SAT问题同样存在阈值形式结论。实际上，随机选取的给定规模的\(k\)-CNF（合取规范形式）的公式要么几乎必然可满足，要么几乎必然不可满足；可以想见，给定变量数目为\(n\)的\(k\)-CNF公式，如果从句数目过多，将难以满足，反之，将非常容易满足；这就存在自然的阈值。对于本例，一个著名的猜想是这样的阈值形式较特殊，同变量数目成正比，即存在\(r_k>0\)使得阈值恰为\(r_kn\)。目前的进展是，对于足够大的\(n\)，能够证明这样的\(r_k\)的存在，并能够给出其形式（作为某方程的根）；对于\(n=2\)，能够证明\(r_2=1\)；对于剩下的较小的\(n\)，尚只能够给出其上下界。</p>
+<p>公式生成模型记作\(\varphi_k(n,rn)\)，用于随机选取变量数目为\(n\)、从句数目为\(rn\)的\(k\)-CNF公式。有两种可行的公式生成模型。一种是，均匀随机独立选取公式中每个位置的变量，每个从句都有\((2n)^k\)种可能；另一种是，均匀随机从所有不含有重复变量的从句中选取，每个从句都有\(2^kC(n,k)\)中可能。两种模型中，从句与从句可能重复。这两种模型对于大多数结论来说是等价的，故而随后的讨论将依照便利选取合适的模型。</p>
+<p>这里主要介绍几个简单结论的证明。</p>
+<h3 id="2SAT问题的精确阈值"><a class="headerlink" href="#2SAT问题的精确阈值"></a>2SAT问题的精确阈值</h3>
+<p>我们要证明\(r_2=1\)。这个阈值结果可以严格写为（1）当\(m\lt n(1-\varepsilon)\)时，\(\varphi_k(n,m)\)几乎必然可满足和（2）当\(m\gt n(1-\varepsilon)\)时，\(\varphi_k(n,m)\)几乎必然不可满足。我们分别将分别考察这两种情形。</p>
+<p>注意到2SAT问题有其特殊性。2CNF公式是否可满足，可以由对应的所谓蕴涵图是否不含有矛盾环路刻画。给定2CNF公式，将其中所有\(n\)个变量及其否定视为顶点，将从句\(x_1\lor x_2\)转化为\(\lnot x_1\rightarrow x_2\)和\(\neg x_2\rightarrow x_1\)两条有向边，所得到的有向图称为它对应的蕴涵图。很明显，任何可以满足该公式的赋值方法，都需要使得真值能够沿着有向边传递下去；亦即，任给一有向边，如果起点赋真值，那么终点必须赋真值。所以，如果存在变量\(x_i\)使得蕴涵图当中含有同时经过\(x_i\)和\(\neg x_i\)的环路，则相应的2CNF公式不可满足；不妨称之为矛盾环路。有趣的是，这一条件也是必要的<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>。</p>
+<p>首先证明前一个子结论。这只需要证明此时不可满足的概率趋近于零。为控制该概率，需要计数随机生成的公式对应蕴涵图中矛盾回路；很遗憾，矛盾回路可以任意长，难以得到有限计数；我们尝试放宽要求，转而计数长度有限但是当公式不可满足时只是必要而不充分存在的某种路径。定义所谓“双环”，指某自\(x\)经\(w_1,\cdots,w_s\)到\(y\)的路径，其中\(w_1,\cdots,w_s\)中不含有重复的变量，而\(x\)和\(y\)选自这些变量或其否定。可以证明，当某2CNF公式不可满足时，其蕴含图内必然存在“双环”<sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>。因而，不可满足的概率可以通过“双环”出现的概率控制。由一阶矩方法，有</p>
+<p>\[\mathbb P[X>0]\le\mathbb E[X]\le\sum_{k=1}^nn^k2^k(2k)^2m^{k+1}/(4C(n,2))^{k+1}=\frac2n\sum_{k=1}^nk^2\Big(\frac{m}{n-1}\Big)^{k+1}\rightarrow 0\]</p>
+<p>这里，\(n^k2^k(2k)^2\)是“双环”形式表达式数目的上界，\(m^k\)是可能的从句位置排列数目的上界，而这里的随机模型是随机从句模型，所以单个从句出现的概率是\(1/(4C(n,2))\)。这里，要求\(m\lt n(1-\varepsilon)\)，则右侧和式收敛，而因子\(2/n\)趋于零。</p>
+<p>对于第二个子结论，类似地，只要通过二阶矩方法，证明此时某种能够推出公式不可满足的特殊结构——“蛇”——以接近于一的概率出现，就能够证明公式几乎必然不可满足。所谓“蛇”，是指由\(s=2t-1\)个互异的变量组成的公式，形如</p>
+<p>\[(w_t\lor w_1)\land(\bar w_1\lor w_2)\land\cdots\land(\bar w_{t-1}\lor w_t)\land(\bar w_t\lor w_{t+1})\land\cdots\land(\bar w_{s-1}\lor w_s)\land(\bar w_s\lor\bar w_t)\]</p>
+<p>其中，\(w_1,...,w_s\)都是变量或其否定。容易看出，这意味着其蕴涵图存在矛盾回路\(\bar w_t\rightarrow w_1\rightarrow\cdots\rightarrow w_t\rightarrow \cdots\rightarrow w_s\rightarrow\bar w_t\)，故而必然不可满足。上一节的内容说明，只需要证明\(\sum_{B:B\sim A}\mathbb P[X_B=1|X_A=1]=o(\mathbb E[X])\)，这里，\(X=\sum_{A}X_A\)，其中\(A,B\)遍历所有可能的“蛇”，而\(X_A\)表示公式中含有“蛇”\(A\)且“蛇”\(A\)中的所有从句都在公式中出现恰一次。</p>
+<p>含有\(z\)个互异的给定从句各恰一次的概率可以计算为</p>
+<p>\[h(z)=C(m,z)z!\Big(\frac1{4C(n,2)}\Big)^{z}\Big(1-\frac{z}{4C(n,2)}\Big)^{m-z}=(1+o(1))\Big(\frac{m}{2n(n-1)}\Big)^{z}\]</p>
+<p>这里的近似是对\(z\ll\sqrt{n}\)一致的；记得，\(m=n(1+\varepsilon)\)。那么，\(P[X_A=1]=h(s+1)=h(2t)\)，以及\(P[X_A=X_B=1]=h(4t-k)\)，其中，\(k\)是“蛇”\(A\)和“蛇”\(B\)共有公式的数目；进而，\(P[X_B=1|X_A=1]=h(4t-k)/h(2t)\)。记全体“蛇”的数目为\(N\)，同给定“蛇”共有\(k\)个从句的“蛇”的比例记为\(P_k\)，于是有</p>
+<p>\[\frac1{\mathbb E[X]}\sum_{B:B\sim A}\mathbb P[X_B=1|X_A=1]=\sum_{k=1}^{2t-1}\frac{h(4t-k)}{h(2t)^2}P_k=(1+o(1))\sum_{k=1}^{2t-1}\Big(\frac{2n(n-1)}{m}\Big)^kP_k\]</p>
+<p>取\(t=n^{1/10}\)，通过组合数学方法<a href="%E4%B8%8D%E4%BC%9A%E8%AF%81%E4%B9%9F%E6%87%92%E5%BE%97%E8%AF%81%EF%BC%8C%E8%A7%81Chvatal%E5%92%8CReed(1992)%E3%80%82">J^1</a>，可以对\(1\le k\le t-1\)证明\(P_k\lt c_1t^9n^{-1}(2n)^{-k}\)，并对\(1\le k\le 2t\)证明\(P_k\lt c_2tn(2n)^{-k}\)。由此，可以证明上面的和式趋近于零。这就完成了第二个子结论的证明。</p>
+<h3 id="k-SAT问题的阈值上界"><a class="headerlink" href="#k-SAT问题的阈值上界"></a>\(k\)-SAT问题的阈值上界</h3>
+<p>我们要证明\(r_k\le 2^k\ln 2\)。可满足的概率可以通过一阶矩方法控制。以\(X_A\)指示赋值方法\(A\)能够满足随机公式\(\varphi\)，则\(X=\sum_AX_A>0\)意味着随机公式\(\varphi\)可满足。采取第一种随机公式模型，可以计算期望为\(\mathbb E[X]=2^n(1-2^{-k})^{rn}\)。故而，\(r\ge 2^k\ln 2\)必然无法令其满足。</p>
+<h3 id="k-SAT问题的阈值下界"><a class="headerlink" href="#k-SAT问题的阈值下界"></a>\(k\)-SAT问题的阈值下界</h3>
+<p>我们要证明\(r_k\ge2^k\ln2-(k+1)\frac{\ln2}2-1-\delta_k\)，这里\(\delta_k\)是个趋近于零的正数列。这一下界同样可以通过二阶矩方法解决。但是，要得到这一下界，需要对二阶矩方法进行改进，并且需要更多细致的计算。我们这里仅对基本思路做一说明，计算的细节可以参见原论文Achlioptas and Peres (2003)。</p>
+<p>首先，我们的二阶矩方法比一般的Chebyshev不等式更为精细。对于非负变量\(X\)，利用Cauchy不等式有\(\mathbb P[X>0]\ge\mathbb E[X]^2/\mathbb E[X^2]\)。这个界比Chebyshev不等式的界\(\mathbb P[X>0]\ge2-\mathbb E[X^2]/\mathbb E[X]^2\)更为精细。而且，Friedgut (1999)已经证明，存在可能与\(n\)有关的界\(r_k(n)\)的存在性；在这个界附近，可满足的概率从1迅速地降为0。所以，只要证明，对于不大的\(m=rn\)，成立\(\mathbb E[X]^2/\mathbb E[X^2]\ge\varepsilon>0\)，而不能无限接近于零，就必然可以证得概率将无限接近于一。基于这一思路，我们只需要计算\(\mathbb E[X]^2/\mathbb E[X^2]\)的值。</p>
+<p>上一节已经得到\(\mathbb E[X]=2^n(1-2^{-k})^{rn}\)。对于\(\mathbb E[X^2]=\sum_{A,B}\mathbb E[X_AX_B]=\sum_{z=0}^n2^nC(n,z)f(z/n)^m\)，这里，\(f(\alpha)=1-2^{1-k}+2^{-k}\alpha^k\)是在\(z=\alpha n\)个变量上赋值一致的两赋值方法\(A\)和\(B\)均能够满足长度位\(k\)的从句的概率，而\(2^nC(n,z)\)是这样的赋值方法对的数目。注意到，\(f(1/2)=(1-2^{-k})^2\)，那么有\(\mathbb E[X]^2=(4f(1/2)^r)^n\)。可以利用估计<sup class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup>\(C(n,z)=\Theta(1/\sqrt{n})\cdot1/(\alpha^\alpha(1-\alpha)^{1-\alpha})^n\)，计算得到\(\mathbb E[X^2]=\sum_{z=0}^n\Theta(1/\sqrt{n})\cdot(2f(\alpha)^r/(\alpha^\alpha(1-\alpha)^{1-\alpha}))^n:=\sum_{z=0}^n\Theta(1/\sqrt n)\cdot \Lambda(\alpha)^n\)。利用这一记号，也有\(\mathbb E[X]^2=\Lambda(1/2)^n\)。所以有\(\mathbb E[X^2]/\mathbb E[X]^2=\sum_{z=0}^n\Theta(1/\sqrt n)\cdot(\Lambda(\alpha)/\Lambda(1/2))^n\)。要证明最终的结论，我们需要这一和式当\(n\rightarrow\infty\)时不会发散到正无穷，这相当于要求\(\Lambda(\alpha)\)在\(\alpha=1/2\)处取得全局最大值。很遗憾，这一点并无法成立。所以，这一经典的思路难以施行。</p>
+<p>思路是通过修改变量\(X\)的定义使得\(\Lambda(\alpha)\)在\(\alpha=1/2\)处取得最大值。分析\(\Lambda\)的定义，它可以看作熵\(1/(\alpha^\alpha(1-\alpha)^{1-\alpha})\)和相关系数\(f(\alpha)\)的乘积，前者确实在\(\alpha=1/2\)处取得最大值，后者则并不具有该性质。我们试图给不同的赋值方法\(A\)满足不同的从句\(c\)赋以不同的权重\(w(A,c)\)，然后定义\(X=\sum_A\prod_{i=1}^mw(A,c_i)\)，此时有\(\mathbb E[X^2]=\sum_{A,B}\mathbb E[w(A,c)w(B,c)]^m\)。不妨假定\(w(\sigma,c)\)只与赋值方法\(\sigma\)能够满足的从句\(c\)中的字符（变量或其否定）的具体模式有关；这一模式记作向量\(v\in\{+1,-1\}^k\)，这里\(\pm1\)分别表示满足和不满足；故而，可以写作\(w(v)\)。此时，有</p>
+<p>\[f_w(\alpha):=\mathbb E[w(A,c)w(B,c)]=\sum_{v,u}w(v)w(u)2^{-k}\alpha^{\#1_{v_i=u_i}}(1-\alpha)^{\#1_{v_i\neq u_i}}\]</p>
+<p>这里\(\alpha\)是两赋值方法重叠的比例。故而有，\(\mathbb E[X^2]=\sum_{z=0}^n2^nC(n,z)f_w(z/n)^m=\sum_{z=0}^n\Theta(1/\sqrt n)\cdot \Lambda_w(\alpha)^n\)，这里，\(\Lambda_w(\alpha):=2f_w(\alpha)^r/(\alpha^\alpha(1-\alpha)^{1-\alpha})\)，而且</p>
+<p>\[\mathbb E[X]^2=(\sum_A\mathbb E[w(A,c)])^2=(2^n\sum_vw(v)2^{-k})^2=(4f_w(1/2)^r)^n\]</p>
+<p>依然成立。所以，我们仍然可以成立\(\mathbb E[X^2]/\mathbb E[X]^2=\sum_{z=0}^n\Theta(1/\sqrt n)\cdot (\Lambda_w(\alpha)/\Lambda_w(1/2))^n\)。我们需要定义恰当的\(w(A,c)\)，使得\(\Lambda_w(\alpha)\le\Lambda_w(1/2)\)对全体\(\alpha\in[0,1]\)都成立。</p>
+<p>一个必要条件是\(f'_w(1/2)=0\)。首先注意到</p>
+<p>\[f'_w(1/2)=\sum_{v,u}w(v)w(u)2^{-k}2^{1-2k}(\#1_{v_i=u_i}-\#1_{v_i\neq u_i})=\sum_{v,u}w(v)w(u)2^{-k}2^{1-2k}v\cdot u=\|\sum_vw(v)v\|^2\]</p>
+<p>故而充分必要条件是\(\sum_vw(v)v=0\)。原来的权重函数可以看作给\(v=(-1,\cdots,-1)\)赋以0，而给其余向量赋以\(1/(2^k-1)\)。这样的函数显然无法满足该条件。我们需要找到符合该条件的又和原来的权重函数最接近的权重函数；为衡量接近性，我们考虑满足该条件和归一化条件的最大熵分布。容易证明，这样的分布是唯一的，即\(w(v)=\lambda^{h(v)}/Z\)；这里，\(h(v)\)是\(v\)中\(+1\)的个数，\(\lambda\)和\(Z\)选取得满足两条件即可。</p>
+<p>利用该方法构造的权重函数，确实可以得到\(f_w(\alpha)\)，它在\(\alpha=1/2\)处具有唯一极小点。幸好，我们只需要\(\Lambda_w(\alpha)=2f_w(\alpha)^r/(\alpha^\alpha(1-\alpha)^{1-\alpha})\)在该处具有全局最大值即可。故而，需要\(r\)不能过大。这里的下界就是这样找到的。</p>
+<h2 id="两两独立、k-独立"><a class="headerlink" href="#两两独立、k-独立"></a>两两独立、\(k\)-独立</h2>
+<p>理论中常常需要假定若干随机变量间独立，然而，实际应用中要产生大规模的随机性通常成本昂贵，所以这里讨论一种退而求其次的方法，即使用更弱的条件两两独立、三三独立或者一般地，\(k\)-独立代替独立。</p>
+<h3 id="增幅随机性"><a class="headerlink" href="#增幅随机性"></a>增幅随机性</h3>
+<p>考虑标准的单边误差Monte Carlo算法。假定它伪假的概率不大于\(1/2\)，每次执行需要消耗\(m\)位随机数。故而要将它的误差控制到\(\le 1/r\)，通常的算法需要\(m\log r\)位随机数。但是利用构造两两独立的随机序列，可以只消耗\(2m\)位随机数，获得任意不大于\(2^{-m}\)的误差控制。</p>
+<p>假定现在我们有\(r\le 2^m\)条长度为\(m\)的两两独立的随机序列。将它们作为输入，执行\(r\)次该Monte Carlo算法。利用二阶矩方法，我们有实际答案为真时，输出（伪）假的概率为</p>
+<p>\[\mathbb P[X=0]\le\text{Var}(X)/\mathbb E[X]^2=(r\mathbb E[X^2])/(r\mathbb E[X])^2=1/r\]</p>
+<p>这就完成了误差控制。注意，这里需要的时间复杂度比通常的方法更大。</p>
+<p>关键在于如何通过\(2m\)位随机数产出\(r\le 2^m\)个两两独立的随机序列。为此，取素数\(q\in(2^m,2^{m+1})\)，然后在域\(\mathbb Z_q\)上<sup class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup>随机选取两个素数\(a\)和\(b\)，得到函数\(f_{a,b}(x)=ax+b\)。然后每次需要一个新的序列，只要依次输入不同的\(x\)，然后计算\(f_{a,b}(x)\)即可<sup class="footnote-ref"><a href="#fn9" id="fnref9">[9]</a></sup>。要说明这样得到的序列是两两独立的，只需要验证定义；注意到，由于输入中包括两个独立维度，所以总是可以保证第二个序列相对于第一个序列的独立性。</p>
+<p>这种将\(2m\)个随机位放大到\(rm\)个（更弱的独立意义下的）随机序列的方法叫做增幅随机性（randomness amplification）。</p>
+<h3 id="利用k-独立实现并行的去随机的算法"><a class="headerlink" href="#利用k-独立实现并行的去随机的算法"></a>利用\(k\)-独立实现并行的去随机的算法</h3>
+<p>以二染色中单色\(k\)阶完全子图的存在性为例。在前文业已证明，当\(n=2^{k/2}\)时，\(k\)阶完全子图的期望数目为\(C(n,k)/2^{C(k,2)-1}\lt1\)，故而存在这样大小的不包含任何单色\(k\)阶完全子图的二染色。利用前文所述的去随机算法，只需要遍历各种染色可能，并在节点处选择期望数目更小的分支即可构造出这样的去随机算法。但是这一算法仍然是串行的，并不适宜并行计算。</p>
+<p>利用\(k\)-独立可以构造出思想类似的并行计算去随机算法。首先考虑其随机版本。选取素数\(q\gt C(n,2)\)，并记\(d=C(k,2)\)。注意到，随机选取系数\(a_0,\cdots,a_{d-1}\in\mathbb Z_q\)，则多项式\(f(x)=\sum_{i=0}^{d-1}a_ix^i\)实际上返回了\(d\)-独立的随机变量列；将返回结果以任意合理方式投影到二种颜色上，利用长度为\(q\)的随机变量列可以完成\(n\)阶完全图的二染色；由于上面的计算只依赖于\(d\)-独立性，其结果同样可以应用到这里的场景。所以，要去随机化地找到不包含任何单色\(k\)阶完全子图的二染色（或者更一般地，找到包含这样的完全子图数目尽可能少的染色方式）可以通过遍历所有可能的\(q^d\)种系数选取方式（也就转化为相应的二染色方式）得到。这样得到的算法可以在\(q^d=n^{O(k^2)}\)个处理器上并行实现。</p>
+<p>这里，\(k\)-独立性之所以能够用于设计去随机算法，是因为它减少了原来要求的独立染色的庞大可能性。让穷举所有可能的问题规模从\(2^n\)降低到\(n^{O(k^2)}\)，从而让并行具有可操作性。</p>
+<h3 id="普适哈希算法"><a class="headerlink" href="#普适哈希算法"></a>普适哈希算法</h3>
+<p>在字符全集\(U\)中有子集\(S\)（输入集）想储存在字典中，一种实现方式就是通过哈希表（hashing table）。利用哈希表存储难点之一就是碰撞的处理；碰撞即不同的字符具有相同的哈希值。给定某种哈希算法，总是可以构造特定的输入字符集，使得碰撞非常频繁，从而获得极差的字典性能。对于尚不清楚特点的一般的输入集，要尽可能减少碰撞的发生，其实相当简单，只需要考虑将\(S\)中的字符随机地分配到槽\(T\)中。而且我们清楚，这里只需要两两独立。而且通常更弱的要求也相当令人满意，比如2-普适性（2-universal），即对任意互异输入\(x,y\in S\)都成立\(\mathbb P[h(x)=h(y)]\lt1/|T|\)，即碰撞概率足够小；显然，两两独立是满足这一需求的。所以，前文所述的生成两两独立随机序列的算法也是2-普适的哈希算法：\(h(x)=ax+b\)。</p>
+<p>对于静态字典——即一经声称就不会再有键值增删的字典——来说，存在无碰撞的、槽数为\(O(|S|)\)的哈希算法。它是通过双重哈希（double hashing）的思路实现的。简单地说，首先通过第一个哈希函数得到粗略分组，每个分组再通过各自单独的哈希函数实现无碰撞的第二次哈希；具体实现中，第一次哈希的槽中只需要存储对应的第二次哈希的函数即可。</p>
+<p>给定输入集\(S\)。假定第一次哈希函数已经选定，输入集中的字符已经分到若干槽中，每个槽中有\(b_i\)个字符。第二次哈希函数可以选择将大小为\(b_i\)的分组投射到大小为\(b_i^2\)的槽中。碰撞发生的概率通过一阶矩方法控制，即\(\mathbb P[X_i>0]\le\mathbb E[X_i]=C(b_i,2)\cdot1/b_i^2\le1/2\)；这里我们随机选取某个2-普适哈希函数；给定字符串，期望只需要选取两次哈希函数就可以找到无碰撞的哈希函数。然后，再回头考虑第一次哈希函数的选取，我们需要总槽数\(\sum_ib_i^2=O(|S|)\)。记第一次哈希的槽数为\(n\ge|S|\)。同样，随机选取2-普适哈希函数，那么期望碰撞次数为\(C(|S|,2)\cdot1/n\le|S|/2\)；另一方面，碰撞次数可以写作\(\sum_iC(b_i,2)\)，所以槽数满足\(\sum_ib_i^2=\sum_ib_i+2\sum_iC(b_i,2)\)，所以其期望\(\mathbb E[\sum_ib_i^2]\le 2|S|\)，由Markov不等式，只需要平均两次随机尝试，就能找到第二次哈希得到的总槽数不多于\(4|S|\)的哈希函数。这就完成了针对具体输入集的双重哈希函数的选取。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>这部分和式实则该形式的子图\(H\)在随机图\(G\in\mathcal{G}_{n,p}\)中显现的期望个数。通过组合数学的分析可以得知，这一期望等于\(C(n,v)(v!/|\text{Aut}(H)|)p^e\)；这里，\(v\)和\(e\)分别为子图\(H\)的顶点数和边数，而\(|\text{Aut}(H)|\)为子图\(H\)的自同构群的大小。据此，该期望个数的阶为\(\Theta(n^vp^e)\)。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>当\(n^{-v/e}\ll{}p\ll{}n^{-\min{v/e}}\)时，此时存在某个\(H\)的子图几乎必然不显现，但是显现的\(H\)的期望数目仍然是无穷大。这应该是因为，一旦\(H\)的该子图得以显现，那么\(H\)就以成倍多的数目显现。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>在大小为\(n\)的随机图中随机选取\(4k\)个点，共有\(C(n,4k)\)种可能；这其中有\(C(n;k,\cdots,k,n-4k)\)种可能可以取得两两不重叠。这两者的比值，当\(n\rightarrow\infty\)时，会趋近于一。 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>为此，只需要代入\(k=2(1+x)\log_{1/p}n\)，这里，\(x\in\mathbb{R}\)接近于零。利用Stirling公式估阶，可以证明当\(x>0\)时，\(g(k)\)远小于一，而当\(x&lt;0\)时，\(g(k)\)远大于一。因而，使得\(g(k)\ge1\)成立的最大整数\(k_0(n)\)必然满足\(1-\varepsilon\lt{}k_0(n)/(2\log_{1/p}n)\lt{}1+\varepsilon\)，对于足够小的\(\varepsilon>0\)。这就完成了估阶。 <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>首先，注意到如果自某顶点\(a\)能够推出矛盾，即存在自顶点\(a\)分别到某变量\(x_i\)及其否定\(\neg{}x_i\)的路径，那么存在自\(a\)到\(\neg{a}\)的路径；如果该蕴涵图能够满足，那么\(a\)必然赋假；因而，如果顶点\(a\)能够推出矛盾，我们称顶点\(a\)隐假，而顶点\(\neg{a}\)隐真；既不隐真也不隐假的顶点，称为不定。对于任何顶点都可以考虑从它出发沿所有边尽可能下行得到的“树” 结构（严格地，定义为自某顶点开始，对下行操作封闭的最小顶点集）；相对地，也存在“逆树”结构。显然，在从隐真顶点出发的“树”结构中所有顶点都应当赋以真值，才有可能满足该公式。尚未赋值的顶点的子集诱导的子图，一来其中所有顶点都可以随意赋值，不会同已经赋值的顶点构成矛盾，因为由“树”定义中的封闭性，剩下的未赋值的节点，不存在自它到已经赋以假的顶点的路径，也不存在自已经赋以真的顶点到它的路径，二来该子图中所有顶点都是不定的。对于完全由不定顶点构成的蕴涵图，只需要首先取极大的“树”结构，赋以真值，剩下的未赋值顶点就是更小的完全由不定顶点构成的蕴涵图；重复这一步骤，就可以完成全部的赋值。这就说明，所有不含矛盾回路的图都是可满足的；必要性由此得以证明。 <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>大概其，首先选择极小的矛盾环路，然后选择其中最短的由某顶点到达其否定的所谓矛盾路径，将其沿着该矛盾环路延伸，直到满足“双环”的定义。这样的矛盾路径不应当包含重复变量（除了首尾的变量恰重复一次），因为顶点重复将违反矛盾环路的极小性（和矛盾路径的最短性），而存在除了首尾变量之外的某变量及其否定将违反矛盾路径的最短性；延伸到最后必然能够得到“双环”，这是因为尚未延伸的矛盾路径并不包含重复变量，而延伸到最后的矛盾环路是包含重复变量的。 <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>这一估计实际上只在\(1\ll{}z\ll{}n\)时候才成立，我们为了阐明思路，暂时忽略端点处的误差。 <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn8" class="footnote-item"><p>注意到只需要保证这里是域，故而可以取\(q\)是奇素数的幂，然后取其乘法群。 <a href="#fnref8" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn9" class="footnote-item"><p>对于大于\(2^m-1\)的数，可以直接扔掉；这样耗费的数不会超过一半。 <a href="#fnref9" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+      </div>
+      
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/%E9%9A%8F%E6%9C%BA%E7%AE%97%E6%B3%95/">随机算法</a>
+            <a href="/tags/%E5%AE%8C%E5%85%A8%E5%AD%90%E5%9B%BE/">完全子图</a>
+            <a href="/tags/k-SAT/">$k$-SAT</a>
+            <a href="/tags/k-%E7%8B%AC%E7%AB%8B%E6%80%A7/">$k$-独立性</a>
+            <a href="/tags/%E6%99%AE%E9%80%82%E5%93%88%E5%B8%8C/">普适哈希</a>
+            </div>
+        
+        <nav class="post-nav"><a class="next" href="/2021/07/20/note-0005-randomness-and-computation/">
+        <span class="next-text nav-default">UCB CS271 随机计算（一）</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:claudy.forrest@email.com" class="iconfont icon-email" title="email"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">云·弗利斯特</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>

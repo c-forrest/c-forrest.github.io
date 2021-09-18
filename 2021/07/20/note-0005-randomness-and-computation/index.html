@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 <meta name="description" content="UCB CS271 随机计算（一）"/><meta name="keywords" content="随机算法, 指纹算法, 素数测试, 概率方法, 随机图论, 博客" /><link rel="alternate" href="/default" title="博客" ><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
-<link rel="canonical" href="http://c-forrest.github.io/2021/07/18/note-0005-randomness-and-computation/"/>
+<link rel="canonical" href="http://c-forrest.github.io/2021/07/20/note-0005-randomness-and-computation/"/>
 
 <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
@@ -82,7 +82,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          2021-07-18
+          2021-07-20
         </span><span class="post-category">
             <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
             <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E9%9A%8F%E6%9C%BA%E6%95%B0%E5%AD%A6/">随机数学</a>
@@ -152,7 +152,7 @@
 <h2 id="用概率方法证明或计算的例子"><a class="headerlink" href="#用概率方法证明或计算的例子"></a>用概率方法证明或计算的例子</h2>
 <h3 id="Ramsey问题"><a class="headerlink" href="#Ramsey问题"></a>Ramsey问题</h3>
 <p>Ramsey问题是要求最小的\(n\)，使得在\(n\)阶完全图的任意2-染色中都存在至少一个单色的\(k\)阶完全子图；这样的\(n\)记作\(R_k\)，称为第\(k\)个Ramsey数。这一问题有个很通俗的表述，就是最少要多少人，才能保证要么存在\(k\)个人两两认识，要么存在\(k\)个人两两不认识；这也成为友谊问题。已知\(R_3=6\)。容易归纳地证明\(R_k\le 2^{2k-3}\)<sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>。通过概率方法可以获得其下界。考虑大小为\(n\)的完全图的随机2-染色，任取大小为\(k\)的完全子图，染成单色的概率为\(1/2^{C(k,2)-1}\)；而统共有\(C(n,k)\)个大小为\(k\)的完全子图，于是，含有至少一个大小为\(k\)的单色完全子图的概率为\(C(n,k)/2^{C(k,2)-1}\)。当\(n=2^{k/2}\)时，这一概率可以放缩如下</p>
-<p>\[P=C(n,k)/2^{C(k,2)-1}\le\frac{n^k}{k!}2^{1-(k^2-k)/2}=2^{1+k/2}/k!\rightarrow0，\]</p>
+<p>\[P=C(n,k)/2^{C(k,2)-1}\le\frac{n^k}{k!}2^{1-(k^2-k)/2}=2^{1+k/2}/k!\lt1，\]</p>
 <p>这就说明，大小为\(n=2^{k/2}\)的完全图并不一定包含大小为\(k\)的单色完全子图，所以\(R_k>2^{k/2}\)。</p>
 <h3 id="最大割问题"><a class="headerlink" href="#最大割问题"></a>最大割问题</h3>
 <p>给定图\(G\)，要找到二分的分划，使得割边（即两端点分别位于两个子图）的数目最多。这是著名的<strong>NP</strong>难问题。利用概率方法可以为最大割的大小提供下界。考虑随机的二分分划，即将每个顶点均匀随机地分配到两个子图，记边\(e\)成为割边的指示函数为\(X_e\)，则\(\mathbb P[X_e=1]=1/2\)。于是，割的大小为\(X=\sum_{e\in E}X_e\)。由于\(\mathbb E[X]=|E|/2\)，最大的割不会小于期望值，于是\(|E|/2\)就是最大割的下界。</p>
@@ -202,7 +202,12 @@
             <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%9B%BE%E8%AE%BA/">随机图论</a>
             </div>
         
-        <nav class="post-nav"><a class="next" href="/2021/07/17/note-0004-introduction-to-computability/">
+        <nav class="post-nav"><a class="prev" href="/2021/09/18/note-0006-randomness-and-computation-2/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">UCB CS271 随机计算（二）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    <a class="next" href="/2021/07/17/note-0004-introduction-to-computability/">
         <span class="next-text nav-default">可计算性理论初窥</span>
         <span class="prev-text nav-mobile">下一篇</span>
         <i class="iconfont icon-right"></i>
