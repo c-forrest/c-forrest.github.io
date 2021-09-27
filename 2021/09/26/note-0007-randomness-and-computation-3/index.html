@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="UCB CS271 随机计算（三）"/><meta name="keywords" content="随机算法, 无偏估计, Chernoff界, 博客" /><link rel="alternate" href="/default" title="博客" ><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="http://c-forrest.github.io/2021/09/26/note-0007-randomness-and-computation-3/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
+
+<script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
+
+    <title>UCB CS271 随机计算（三） - 博客</title>
+  <meta name="generator" content="Hexo 5.3.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">博客</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">博客</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">UCB CS271 随机计算（三）
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-09-26
+        </span><span class="post-category">
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/">数学笔记</a>
+            <a href="/categories/%E6%95%B0%E5%AD%A6%E7%AC%94%E8%AE%B0/%E9%9A%8F%E6%9C%BA%E6%95%B0%E5%AD%A6/">随机数学</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%81%8F%E4%BC%B0%E8%AE%A1%E4%B8%8E-strong-P-strong-%E9%97%AE%E9%A2%98"><span class="toc-text">无偏估计与#P问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNF%E9%97%AE%E9%A2%98%EF%BC%9AKarp-Luby%E7%AE%97%E6%B3%95"><span class="toc-text">#DNF问题：Karp-Luby算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%8F%AF%E9%9D%A0%E6%80%A7%E9%97%AE%E9%A2%98"><span class="toc-text">网络可靠性问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E5%9B%BE%E5%8C%B9%E9%85%8D%E7%9A%84%E6%95%B0%E7%9B%AE%E8%AE%A1%E7%AE%97"><span class="toc-text">二分图匹配的数目计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chernoff%E4%B8%8A%E7%95%8C%E5%92%8CHoeffding%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="toc-text">Chernoff上界和Hoeffding不等式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%8B%A9%E8%B7%AF%E7%AE%97%E6%B3%95"><span class="toc-text">随机择路算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E5%9B%BE%E4%B8%AD%E5%93%88%E5%AF%86%E9%A1%BF%E7%8E%AF%E8%B7%AF%E7%9A%84%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95"><span class="toc-text">随机图中哈密顿环路的搜索算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%97%AE%E9%A2%98"><span class="toc-text">负载均衡问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E6%9C%80%E5%A4%A7%E8%BF%9E%E9%80%9A%E5%8D%95%E5%85%83"><span class="toc-text">图的最大连通单元</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%BD%95%E5%B5%8C%E5%85%A5%E9%97%AE%E9%A2%98%EF%BC%9A%E9%99%8D%E7%BB%B4%E9%97%AE%E9%A2%98"><span class="toc-text">几何嵌入问题：降维问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%BD%95%E5%B5%8C%E5%85%A5%E9%97%AE%E9%A2%98%EF%BC%9A%E5%BA%A6%E9%87%8F%E7%AE%80%E5%8C%96%E9%97%AE%E9%A2%98"><span class="toc-text">几何嵌入问题：度量简化问题</span></a></li></ol></li></ol>
+    </div>
+  </div><div class="post-content"><p>书接上文。</p>
+<p>这一部分主要包括两方面内容：一是通过构造无偏估计量来获得计数问题的多项式时间近似算法，讨论了#DNF问题的Karp-Luby算法、网络可靠性问题和矩阵积和式问题等例子；二是用于获得独立变量和的尾部概率指数级估计的Chernoff界，讨论了它在随机择路算法、图的哈密顿环路搜索算法、负载连通问题、图的最大连通单元以及降维和度量简化两个几何嵌入问题等方面的应用。</p>
+<a id="more"></a>
+<h2 id="无偏估计与-strong-P-strong-问题"><a class="headerlink" href="#无偏估计与-strong-P-strong-问题"></a>无偏估计与<strong>#P</strong>问题</h2>
+<p>我们开始讨论输出值为数量的随机算法。基本思路就是通过无偏估计的重复抽样完成估计。假定\(X_i\)是真值\(\mu\)的无偏估计量，则可以进行多次独立试验，并用平均值\(\bar X_t\)作为其估计。利用Markov不等式，可以得到估计量偏离真值的相对误差超过\(\varepsilon\)的概率满足\(\mathbb P[|\bar X_t-\mu|\ge\varepsilon\mu]\le\sigma^2/(t\varepsilon\mu^2)\)。故而，要将该概率控制在\(1/4\)以下，就需要\(t=(4/\varepsilon^2)(\sigma^2/\mu^2)\)次重复试验。这由两部分组成：第一个因子是要控制的误差精度，第二个因子是无偏估计量的固有属性，类似信噪比。对于估计比例\(\mu\in[0,1]\)的特殊情况，注意到\(\sigma^2=\mu(1-\mu)\le\mu\)，所以有\(t\le4/(\mu\varepsilon^2)\)。</p>
+<p>注意到这种简单的重复试验需要的次数是同要控制的概率水平的倒数正相关的。为了控制概率到更低的水平，可以应用更为有效的中位数技巧，即进行多组试验，每组试验如同前文所述重复\(t\)将相对误差大于\(\varepsilon\)的概率控制到\(1/4\)，然后对这些分组试验的结果取中位数作为最终的结果。进行\((2s+1)\)组试验，相对误差大于\(\varepsilon\)的概率就能控制到\((3/4)^s\)以内<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>。故而，进一步的概率控制可以以\(O(\log\delta)\)的复杂度进行。</p>
+<p>无偏估计量的构造在<strong>#P</strong>问题的近似算法中有广泛应用。所谓<strong>#P</strong>问题（counting P problem），是指可以表做某一不确定性图灵机解决某一<strong>NP</strong>问题的可行的验证路径（世界线）的数目的计算问题。当然，<strong>#P</strong>完全问题就是指所有<strong>#P</strong>问题都能够图灵归约到的<strong>#P</strong>问题。尚未找到反例但也没有证明的猜想是，所有<strong>NP</strong>完全问题对应的计数问题都是<strong>#P</strong>完全的。但是，即使是<strong>P</strong>问题，对应的计数问题也可能是<strong>#P</strong>的。因而，我们常常需要寻求多项式时间的估计，即FPRAS（fully polynomial randomized approximation scheme），它通常要求具有相对于问题规模和相对精度（即\(1/\varepsilon\)）的多项式时间复杂度。通常手法就是设计合适的无偏估计量。</p>
+<h3 id="DNF问题：Karp-Luby算法"><a class="headerlink" href="#DNF问题：Karp-Luby算法"></a>#DNF问题：Karp-Luby算法</h3>
+<p>所谓DNF问题，正是SAT问题的反面。SAT问题讨论CNF公式的可满足性，而DNF问题讨论DNF公式的可满足性。虽然SAT问题是<strong>NP</strong>完全的，但是DNF问题是<strong>P</strong>问题；很显然，只要能满足第一个从句就可以了。但是，它对应的计数问题#DNF却是<strong>#P</strong>完全的。详细来说，就是要给出所有可能的满足某一DNF公式的赋值方法数目，这是很难在多项式时间内达到的。为了要说明这一点，只需要注意到根据de Morgan律，DNF公式必然是某CNF公式的否定，所以，全体赋值方法要么满足相应的DNF公式，要么满足相应的CNF公式，两者的和是\(2^n\)。我们可以证明，#SAT是<strong>#P</strong>完全的，故而#DNF必然也是<strong>#P</strong>完全的。</p>
+<p>现在退而求其次，寻求#DNF问题的多项式时间估计算法（FPRAS）。最简单的Monte Carlo模拟是不现实的，因为随机选择赋值方法可能满足给定DNF公式的概率的下极限是零，这意味着在多项式规模时间内无法准确估计其比例。为了找到对所有DNF公式都有用的方法，技巧是将全集的范围缩小，使得全集的大小既容易计算，又不比所求集大太多，然后我们可以在这样的全集上做Monte Carlo模拟。</p>
+<p>假定给定DNF公式具有\(m\)个从句。考虑空间\((a,i)\in\Sigma\times m\)。定义全集\(U\)包含所有其中赋值方法\(a\)满足第\(i\)个从句的对，然后定义所求集\(R\)包括所有赋值方法\(a\)以及它能够满足的标号最小的\(i\)构成的对。注意到，每个能够满足给定公式的赋值方法都出现且仅出现在\(R\)中一次，故而\(R\)的大小就是所有能够满足给定公式的赋值方法的数目。每个能够满足给定公式的赋值方法都至多满足\(m\)个式子，所以，\(|R|/|U|\ge1/m\)，可以通过简单的Monte Carlo模拟进行无偏估计。要求得\(|R|\)，还需要计算\(|U|\)，这容易计算，只要分别计算能够满足每个从句的赋值方法的数目然后再加总就好了。最后是进行随机抽样的方法。为保证\(|U|\)中每个对都等概率地抽取，可以首先计算能够满足不同从句的赋值方法的数目，然后首先根据该比例抽取从句，然后再从能够满足该从句的所有赋值方法中等概率抽取。这一算法称为Karp-Luby算法。算法主要的开销还是在Monte Carlo这一步，随机生成需要\(O(m+n)\)时间复杂度，而判定该对是否属于\(R\)需要检查所有之前的从句，需要\(O(mn)\)时间复杂度，总共需要\(O(m\varepsilon^{-2})\)次抽样，故而总时间复杂度为\(O(nm^2\varepsilon^{-2})\)。</p>
+<p>稍作修改，Karp-Luby算法还可以用于解决概率DNF问题。具体来说，就是每个变量赋以真值的概率给定，要计算随机选取的赋值方法能够满足给定DNF公式的概率。算法大致类似上文，只需要根据具体的概率作为权重，相应地修正每一步的计算和随机抽样即可。</p>
+<h3 id="网络可靠性问题"><a class="headerlink" href="#网络可靠性问题"></a>网络可靠性问题</h3>
+<p>网络可靠性问题是指，在给定的连通无向图\(G\)中，如果每条边都有一定概率消失，那么要求图变得不连通的概率\(p_f\)。这一问题是<strong>#P</strong>难的，即使假定所有边消失的概率都是\(1/2\)。为讨论方便，假定所有边消失的概率是相等的，设为\(p\)。这一问题等价于，图\(G\)的所有子图中随机抽取一个，不连通的概率有多大。</p>
+<p>删除一些边，图变得不连通，则删掉的边构成割。不连通的概率不会小于单个割消失的概率，故而有\(p_f\ge p^c\)，这里\(c\)是图\(G\)的最小割的大小。显然，如果所求概率不太小，那么Monte Carlo模拟直接可以给出多项式规模时间内的无偏估计量。比如说，如果\(p^c\ge n^{-4}\)，那么Monte Carlo直接模拟需要的试验次数为\(O(n^4\varepsilon^{-2})\)。难点在于处理\(p^c\lt n^{-4}\)的情形。为此，需要引入\(\alpha\)-割的概念，即大小不大于\(\alpha c\)的割。然后，我们要说明，大小比\(\alpha\)-割还大的那些割拢在一块的概率也可以忽略不计，而\(\alpha\)-割可以在多项式时间内穷举，他们的概率之和就提供了很好的估计。当然，这里\(\alpha\)的选取是需要特别考量的。</p>
+<p>在说明这两点之前，我们首先要提一下求最小割的随机算法；它也是后续讨论\(\alpha\)-割的基础。给定连通无向图\(G\)，均匀随机选定一条边合并它的两个顶点，新合并的顶点继承之前两顶点的所有边；注意，这里合并前从不同顶点出发的两条边合并后依然成为两条边，所以合并后的图可能出现两顶点之间具有多条无向边的情形。重复这一过程，直到只剩下两个顶点；这时候剩下的所有边构成原图的一个割。由于合并过程中，所有中间过程图的割都是原图的割。对于这些图，最小割大小都至少为\(c\)，说明每个顶点的度都不小于\(c\)，故而图形具有至少\((n-i)c/2\)条边；因而，此时均匀选取一条边进行合并时，恰选到某一事前给定的最小割的概率小于\(2/(n-i)\)；故而，选定的最小割能够存活到最后的概率不小于\((1-2/n)\cdot\cdots\cdot(1-2/3)=1/C(n,2)\)。一个推论是全体最小割的数目不大于\(C(n,2)\)。理论上，只需要\(O(n^2)\)次试验就能得到最小割。</p>
+<p>类似地，可以证明\(\alpha\)-割的数目不大于\(n^{2\alpha}\)。同样是随机选取边合并其顶点，这次合并至剩余\(2\alpha\)个顶点<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>；然后，在剩下的图中随机选取一个割。对于给定的\(\alpha\)-割，每次选边恰巧选中的概率为\(2\alpha/(n-i)\)；所以选定的\(\alpha\)-割能够在合并过程中存活下来的概率不小于\(1/C(n,2\alpha)\)；最后得到的图中至多存在\(2^{2\alpha-1}-1\)个割<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>，故而，最后选割恰巧选到事先选取的割的概率不小于\(1/2^{2\alpha-1}\)。所以，这一过程恰巧选中某一给定\(\alpha\)-割的概率不小于\(1/(C(n,2\alpha)2^{2\alpha-1})\ge1/n^{2\alpha}\)。所以全体\(\alpha\)-割的数目不大于\(n^{2\alpha}\)。要通过随机抽取的方法遍历全部的\(\alpha\)-割，这是经典的赠券收集（coupon collector）问题<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>，期望时间复杂度为\(O(n^{2\alpha}\log n^{2\alpha})\)。所以，在多项式规模时间内，就可以极大概率地遍历全部\(\alpha\)-割。但是这些割并不两两互斥，所以要计算其整体的概率实际上是一个概率DNF问题，可以用Karp-Luby算法的变体解决。</p>
+<p>然后讨论大小至少为\(\alpha c\)的割的出现概率的控制。要计算这一尾部概率，首先注意到根据前一段的结论，从小到大第\(n^{2\beta}\)个割的大小必然大于\(\beta c\)，故而从小到大第\(k\)个割的大小不小于\((c/2)\log_nk\)，所以该割对应的概率不大于\(p^{(c/2)\log_nk}=k^{-(1+\delta/2)}\)；这里，我们定义\(\delta\gt2\)使得它成立\(p^c=n^{-(2+\delta)}\)。利用积分可以对这一概率构成的级数的尾部进行放缩，可以证明自第\(n^{2\alpha}\)项开始，余项和式不大于\(n^{-\alpha\delta}\)。而对于前\(n^{2\alpha}\)项中大小至少为\(\alpha c\)的割的出现概率，容易控制单个割出现概率不超过\(p^{\alpha c}=n^{-(2+\delta)\alpha}\)，而数目又不大于\(n^{2\alpha}\)，总概率必然也不大于\(n^{-\delta\alpha}\)。两部分加起来，大小至少为\(\alpha c\)的割的出现概率不大于\(2n^{-\delta\alpha}\)。我们希望这一概率不超过\(\varepsilon p^c\)，从而这一尾部能够吸收到误差范围内；代入表达式，这等价于\(\alpha\ge1+(2/\delta)+(1/\delta)\log_n(2/\varepsilon)\)；利用\(\delta>2\)，可以一般地取\(\alpha=2+(1/2)\log_n(2/\varepsilon)\)。</p>
+<p>现在，可以总结计算网络可靠性的随机算法如下。首先，计算给定图的最小割的大小\(c\)，判断\(p^c\)同\(n^{-4}\)的关系。当\(p^c\ge n^{-4}\)时，利用Monte Carlo模拟获得估计；否则，选取\(\alpha=2+(1/2)\log_n(2/\varepsilon)\)，利用随机选取边合并顶点的算法遍历全部的\(\alpha\)-割，并利用Karp-Luby算法的变体计算消失概率之和作为最终的估计。</p>
+<h3 id="二分图匹配的数目计算"><a class="headerlink" href="#二分图匹配的数目计算"></a>二分图匹配的数目计算</h3>
+<p>前文已经讨论过搜索二分图完美匹配的算法。这里讨论二分图完美匹配的数目计算问题。这问题也是<strong>#P</strong>完全的。我们寻求其多项式时间估计算法（FPRAS）。这一问题也等价于，给定一个矩阵\(A\in\{0,1\}^{n\times n}\)，求其积和式（permenant），这里，\(\text{perm}(A)=\sum_{\sigma\in S_n}\prod_{i=1}^na_{i\sigma(i)}\)<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>。</p>
+<p>近似算法非常简单。对于给定矩阵\(A\)，首先在第一行中随机选取等于一的元素，然后删除所在行所在列，在余子式中继续随机选取第一行中等于一的元素，直到矩阵只剩下一个元素；积和式就估计为这些依次嵌套的方阵的第一行的一的数目的乘积。换一个角度，可以将矩阵\(A\)转换为一个树，根节点是原矩阵，每个等于一的元素都对应一个分支，对应子节点是相应的余子式，从这些余子式再向下分支，直到都只剩下一个元素，这就成为了全部的叶节点。每个积和式定义中的不为零的项都对应一条自根节点到叶节点的路径；于是积和式就等于该树叶节点的数目。该近似算法实际上是Knuth提出的用于估算任意树的叶节点数目的近似算法的特殊形式。注意到，该算法相当于随机选择一个叶节点，每个叶节点选中的概率都等于路径上每个非叶节点的子节点数目的乘积的倒数，而该算法用于估计的恰恰是该乘积，故而均值等于全体叶节点的数目。这就证明了算法中估计量的无偏性。</p>
+<p>难点在于证明算法可以在多项式时间内得到要求精度的估计，这需要控制该估计量的方差。但是很遗憾，比如说，非零元素全为一的上三角矩阵的积和式为1，但是按照该算法，仅有概率\(1/n!\)得到估计\(n!\)，其余情况均返回零，这意味着最差情况可能存在任意大的方差。所以，退而求其次，考虑每个位置等概率出现0或1的概率模型\(\mathcal A_n\)，我们要证明在概率模型\(\mathcal A_n\)下，几乎所有随机矩阵的积和式都可以在多项式时间内求得。具体来说，我们要证明\(\mathbb P_{\mathcal A_n}[\mathbb E[X_A^2]/\mathbb E[X_A]^2>n\cdot\omega(n)]\rightarrow0\)，这里，\(\omega(n)\)可以是以任意（缓慢的）速度趋于正无穷的数列。所以，以任意高概率，算法可以在\(O(n\cdot\omega(n)/\varepsilon^2)\)时间内达到所求精度。</p>
+<p>要证明这一结论，关键在于证明引理\(\mathbb P_{\mathcal A_n}[\text{perm}(A)=\mathbb E[X_A]\lt\mu(n)/\omega(n)]\rightarrow0\)，这里，\(\mu(n)=\mathbb P_{\mathcal A_n}[\mathbb E[X_A]]\)；也就是说，随机矩阵\(A\in\mathcal A_n\)的积和式相当程度分布在均值附近。只要证明了这一点，注意到根据Markov不等式成立\(\mathbb P_{\mathcal A_n}[\mathbb E[X_A^2]>\mathbb E_{\mathcal A_n}[\mathbb E[X_A^2]]\cdot\omega(n)]\le1/\omega(n)\rightarrow0\)，再由引理成立\(\mathbb P_{\mathcal A_n}[1/\mathbb E[X_A]^2>\omega(n)^2\cdot1/\mathbb E_{\mathcal A_n}[\mathbb E[X_A]]^2]\rightarrow0\)，故而，\(\mathbb P_{\mathcal A_n}[\mathbb E[X_A^2]/\mathbb E[X_A]^2>\mathbb E_{\mathcal A_n}[\mathbb E[X_A^2]]/\mathbb E_{\mathcal A_n}[\mathbb E[X_A]]^2\cdot\omega(n)^3]\rightarrow0\)；而直接的计算可以证明<sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>，\(\mathbb E_{\mathcal A_n}[\mathbb E[X_A^2]]/\mathbb E_{\mathcal A_n}[\mathbb E[X_A]]^2=n+1\)，这就得到了我们想要的结果。</p>
+<p>引理的证明考虑两步的生成模型，首先选择\(M\sim B(n^2,1/2)\)，作为随机矩阵中全部一的个数，然后给定这一数目，随机分布在\(n^2\)个位置上得到矩阵，亦即选择\(A\in\mathcal A_{n,M}\)。借助这一两步的模型，引理的证明思路也很直接：首先，\(M\)将集中在均值\(n^2/2\)附近；而对于（相对于\(n\)）足够大的\(m\)，随机选取矩阵\(A\in A_{n,m}\)其积和式也将集中在均值附近。</p>
+<p>我们从计算\(\mathbb E_{\mathcal A_{n,m}}[\text{perm}(A)]\)开始。考虑其几何意义，这相当于问，给定两组\(n\)个顶点随机选取\(m\)条边连接两组顶点，包含的完美匹配的数目。一般地，随机选取\(m\)条边，恰包含给定的\(t\)条边的概率为\(q(t)=C(n^2-t,m-t)/C(n^2,m)=m(m-1)\cdots(m-t+1)/(n^2(n^2-1)\cdots(n^2-t+1))\)\(=(m/n^2)^t\exp(-(t^2/2)(1/m-1/n^2)+O(n^3/m^2))\)，这对于\(t\le2n\)都成立；从余项可以看出，我们要求\(m\)相对\(n\)足够大，就是要求\(n^3/m^2\rightarrow0\)。所以，\(\mathbb E_{\mathcal A_{n,m}}[\text{perm}(A)]=n!q(n)=n!(m/n^2)^n\exp(-(1/2)(n^2/m)+1/2+O(n^3/m^2))\)。同理，还可以计算\(\mathbb E_{\mathcal A_{n,m}}[\text{perm}(A)^2]\)。考虑其几何意义，并展开平方式，相当于对\(\mathbb E[H,H'\subseteq G_A]\)求和。当\(H\)和\(H'\)恰重合\(k\)条边时，除了这\(k\)条边，剩下的边应当构成错排（derangement）<sup class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup>。所以，可以求得这个和式为\(\sum_{k=0}^nn!C(n,k)D(n-k)q(2n-k)\)，经过巧妙的估算<sup class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup>，这一和式恰为\((n!)^2(m/n^2)^{2n}\exp(-(n^2/m)+1+O(n^3/m^2))\)。直接作商可得，\(\mathbb E_{\mathcal A_{n,m}}[\text{perm}(A)^2]/\mathbb E_{\mathcal A_{n,m}}[\text{perm}(A)]^2=1+O(n^3/m^2)\)。所以，根据Chebyshev不等式，\(\mathbb P_{\mathcal A_{n,m}}[\text{perm}(A)&lt;\mathbb E_{\mathcal A_{n,m}}[\text{perm}(A)]/2]\rightarrow0\)。同样，根据Chebyshev不等式，\(M\ge n^2/2-\omega'n\)也大概率成立；这里，\(\omega'\)是任意取于正无穷的序列。结合这两点，在\(\mathcal A_{n}\)下大概率成立，\(\text{perm}(A)/\mu(A)\)可以利用上述估计直接计算出来不小于\(\exp(-2\omega'-1)/2\)，将后面这个式子取作\(1/\omega(n)\)即可。这就完成了引理的证明。</p>
+<h2 id="Chernoff上界和Hoeffding不等式"><a class="headerlink" href="#Chernoff上界和Hoeffding不等式"></a>Chernoff上界和Hoeffding不等式</h2>
+<p>Markov不等式和Chebyshev不等式提供了常用的估计尾部概率的手段。它们也是在缺乏更多分布信息的场景下能够获得的最好的界。但是他们只能提供相对于偏差大小按照多项式速度衰减的尾部，这常常并不够用。比如说，对于多个独立分布变量的和（或者均值），按照中心极限定理，应当具有近似正态分布的指数速率的尾部。但是，中心极限定理只能提供渐近的尾部估计。我们需要在有限样本条件下找到精确的尾部估计。Chernoff上界就提供了这样的估计。</p>
+<p>Chernoff上界的思路非常简单。就是最大地利用对\(e^{tX}\)的Markov不等式的能力。任取\(t>0\)。对于\(n\)个独立（但未必同分布）的在\([0,1]\)上的有界随机变量，它们的和\(X\)的分布的尾部概率\(\mathbb P[X\ge\mu+\lambda]\le e^{-t(\mu+\lambda)}\prod_{i=1}^n\mathbb E[e^{tX_i}]\le e^{-t(\mu+\lambda)}\prod_{i=1}^n(p_ie^t+1-p_i)\)，这里，\(p_i=\mathbb E[X_i]\)且\(\mu=\sum_ip_i\)；第一个不等式是Markov不等式，第二个不等式是利用\(e^{tx}\)的凸性，等号在0-1分布处取得。然后，Chernoff上界的关键就在于，这里的\(t>0\)是可以随意选取的，我们可以选取\(t\)使得该上界最紧。</p>
+<p>一种做法是，对最右侧的式子应用均值不等式，得到\(\mathbb P[X\ge\mu+\lambda]\le e^{-t(\mu+\lambda)}(pe^t+1-p)^n\)，这里，\(p=\mu/n\)；而后，对\(t\)求最值，经过整理为\(\mathbb P[X\ge\mu+\lambda]\le\exp(-nD(p+\lambda/n||p))\)，这里，\(D(x||p):=x\ln(x/p)+(1-x)\ln((1-x)/(1-p))\)是两个两点分布之间的KL距离；同理，另一侧有\(\mathbb P[X\le\mu-\lambda]\le\exp(-nD(1-p+\lambda/n||1-p))\)。这个结果形式过于繁复，难以应用。常见的形式是Hoeffding不等式。通过简单的分析<sup class="footnote-ref"><a href="#fn9" id="fnref9">[9]</a></sup>可知，\(D(p+z||p)\ge2z^2\)，所以，\(\mathbb P[X\ge\mu+\lambda]\le\exp(-2\lambda^2/n)\)；同理，\(\mathbb P[X\le\mu-\lambda]\le\exp(-2\lambda^2/n)\)。</p>
+<p>还有所谓乘法形式的Hoeffding不等式。还是从KL距离的形式出发。注意到\(\mathbb P[X\le(1-\beta)\mu]=\exp(n(1-p+\beta p)\ln((1-p)/(1-p+\beta p))+(1-\beta)p\ln(p/((1-\beta)p)))\)\(\le\exp(-\mu(\beta+(1-\beta)\ln(1-\beta)))\le\exp(-\mu\beta^2/2)\)；这里，第一个不等式的关键在于对第一项利用了\(\ln(1-x)\le-x\)，第二个不等式主要需要注意到二阶导数对于\(\beta\in(0,1)\)不小于\(1\)。另一侧类似，同样利用\(\ln(1+x)\le x\)可以得到估计\(\mathbb P[X\le(1+\beta)\mu]\le\exp(-\mu(-\beta+(1+\beta)\ln(1+\beta)))\)，这里可以得到对于\(\beta>0\)都成立的估计\(\mathbb P[X\le(1+\beta)\mu]\le\exp(-\mu\beta^2/(2+\beta))\)。乘法形式相对所谓加法形式的优点在于当\(\beta\ll n\)时有更好的表现。</p>
+<p>Hoeffding不等式最常见的一般形式是对于\([a_i,b_i]\)上的独立随机变量的和进行讨论的。由于我们只关心相对于均值的偏差，不失一般性，可以首先通过平移去除均值，假定\(\mathbb E[X_i]=0\)。上文中Chernoff界的一般思路依然成立，只是这里\(\mathbb E[e^{tX_i}]\le e^{ta_i}b_i/(b_i-a_i)-e^{tb_i}a_i/(b_i-a_i)\)；右侧可以变形为\(\exp(-ph+\ln(1-p+pe^h))\)，这里，\(h=t(b_i-a_i)\)，\(p=-a_i/(b_i-a_i)\)；将括号内的部分视作\(h\)的函数，利用二阶导数不大于\(1/4\)立马可知右侧不大于\(\exp(t^2(b_i-a_i)^2/8)\)。这一表达式在平移下保持不变，故而对一般的情形也成立；所以有\(\mathbb E[e^{t(X_i-\mu_i)}]\le\exp(t^2(b_i-a_i)^2/8)\)，这也称为Hoeffding引理。所以，尾部概率\(\mathbb P[X\ge\mu+\lambda]\le\exp(-t\lambda+t^2\sum_i(b_i-a_i)^2/8)\)；对\(t\)取最值，立刻有\(\mathbb P[X\ge\mu+\lambda]\le\exp(-2\lambda^2/(\sum_i(b_i-a_i)^2))\)。这是相当一般的Hoeffding不等式。</p>
+<h3 id="随机择路算法"><a class="headerlink" href="#随机择路算法"></a>随机择路算法</h3>
+<p>作为第一个应用，首先考虑超立方体格点\(\{0,1\}^n\)，每个格点处有一个包裹。假定在仅有一个位置元素存在差异的一对格点间均存在两个方向的有向边，包裹只能沿着有向边运输，单位时间内只能运过一条边；换言之，每个包裹每次运输能够到达的顶点与出发点只能差一个元素。同一时间同一边只能运输至多一个包裹；若不止一个包裹都要通过该路径，只能在出发点排队，按照比如说先进先出的规则逐个通过。给定某个格点的排列作为每个包裹运输的终点，要找到多项式时间内结束的运输法则。</p>
+<p>我们考虑最简单形式的运输法则，其中运输路径只由起止点决定，而与其他包裹无关；这种各扫门前雪的运输法则称为漠然的（oblivious）。但是，可以证明，对于任意给定的漠然的运输法则，都存在某个排列，使得考虑排队等待之后的总运输时间达到\(\Omega(\sqrt{N/n})\)，这里，\(N=2^n\)；这就提供了对给定路径进行恶意攻击的可能。通过随机择路算法，可以保证大概率下能够在\(O(n)\)时间内完成运输。所谓随机择路（randomized routing）算法，是指对每个包裹，都随机选择一个中间点，然后让该包裹依次按照翻转最低差异位<sup class="footnote-ref"><a href="#fn10" id="fnref10">[10]</a></sup>的方法从起点出发，经过中间点，到达终点。</p>
+<p>要证明这一算法是大概率\(O(n)\)的，只需要证明每个包裹到达中间点的时间是大概率\(O(n)\)的即可，后半程显然对称。估计的重点在于等待时间的估计。对于起点\(i\)，等待时间是随机变量\(D(i)\)，则移动时间至多为\(n+D(i)\)；所以，全部运输的总耗时至多为\(n+\max_iD(i)\)。要证明对于某个\(c\)，\(\mathbb P[n+\max_iD(i)>cn]\rightarrow0\)，实际上需要估计的是\(2^n\)个事件的并的概率，所以我们期待\(\mathbb P[D(i)>(c-1)n]=o(2^{-n})\)，即得到指数级的尾部概率。这也正是我们需要Chernoff上界的原因。</p>
+<p>但是要把\(D(i)\)转化为独立随机变量的和并不容易。包裹\(i\)会延误，是因为有比如说包裹\(j\)进入了包裹\(i\)的路径。首先注意到，只要包裹\(j\)离开了包裹\(i\)的路径，就不会再进入；这是由翻转最低差异位的算法决定的。包裹\(i\)每单位延误的时间，都可以归因于某个进入其路径的包裹；粗略地说，每次包裹\(i\)的等待，都是因为前方进入了新的包裹，所以延误时间的长度\(D(i)\)就等于前方新进入的包裹个数，而小于总的同包裹\(i\)的运输路径有重合的包裹个数\(S(i)=\sum_{j\neq i}H_{ij}\)，这里，\(H_{ij}\)标记包裹\(i\)和包裹\(j\)的路径是否有重叠。显然，\(H_{ji}\)两两独立。为应用Chernoff界，需要计算\(\mathbb E[\sum_{j\neq i}H_{ij}]\)；难以计算\(\mathbb E[H_{ij}]\)；转而考虑\(i\)路径中的单条边，由于要对所有包裹求和，可以认为路径的起止点都是随机的；等价地，可以考虑随机选定其他包裹的路径之后，随机选择该单条边的位置，恰巧选到其他包裹的路径上的概率；所有其他可能的路径的全长为\(N(n/2)\)，而选到单个给定单向边的概率为\(1/(Nn)\)，所以随机选择的全部路径能够通过给定边的期望数目为\(1/2\)；路径\(i\)中至多有\(n\)个这样的边，所以，\(\mathbb E[D(i)]\le \mathbb E[S(i)]\le n/2\)。最后，就是直接应用乘积形式的Hoeffding不等式，有\(\mathbb P[D(i)\ge(1+\beta)\mu]\le\exp(-\mu\beta^2/(2+\beta))\)；可以证明，使用高估的期望\(n/2\ge\mu\)，这个不等式给出的上界\(\exp(-(n/2)\beta^2/(2+\beta))\)变得更松了，故而依然成立<sup class="footnote-ref"><a href="#fn11" id="fnref11">[11]</a></sup>。所以，只要取\(\beta=6\)就可以得到\(\mathbb P[D(i)\ge(7/2)\beta]\le\exp(-9n/2)=o(2^{-n})\)。这已经满足我们的需求。由此，大概率该随机择路算法可以使得算法在\(9n\)时间内结束。</p>
+<h3 id="随机图中哈密顿环路的搜索算法"><a class="headerlink" href="#随机图中哈密顿环路的搜索算法"></a>随机图中哈密顿环路的搜索算法</h3>
+<p>无向图中的哈密顿环路（Hamilton cycle）是指图中经过所有节点各恰一次的环路。给定无向图，判断它是否包含哈密顿环路，这是一个<strong>NP</strong>完全问题。我们寻求能够大概率在多项式时间内找到哈密顿环路的随机算法。对于随机图\(G\in\mathcal G_{n,p}\)包含哈密顿环路，存在阈值形式结果：对于概率\(p=(\ln n+\ln\ln n+c(n))/n\)，如果\(c(n)\rightarrow+\infty\)，那么几乎必然含有哈密顿环路；如果\(c(n)\rightarrow-\infty\)，那么几乎必然不含有哈密顿环路；如果\(c(n)\rightarrow c\)，那么存在哈密顿环路的概率为\(e^{-e^{-c}}\)。对于第一种情形确实存在多项式时间内能大概率找到这样一条哈密顿环路的算法。这里，我们只介绍一个简单的算法，能够解决\(p\ge 72\ln n/(n-1)\)条件下找到这样环路的问题。</p>
+<p>算法很简单。从随机的顶点出发，构造这样一条路径。每次都从当前路径的尾端相邻的顶点中按照某种方式随机选择一个顶点：如果这个顶点没有包含在当前路径中，就将该边添加到当前路径中，该顶点成为新的尾端，这一操作称为延长操作；而如果这个顶点已经包含在当前路径中，依然添加该边到当前路径，但是把该顶点原来连接它（相对于该路径而言）下一顶点的边从路径中移除，下一顶点称为新的尾端，这一操作称为旋转操作<sup class="footnote-ref"><a href="#fn12" id="fnref12">[12]</a></sup>。每进行一次延长或者旋转操作，都检查该路径是否能够闭合成哈密顿环路；重复\(2(n-1)\ln(n-1)\)次，如果还没有找到哈密顿环路，终止算法，返回失败。</p>
+<p>这一算法的关键在于合理地随机选择下一顶点。我们期望是，在随机图模型下，更新后的路径的尾端均匀地从除了选定顶点之外的所有顶点中选出。如果可以保证完全均匀随机的选择，那么前\(2(n-1)\ln(n-1)\)次选择就可以保证大概率所有顶点都添加到了现有路径中，后\(2(n-1)\ln(n-1)\)次选择就可以保证大概率所有顶点都成为了至少一次该路径的尾端；这样，只要存在哈密顿回路，就必然可以在某一次选择之后找到；这里两个大概率都是基于赠券收集问题的相关结论得出的。</p>
+<p>关键在于保证这里随机选择算法的完全均匀随机。直接从所有相邻顶点中随机选择显然并不合理，这样，恰好选择到路径中前一顶点的概率为\(\mathbb E[1/\text{deg}(v)]>1/(n-1)\)，这并不均匀随机；我们需要适当调整这样的概率。这里要处理两种情形。如果从顶点\(x\)出发，曾经选择过\(y\)作为下一顶点，那么再次选择出现\(y\)的概率就会变大，因为之前的选择提供了信息，这一信息说明\(y\)已经出现在\(x\)的相邻顶点中<sup class="footnote-ref"><a href="#fn13" id="fnref13">[13]</a></sup>；为了处理这一情形，只需要记录从\(x\)出发已经选中的集合\(OLD(x)\)，然后每次选择时只以\(|OLD(x)|/(n-1)\)概率从\(OLD(x)\)中选择，其余概率则从剩下的顶点集中抽取。另一种情形是反过来的，注意到\(x\in OLD(y)\)也提供了信息，会增加\(y\in OLD(x)\)的概率；为了处理这一情形，巧妙的方法是将从\(x\)出发选择和从\(y\)出发两件事情解耦合；具体来说，每次选择不是从\(x\)的相邻顶点集中选择，而是从另外构造的集合\(N(x)\)中选择；构造\(N(x)\)时，对每个边\((x,y)\in E\)，分别以概率\(p/4\)定义\(y\in N(x)\)且\(x\in N(y)\)以及\(y\notin N(x)\)且\(x\notin N(y)\)，分别以概率\(1/2-p/4\)定义\(y\notin N(x)\)且\(x\in N(y)\)以及\(y\in N(x)\)且\(x\notin N(y)\)；这样，在随机图模型下，\(y\in N(x)\)仅以概率\(p/2\)成立，但是，所有这样的事件都是互相独立的；虽然降低了每个边选中的概率，但是使得\(x\in OLD(y)\)不再提供\(y\in OLD(x)\)的任何信息，保证了概率均等。考虑这两点，就是符合要求的完全均匀随机的选择算法。</p>
+<p>最后，这一选择算法有个很关键的细节是，\(N(x)/OLD(x)\)要大概率在\(4(n-1)\log(n-1)\)次迭代中保持非空，否则根本无法支持上述选择算法的进行。这里是通过Chernoff界估计的。由于\(|N(x)|\sim B(n-1,p/2)\)，自然有\(\mathbb E[|N(x)|]\ge 36\ln n\)；所以，利用乘法形式的Hoeffding不等式，成立\(\mathbb P[|N(x)|\le 24\ln n]\le\exp(-(1/3)^2\mu/2)=1/n^2\)。另一方面，由于\(|OLD(x)|\sim N(4(n-1)\log(n-1),1/(n-1))\)，必然成立\(\mathbb P[|OLD(x)|\ge24\ln n]\le(-5^2/7\cdot4\ln(n-1))\le1/n^2\)。所以，大概率是成立\(|N(x)|\ge24\ln n\ge|OLD(x)|\)的。</p>
+<h3 id="负载均衡问题"><a class="headerlink" href="#负载均衡问题"></a>负载均衡问题</h3>
+<p>考虑这样一个模型。有\(m\)个球随机扔到\(n\)个箱子里，我们好奇单个箱子最多装着的球个数；这类似随机分配服务器时，最大负载的数目。最直接的做法是处理多项式分布，但是这通常很困难。一种简单的考虑是考虑每个箱子：对于单个箱子，箱子内容纳的球个数服从均值为\(m/n\)的Poisson分布。不同箱子内的球个数显然不独立。但是，直接计算可以得知，\(\mathbb P[X_i=k_i,\forall i]=\prod_{i=1}^n\mathbb P[Y_i=k_i]/\mathbb P[\sum_iY_i=m]\)；这里，\((X_i)_{i=1}^n\)服从多项式分布，\(Y_i\)服从独立的Poisson分布；所以，多项式分布只是加上总和条件之后的独立Poisson分布。如果某个事件\(E\)发生的概率关于\(m\)是递增的，在独立Poisso分布模型下该事件发生的概率为\(\mathbb P[E]=\sum_{k=0}^\infty\mathbb P[E|\sum_iY_i=k]\mathbb P[\sum_iY_i=k]\ge\mathbb P[E|\sum_iY_i=m]\mathbb P[\sum_iY_i\ge m]\ge(1/4)\mathbb P[E|\sum_iY_i=m]\)；所以，多项式分布模型下的概率不超过独立Poisson分布模型下计算概率的4倍；这里，\(1/4\)是直接对Poisson分布分析得出的；递减的情形也类似。</p>
+<p>利用这一技巧，不难证明当\(m=n\)时，最大负载大概率为\(\Theta(\ln n/\ln\ln n)\)。首先取\(c_1=1+\varepsilon\)，考察存在箱子装有超过\(c_1\ln n/\ln\ln n\)个球这一事件；显然它发生的概率关于球数目\(m\)递增。要控制它的概率，只需要考察独立Poisson分布模型就行。单拎出来一个箱子，有\(Y_i\sim\text{Poisson(1)}\)，其尾部概率\(1/(ek!)\le\mathbb P[Y_i\ge k]\le1/k!\)，故而，\(\ln\mathbb P[Y_i\ge k]\sim-\ln k!\sim -k\ln k\sim -c_1\ln n\)，若这里\(k=c_1\ln n/\ln\ln n\)；所以，总的概率必然满足\(\ln\mathbb P[\max_iY_i\ge k]\le\ln n+\ln\mathbb P[Y_i\ge k]\sim-\varepsilon\ln n\rightarrow-\infty\)，即该概率趋于零。反过来，首先取\(c_2=1-\varepsilon\)，考察没有箱子装有超过\(c_2\ln n/\ln\ln n\)个球这一事件；显然它发生的概率关于球数目\(m\)递减。要控制它的概率，也只需要考察独立Poisson分布模型。这次，该概率不大于\((1-1/(ek!))^n\le\exp(-n/(ek!))\)，注意到，\(\ln k!\sim c_2\ln n\)，故而，\(\ln n-\ln k!\sim\varepsilon\ln n\rightarrow+\infty\)，所以所求概率的确趋于零。这两点就说明了最大负载大概率为\(\Theta(\ln n/\ln\ln n)\)。</p>
+<p>有趣的是，如果每次扔球的时候，容许随机选择两个箱子，然后将球扔到球数较小的箱子里，那么最大负载的数目将指数级降低到\(\ln\ln n/\ln2+O(1)\)级别。这说明，简单的负载均衡就能带来巨大的最大负载的降低。要证明这一点，核心思路在于考虑最后的负载分布，这里\(B_i\)是球数至少为\(i\)的箱子的数目，如果能找到概率上界\(B_i\le\beta_i\)，那么能够出现负载\(\ge i+1\)的概率必然需要抽中的两个箱子负载都至少为\(i\)，故而概率为\((\beta_i/n)^2\)，所以，负载\(\ge i+1\)的期望箱子数目不大于\(\beta_i^2/n\)；根据Chernoff界，大概率有\(B_{i+1}\le \beta_{i+1}=c\beta_i^2/n\)；由于这个界缩小得很快，大概在\(\ln\ln n/\ln2+O(1)\)附近就会接近零，这就是最大负载的估计。</p>
+<p>严格来说，选取列\(\beta_6=n/(2e)\)，并构造\(\beta_{i+1}=e\beta_i^2/n\)。考虑事件\(E_i=\{B_i\le\beta_i\}\)。我们需要保证这一列事件都是大概率事件。我们要归纳地证明\(\mathbb P[\neg E_i]\le i/n^2\)，所以需要控制概率\(\mathbb P[\neg E_{i+1}]\le\mathbb P[\neg E_{i+1}\land E_i]+\mathbb P[\neg E_i]\)；要估计\(\mathbb P[\neg E_{i+1}\land E_i]\)，就要使用上一段描述的思路，它不大于\(\mathbb P[B(n,(\beta_i/n)^2)\ge\beta_{i+1}=e\beta_i^2/n]\le e^{-\beta_i^2/n}\)；要将这一概率控制到\(1/n^2\)以完成归纳，需要\(\beta_i^2\ge2n\ln n\)。但是，当\(i>i^*=\ln\ln n/\ln2+O(1)\)时，这一点将不再成立。在这之前，都有\(\mathbb P[\neg E_i]\le i/n^2\le 1/n\)，所以，最大负载\(\le i^*\)是小概率事件。在\(i^*\)处，取\(E_{i^*+1}=\{B_{i^*+1}\le 6\ln n\}\)，有\(\mathbb P[\neg E_{i^*+1}]\le\mathbb P[\neg E_{i^*+1}\land E_{i^*}]+\mathbb P[\neg E_{i^*}]\)，第一项类似前文可以用Chernoff界控制为\(\mathbb P[B(n,2\ln n/n)\le 6\ln n]\le1/n^2\)，第二项由前文就不大于\(1/n\)，所以这里概率为\(O(1/n)\)；再进一步，\(\mathbb P[B_{i^*+2}\ge 1]\le\mathbb P[B(n,(6\ln n/n)^2)\ge1]+O(1/n)\le n(6\ln n/n)^2+O(1/n)=O(\ln^2n/n)\)，这里第一项的概率控制只是简单的并集概率的界。所以，大概率\(B_{i^*+2}\lt1\)，于是大概率最大负载小于\(i^*+2\)。这就说明，大概率最大负载就在\(i^*\)附近。</p>
+<h3 id="图的最大连通单元"><a class="headerlink" href="#图的最大连通单元"></a>图的最大连通单元</h3>
+<p>我们感兴趣随机图\(G\in\mathcal G_{n,p}\)中的最大连通单元。我们希望证明阈值形式结论：对于\(p=c/n\)，如果\(c\lt1\)，那么大概率所有连通单元大小都为\(O(\log n)\)；如果\(c\gt1\)，那么大概率存在唯一的大小为\((1+o(1))\beta n\)的最大连通单元，剩下的连通单元依然大小都为\(O(\log n)\)；阈值处的情形较复杂，暂不讨论。</p>
+<p>随机图中连通单元的形成可以类比分枝过程（branching process）。所谓分枝过程\(\{Z_t\}_{t=0}^\infty\)，定义是\(Z_{t+1}=\sum_{i=1}^{Z_t}X_i\)，这里，\(X_i\)独立同分布且只取自然数值。我们感兴趣这一过程的消亡概率，即\(\lim_{n\rightarrow\infty}\mathbb P[Z_t=0]\)。定义分布\(X\)的概率生成函数（probability generating function）为\(f(s)=\mathbb E[s^X]=\sum_{k=0}^\infty s^k\)；故而有\(f(0)=\mathbb P[X=0]\)。对于分枝过程，可以建立\(f_t(s)=f(f_{t-1}(s))\)，这里，\(f_t(\cdot)\)和\(f(\cdot)\)分别是\(Z_t\)和\(X\)的概率分布函数。一般地，有\(f(\cdot)\)是凸函数，且\(f(1)=1\)。因为消亡概率是单增有界的，必然有极限；最后的极限就是\(f(x)\)最小的那个不动点；简单的分析可知，如果\(f'(1)=\mathbb E[X]>1\)，那么不动点\(x\in(0,1)\)，过程有一定概率消亡<sup class="footnote-ref"><a href="#fn14" id="fnref14">[14]</a></sup>，而如果\(f'(1)=\mathbb E[X]\le1\)，那么不动点\(x=1\)，过程必然消亡。</p>
+<p>将随机图的每个连通单元都看作从某个顶点出发形成的树。每个节点处新增加的节点数目都服从于分布\(B(n-k,c/n)\)，这里，\(k\)是该节点已经连接上的顶点数。当\(c\lt1\)时，期望\(c(n-k)/n\lt c&lt;1\)，过程必然消亡。当\(c\gt 1\)时，分枝刚开始时\(c(n-k)/n\approx c>1\)，过程将不断延续；如果暂且相信只有一个大的连通单元，那么它的大小应当恰为\(\beta n\)，这里，\(\beta\)是分枝过程的存活概率。要计算这一概率，注意到\(B(n,c/n)\)近似是\(\text{Poisson}(c)\)，而后者的概率生成函数是\(e^{c(s-1)}\)；所以，该概率应当满足\(e^{-c\beta}=1-\beta\)。接下来，我们将严格化这一推理过程。</p>
+<p>首先考虑\(c\lt1\)的情形。任取一顶点\(v\)。从\(v\)出发生成的分枝过程的总规模不小于\(k\)的概率，相当于前\(k\)个顶点出发诱导的全部子节点数目的和不小于\((k-1)\)；但是，这里的分枝过程子代数量分布为\(B(n-k,c/n)\)，并不是同分布的；为了应用Chernoff界，可以考虑子代数量分布均为\(B(n,c/n)\)的均匀分枝过程，这一概率必然可以成为所求概率的上界。所以，从给定顶点\(v\)出发连通单元大小不小于\(k\)的概率不小于\(\mathbb P[\sum_{i=1}^kX_i>k-1]\)，这里，\(X_i\sim B(n,c/n)\)。应用Chernoff界，这一概率不大于\(\exp(-k(1-c)^2/(1+c)+O(1))\)；只要取\(k=2(1+c)/(1-c)^2\cdot\ln n\)，就会发现概率不大于\(O(n^{-2})\)；对所有顶点取并，则随机图中存在大小至少为\(k\)的单元的概率小于\(n\cdot O(n^{-2})=O(1/n)\)。这就说明，大概率所有连通单元的大小都为\(O(\log n)\)。</p>
+<p>随后是\(c\gt1\)的情形。这一情形较为复杂。我们要说明连通单元的大小要么为\(O(\log n)\)，要么为\(O(n)\)。为此，考虑\(k^-=c'\log n\)和\(k^+=n^{2/3}\)。我们考虑对于顶点\(v\)和\(k^-\le k\le k^+\)，前\(k\)个顶点诱导的顶点数小于\((c+1)k/2\)的概率，类似上文，这一概率可以通过Chernoff界控制为\(\exp(-k(c-1)^2/8c)\)；然后我们利用这个概率估计对\(k^-\le k\le k^+\)取并，总的概率不大于\(k^+\exp(-k^-(c-1)^2/8c)\)，代入\(k^+=n^{2/3}\)并取\(k^-=16c\ln n/(c-1)^2\)，则总的概率不大于\(O(n^{-4/3})\)；再对所有顶点取并，这一概率不大于\(O(n^{-1/3})\)。换句话说，大概率，全体顶点可以分作两类<sup class="footnote-ref"><a href="#fn15" id="fnref15">[15]</a></sup>：第一类顶点出发的树，在规模到达\(k^-\)之前就已经消亡，这一类称为“小”顶点；第二类顶点出发的树，至少诱导了\(k^+\)个顶点，且整体规模不小于\((c+1)k^*/2\)，这一类称为“大”顶点。“小”顶点所在的连通单元大小显然是\(O(\log n)\)级别的；“大”顶点所在的连通单元大小显然是\(\Omega(n^{2/3})\)级别的。</p>
+<p>接下来要说明，所有“大”顶点大概率都位于同一个连通单元。考虑其反面出现的概率。如果两个顶点\(u\)和\(v\)，位于不同的连通单元，规模都至少是\((c+1)n^{2/3}/2\)。这两个连通单元间没有显现任何边的概率不大于\((1-p)^{(c+1)^2n^{4/3}/4}\le\exp(-p(c+1)^2n^{4/3}/4)=o(n^{-2})\)；对所有可能的顶点对\((v,u)\)取并，这样的反例出现的概率不大于\(o(1)\)。故而，所有“大”顶点都大概率位于同一连通单元。</p>
+<p>最后，我们要说明最大连通单元的规模为\((1+o(1))\beta n\)。我们试图通过计算全体“小”顶点的数目为\((1+o(1))(1-\beta)n\)来证明这一点。“小”顶点出现的概率，相当于说该非均匀分枝过程在规模到达\(k^-\)之前消亡的概率，可以通过两个均匀分枝过程夹逼进行估计；概率不应小于子代数目分布为\(B(n-k^-,c/n)\)的均匀分枝过程消亡的概率，也不应大于子代数目分布为\(B(n,c/n)\)的均匀分枝过程规模不超过\(k^-\)的概率；子代数目分布为\(B(n,c/n)\)的均匀随机过程规模超过\(k^-\)的概率为\(o(1)\)，可以忽略，所以第二个概率也差不多是该过程消亡的概率\(\alpha+o(1)=1-\beta+o(1)\)。由于\(k^-\ll n\)，两个子代数目分布的概率生成函数都逐点趋近于分布\(\text{Poisson}(c)\)的概率生成函数，所以消亡概率就是\((1+o(1))\alpha n\)。所以，期望上有\(\mathbb E[Z]=(1+o(1))\alpha n\)。要证明概率上亦如此，我们需要对其二阶矩进行估计，要计算\(\mathbb E[Z^2]\)。类似二阶矩方法中的讨论，我们有\(\mathbb E[Z^2]=\mathbb E[Z](1+\sum_u\mathbb P[Z_u=1|Z_v=1])\)。这一条件概率和可以分为两部分：如果\(u\)和\(v\)位于同一连通单元，这一部分的和不会大于\(k^-\)；不位于同一连通单元的这一部分的和相当于在随机图\(\mathcal G_{n-k^-,c/n}\)中“小”顶点的数目，故而也大致为\((1+o(1))\alpha(n-k^-)\)。所以，我们有\(\mathbb E[Z^2]=\mathbb E[Z]^2(1+o(1))\)。所以，我们有\(\text{Var}(Z)/\mathbb E[Z]^2=o(1)\)。根据Chebyshev不等式，依概率有全体“小”顶点的数目为\((1+o(1))\alpha n\)；所以，最大连通单元的大小就是\((1+o(1))\beta n\)。</p>
+<h3 id="几何嵌入问题：降维问题"><a class="headerlink" href="#几何嵌入问题：降维问题"></a>几何嵌入问题：降维问题</h3>
+<p>降维问题是指将高维度量空间中的\(n\)个点尽可能保持度量地嵌入到低维度量空间中。这一领域有个著名的Johnson-Lindenstrauss引理，是讲对于\(\mathbb R^d\)空间内的任意\(n\)个点，可以以任意低程度\(\varepsilon\)的失真（distortion）嵌入到\(\mathbb R^k\)中，这里，\(k=\lceil 4\ln n/(\varepsilon^2/2-\varepsilon^3/3)\rceil\le\lceil24\ln n/\varepsilon^2\rceil\)；所谓失真\(\varepsilon\)，是指对任意\(u,v\)都成立\((1-\varepsilon)\|u-v\|_2^2\le\|\varphi(u)-\varphi(v)\|^2_2\le(1+\varepsilon)\|u-v\|_2^2\)；这里维度\(k\)的表达式仅相差一个常数是最优的。</p>
+<p>这里的证明可以使用概率方法。简单来说，随机选择\(k\)维线性子空间，将点集直接投影到该子空间上，将投影的结果拉伸到\(\sqrt{d/k}\)倍作为嵌入；可以证明，以至少\(1/n\)的概率该嵌入的失真不会超过\(\varepsilon\)。为分析将任意两点\(u,v\)投影到随机的\(k\)维线性子空间的结果的长度，可以等价地考虑给定\(k\)维线性子空间，然后随机选取\(d\)维空间中的单位向量进行投影。不妨假设随机向量是\(Y=X/\|X\|\)，其中，\(X=(X_1,\cdots,X_d)\)且\(X_i\sim\text{i.i.d.}N(0,1)\)，直接投影到前\(k\)个维度张成的子空间上；投影结果是\(Z=(X_1,\cdots,X_k)/\|X\|\)，其长度的平方为\(L=(\sum_{i=1}^kX_i^2)/(\sum_{i=1}^dX_i^2)\)。由对称性，有\(\mathbb E[L]=k/d\)，故而嵌入需要对投影的结果拉伸\(\sqrt{d/k}\)倍。</p>
+<p>要计算失真的概率，需要估计两边的尾部概率\(\mathbb P[|L-\mu|\ge\varepsilon\mu]\)。本质还是Chernoff界，但是不能简单地应用之前的结论，因为现在式子中没有我们关心的参数——维度\(k\)——的参与。我们需要单独为本例的情形计算一个Chernoff界。不妨计算\(\mathbb P[L\le(1-\varepsilon)\mu]=\mathbb P[t((1-\varepsilon)k-d)\sum_{i=1}^kX_i^2-td\sum_{i=k+1}^dX_i^2\ge0]\)\(\le\mathbb E[\exp(t((1-\varepsilon)k-d)\sum_{i=1}^kX_i^2+t(1-\varepsilon)k\sum_{i=k+1}^dX_i^2)]\)\(=(1-2tk(1-\varepsilon))^{-(d-k)/2}(1-2t((1-\varepsilon)k-d))^{-k/2}\)，这里，用到了\(\chi^2_1\)分布的矩母函数。最小化右侧表达式，于是，取\(t=\varepsilon/(2(1-\varepsilon)(d-k(1-\varepsilon)))\)，所以有\(\mathbb P[L\le(1-\varepsilon)\mu]\le(1+k\varepsilon/(d-k))^{(d-k)/2}(1-\varepsilon)^{k/2}\exp(k\varepsilon/2)(1-\varepsilon)^{k/2}\le\exp(-\varepsilon^2k/4)\)。同理，我们也有，\(\mathbb P[L\ge(1+\varepsilon)\mu]\le\exp(-k\varepsilon/2)(1+\varepsilon)^{k/2}\le\exp(-(k/2)(\varepsilon^2/2-\varepsilon^3/3))\)。显然，右侧尾部的概率略大，所以需要将维度\(k\)取得能够控制住这个概率；取\(k=\lceil 4\ln n/(\varepsilon^2/2-\varepsilon^3/3)\rceil\)，则有\(\mathbb P[|X-\mu|\ge\varepsilon\mu]\le2\exp(-2\ln n)=2/n^2\)。我们需要保证全部\(C(n,2)\)个距离都有不大于\(\varepsilon\)的失真，所以简单取并，总的存在至少一次失真的概率不大于\(C(n,2)\cdot2/n^2=1-1/n\)；所以至少有\(1/n\)的概率所有\(C(n,2)\)组距离都没有大于\(\varepsilon\)的失真。利用这一证明，可以找到\(O(n)\)的随机算法，能够找到这样的嵌入。</p>
+<h3 id="几何嵌入问题：度量简化问题"><a class="headerlink" href="#几何嵌入问题：度量简化问题"></a>几何嵌入问题：度量简化问题</h3>
+<p>度量简化问题是指将任意度量空间中的\(n\)个点尽可能保持度量地嵌入到赋以\(\ell_p\)度量的空间\(\mathbb R^k\)中。比如说，任意空间中的边长为2的等边三角形的三个顶点，可以毫无失真地嵌入到赋以\(\ell_1\)度量的\(\mathbb R^3\)中<sup class="footnote-ref"><a href="#fn16" id="fnref16">[16]</a></sup>。注意，\(n\)个点之间的任意度量结构可以用赋权无向图上的最短距离度量表示。一个显然的表示，是直接考虑完全图，然后每个边的权重都是两点间的度量。但是有些度量结构容许使用更稀疏的图进行表达。容易想象，任何能通过树表达的度量结构都可以通过\(\ell_1\)度量毫无失真地表示。但是，确实存在有些图结构，不可能毫无失真地嵌入到赋以\(\ell_1\)度量的空间中；最简单的例子是全部赋以相等权重的双边图\(K_{2,3}\)<sup class="footnote-ref"><a href="#fn17" id="fnref17">[17]</a></sup>。</p>
+<p>我们要证明，任何\(n\)个点上的度量都可以以\(O(\log n)\)的失真嵌入到度量空间\((\mathbb R^k,\ell_1)\)中，其中，\(k=O(\log^2n)\)；这里，严格地说，应该有\((c\log n)^{-1}d(x,y)\le\|\varphi(x)-\varphi(y)\|_1\le d(x,y)\)。我们要寻求的嵌入的形式是\(\varphi(x)=(1/k)(d(x,A_i))_{i=1}^k\)；这里，\(\{A_i\}_{i=1}^k\)是选定好的\(X\)的子集。无论如何选取，总有\(|d(x,A_i)-d(y,A_i)|\le d(x,y)\)，故而，\(\|\varphi(x)-\varphi(y)\|_1\le d(x,y)\)；所以，这一上界是平凡的。</p>
+<p>要证明这一下界，需要仔细地选取\(\{A_i\}_{i=1}^k\)。我们对\(t\in\{1,\cdots,\log n\}\)，随机选取\(\{A_i^t\}_{i=1}^{r\log n}\)，这总共是\(k=r\log^2n\)个集合；构造集合\(A_i^t\)，只需要在点集\(X\)中按照\(1/2^t\)的概率随机选点即可。我们要证明这样随机构造的集合，能够大概率地符合条件。随机选定点\(x,y\)。选取半径列\(0=\rho_0\lt\rho_1\lt\cdots\)，其中，\(\rho_t\)是使得两个闭球\(B(x,\rho)\)和\(B(y,\rho)\)都包含至少\(2^t\)个元素的最小半径；这一列一直延展到\(\rho_t\lt(1/4)d(x,y)\)为止；记最后这样的\(t\)为\(t^*-1\)，并定义\(\rho_{t^*}=(1/4)d(x,y)\)；注意到，这样的\(B(x,\rho_t)\)和\(B(y,\rho_t)\)是永远不交的。称集合\(A_i^t\)是“好”的，如果\(A_i^t\)同闭球\(B(y,\rho_{t-1})\)交但是同开球\(B^o(x,\rho_t)\)不交<sup class="footnote-ref"><a href="#fn18" id="fnref18">[18]</a></sup>。集合\(A_i^t\)是“好”的的概率，应当不小于\(A_i^t\)同闭球\(B(y,\rho_{t-1})\)交的概率和\(A_i^t\)同开球\(B^o(x,\rho_t)\)不交的概率的乘积，因为这两个事件正相关；由于\(B(y,\rho_{t-1})\)包含至少\(2^{t-1}\)个点，第一个概率至少为\(1-(1-2^{-t})^{2^{t-1}}\ge1-1/\sqrt{e}\)；由于\(B^o(x,\rho_t)\)包含至多\(2^t\)个点，第二个概率至少为\((1-2^{-t})^{2^t}\ge1/4\)；所以集合\(A_i^t\)是“好”的的概率不小于\(1/12\)。所以，对每个\(t\)，\(\{A_i^t\}_{i=1}^{r\log n}\)中“好”集合的期望数目至少为\(r\log n/12\)；根据Chernoff界，至多有\(1/n^3\)的概率这其中有少于\(r\log n/24\)个“好”集合；对所有\(t\)和所有对\((x,y)\)取并，“好”集合数量不足的概率小于\(n^2\cdot\log n\cdot 1/n^3=o(1)\)，所以大概率，对每对\((x,y)\)和每个\(t\)，都至少有\(r\log n/24\)个“好”集合。注意，有一个“好”集合，就意味着在嵌入结果的\(\ell_1\)距离计算中，有一项的差值\(|d(x,A_i^t)-d(y,A_i^t)|\ge\rho_t-\rho_{t-1}\)。现在可以对这些“好”集合的概率求和，所以\(\|\varphi(x)-\varphi(y)\|_1\ge(r\log n/24)(1/k)(1/4)d(x,y)=1/(96\log n)\cdot d(x,y)\)。这就证明了所求的下界。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>将一组试验输出值相对误差不超过\(\varepsilon\)看作一次成功。进行\((2s+1)\)组试验，中位数如果落在这一要求的误差范围之外，就相当于至少有\(s\)组试验都失败。当成功的概率为\(3/4\)时，对该二项分布的尾部概率进行估计可以得到，实际上该尾部的概率不会超过\((3/4)^s\)。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>严谨的讨论需要处理非整数的问题，我们忽略这一细节。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>等价于选取割之后剩下的子集。 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>即考虑\(n\)个空盒子，等概率地向盒子内投球，那么期望需要\(O(n\log{n})\)次投球才能够保证所有盒子内都至少有一个球。 <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>它与行列式仅仅差别在每项均不变号。 <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>考虑一系列相互独立的随机变量\(W_i\sim{}B(i,1/2)\)。首先根据独立性直接有，\(\mathbb{E}_{\mathcal{A}_n}[\mathbb{E}[X_A]]=\prod_{i=1}^n\mathbb{E}[W_i]=n!/2^n\)。对于\(\mathbb{E}_{\mathcal{A}_n}[\mathbb{E}[X_A^2]]\)，注意到，无论\(W_n\)是多少，任选等于一元素删去之后的余子式的分布都等同于\(\mathcal{A}_{n-1}\)，所以，可以归纳得知\(\mathbb{E}_{\mathcal{A}_n}[\mathbb{E}[X_A^2]]=\prod_{i=1}^n\mathbb{E}[W_i^2]=\prod_{i=1}^n(i+i^2)/4^n\)。直接作商即可。 <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>即满足任何元素都与排列之前位置不同的特殊排列。由容斥原理可以容易求出错排的数目\(D(n)\)，从表达式可以得出，\(D_n\doteq{}n!/e\)。 <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn8" class="footnote-item"><p>懒得抄了。 <a href="#fnref8" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn9" class="footnote-item"><p>只需要注意到二阶导数恒不小于\(4\)。 <a href="#fnref9" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn10" class="footnote-item"><p>亦即比较该段路程的起点和终点，从两者存在差异的最低位开始，移到相邻边（翻转该位），最终到达终点；这样显然是给定起止点的最短路径。 <a href="#fnref10" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn11" class="footnote-item"><p>假定代入不等式中用的期望是\(\mu'>\mu\)，则\(\mathbb{P}[X\ge(1+\beta)\mu']=\mathbb{P}[X\ge(1+\beta')\mu]\le\exp(-\mu(\beta')^2/(2+\beta'))\)。由于\(\mu'/\mu=(1+\beta')/(1+\beta)\)，故成立\(\mu(\beta')^2/(2+\beta')>\mu'\beta^2/(1+\beta)\)，这是因为\(\beta^2/((2+\beta)(1+\beta))\)当\(\beta>0\)时依然递增。所以，\(\mathbb{P}[X\ge(1+\beta)\mu']\le\exp(-\mu'\beta^2/(1+\beta))\)成立。 <a href="#fnref11" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn12" class="footnote-item"><p>比方说原路径是\(1\rightarrow2\rightarrow3\rightarrow4\rightarrow5\)，尾端为\(5\)，现在选择下一顶点为\(3\)，那么路径更新为\(1\rightarrow2\rightarrow3\rightarrow5\rightarrow4\)，尾端为\(4\)。形象地说，这是选择了原来路径的某处断开该路径，然后逆转剩下的路径，再拼接上的结果。 <a href="#fnref12" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn13" class="footnote-item"><p>打个比方，有10个人随机选择3个人，再从这3个人中随机选择。第一次选到了\(A\)，再选到\(A\)的概率就是\(1/3\)而不是第一次选择的\(1/10\)。 <a href="#fnref13" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn14" class="footnote-item"><p>我们假定\(\mathbb{P}[X=0]>0\)且\(\mathbb{P}[X=1]&lt;1\)。 <a href="#fnref14" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn15" class="footnote-item"><p>这里不要忘记我们计算时使用的是均匀分枝过程，需要将利用均匀分枝过程得到的结果再解释到原来的不均匀的分枝过程上。 <a href="#fnref15" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn16" class="footnote-item"><p>只需要取三个维度方向上的单位向量即可。 <a href="#fnref16" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn17" class="footnote-item"><p>据说，这样的嵌入的失真至少是\(4/3\)。而且，能够毫无失真地嵌入，充分必要条件是其度量结构存在不含有\(K_{2,3}\)的图表示；也就是说，这一反例其实完全说明了\(\ell_1\)嵌入的困难。 <a href="#fnref17" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn18" class="footnote-item"><p>这里假定\(x\)定义了半径\(\rho_t\)；如果不是，就调换\(x\)和\(y\)在这里的角色。 <a href="#fnref18" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+      </div>
+      
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/%E9%9A%8F%E6%9C%BA%E7%AE%97%E6%B3%95/">随机算法</a>
+            <a href="/tags/%E6%97%A0%E5%81%8F%E4%BC%B0%E8%AE%A1/">无偏估计</a>
+            <a href="/tags/Chernoff%E7%95%8C/">Chernoff界</a>
+            </div>
+        
+        <nav class="post-nav"><a class="next" href="/2021/09/18/note-0006-randomness-and-computation-2/">
+        <span class="next-text nav-default">UCB CS271 随机计算（二）</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:claudy.forrest@email.com" class="iconfont icon-email" title="email"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">云·弗利斯特</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
+</body>
+</html>
